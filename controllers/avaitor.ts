@@ -1,9 +1,14 @@
 import type { Request, Response, NextFunction } from "express";
 import { BaseController } from "./base";
 import { ERROR_STATUS_CODE } from "../enums/statusCodes";
+import { avaitorService } from "../services/avaitor";
 
 class Avaitor extends BaseController {
-    constructor() { super(); }
+    service: any;
+    constructor() {
+        super();
+        this.service = avaitorService;
+    }
 
     get(req: Request, res: Response, next: NextFunction) {
         return this.sendSuccess(res, {}, "avaitor get")

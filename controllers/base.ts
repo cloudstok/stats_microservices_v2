@@ -2,8 +2,9 @@ import type { Response } from "express";
 import { ERROR_STATUS_CODE, SUCCESS_STATUS_CODE } from "../enums/statusCodes";
 import { asyncHandler } from "../middlewares/asyncHandler";
 
-export class BaseController {
-    version: string = "1.0.0";
+export abstract class BaseController {
+    abstract service: any;
+    private version: string = "1.0.0";
 
     constructor() {
         const prototype = Object.getPrototypeOf(this);
