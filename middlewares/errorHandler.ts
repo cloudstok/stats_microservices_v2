@@ -8,7 +8,6 @@ export const errorHandler: ErrorRequestHandler = async (
     res: Response,
     next: NextFunction
 ) => {
-    console.log("errorHandler called");
     const statusCode = err instanceof AppError ? err.errorCode : ERROR_STATUS_CODE.InternalServerError
     const custError = err instanceof AppError ? err : new AppError(err.message || "Something Went Wrong", statusCode)
     return res.status(statusCode).send(custError);

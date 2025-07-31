@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import { BaseController } from "./base";
-import { crashXService } from "../services/crashx";
+import { BaseController } from "../base";
+import { crashXService } from "../../services/crash-games/crashx";
 
 class CrashX extends BaseController {
     service: any;

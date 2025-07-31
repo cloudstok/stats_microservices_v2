@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { jetx } from "../controllers/jetx";
+import { jetx } from "../controllers/crash-games/jetx";
 
 const router = Router();
 

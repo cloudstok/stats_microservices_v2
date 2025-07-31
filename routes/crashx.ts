@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { crashx } from "../controllers/crashx";
+import { crashx } from "../controllers/crash-games/crashx";
 
 const router = Router();
 

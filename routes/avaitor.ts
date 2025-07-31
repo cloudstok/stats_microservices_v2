@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { avaitor } from "../controllers/avaitor";
+import { avaitor } from "../controllers/crash-games/avaitor";
 
 const router = Router();
 

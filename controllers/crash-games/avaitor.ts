@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
-import { BaseController } from "./base";
-import { ERROR_STATUS_CODE } from "../enums/statusCodes";
-import { avaitorService } from "../services/avaitor";
+import { BaseController } from "../base";
+import { ERROR_STATUS_CODE } from "../../enums/statusCodes";
+import { avaitorService } from "../../services/crash-games/avaitor";
 
 class Avaitor extends BaseController {
     service: any;

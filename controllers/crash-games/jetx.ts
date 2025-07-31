@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import { BaseController } from "./base";
-import { jetxService } from "../services/jetx";
+import { BaseController } from "../base";
+import { jetxService } from "../../services/crash-games/jetx";
 
 class JetX extends BaseController {
     service: any;
