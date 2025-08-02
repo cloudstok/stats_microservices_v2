@@ -18,7 +18,7 @@ export class DbConnect {
 
     async initDbPoolConnection() {
         console.log("try number", this.retryCount);
-        await sleep(1000)
+        // await sleep(1000)
         try {
 
             this.pool = await createPool(this.dbConfig).getConnection();
@@ -52,7 +52,7 @@ export class GamesDbConnect {
     }
 
     async createDbPool(config: PoolOptions, dbName: string) {
-        console.log(config, dbName);
+        // console.log(config, dbName);
         this.pools[dbName] = createPool(config);
         return;
     }
@@ -60,9 +60,9 @@ export class GamesDbConnect {
     async initGamesDbPools(gamesDbConfig: Record<string, PoolOptions>) {
         this.gamesDbConfig = gamesDbConfig;
         for (const key of Object.keys(this.gamesDbConfig)) {
-            console.log(key, this.gamesDbConfig[key]);
+            // console.log(key, this.gamesDbConfig[key]);
             await this.createDbPool(this.gamesDbConfig[key], key);
-            await sleep(1000);
+            // await sleep(1000);
         }
     }
 

@@ -1,13 +1,12 @@
+import type { IBetDetailArgs, IBetHistoryArgs } from "../../interfaces/service";
 import { BaseService } from "../base";
 
-class JetxService extends BaseService {
-    async betHistory(user_id: string, operator_id: string, limit: number): Promise<any> {
+export class JetxService extends BaseService {
+    async betHistory(data: IBetHistoryArgs): Promise<any> {
         throw new Error("Method not implemented.");
     }
-    async betDetails(user_id: string, operator_id: string, lobby_id: string): Promise<any> {
+    async betDetails(data: IBetDetailArgs): Promise<any> {
         throw new Error("Method not implemented.");
     }
 
 }
-
-export const jetxService = new JetxService()

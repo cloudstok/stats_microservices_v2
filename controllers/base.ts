@@ -15,19 +15,25 @@ export abstract class BaseController {
         }
     }
 
-    sendSuccess = async (res: Response, data: any = {}, msg: string = "success") =>
-        res.status(SUCCESS_STATUS_CODE.Success).send({
-            version: this.version,
-            statusCode: SUCCESS_STATUS_CODE.Success,
-            message: msg,
-            data,
-        });
+    sendSuccess = (
+        res: Response,
+        data: any = {},
+        msg: string = "success"
+    ) => res.status(SUCCESS_STATUS_CODE.Success).send({
+        version: this.version,
+        statusCode: SUCCESS_STATUS_CODE.Success,
+        message: msg,
+        data,
+    });
 
-    sendError = async (res: Response, errMsg: string = "Something Went Wrong", errCode: ERROR_STATUS_CODE = ERROR_STATUS_CODE.InternalServerError) =>
-        res.status(errCode).send({
-            version: this.version,
-            statusCode: errCode,
-            message: errMsg,
-            data: null,
-        });
+    sendError = (
+        res: Response,
+        errMsg: string = "Something Went Wrong",
+        errCode: ERROR_STATUS_CODE = ERROR_STATUS_CODE.InternalServerError
+    ) => res.status(errCode).send({
+        version: this.version,
+        statusCode: errCode,
+        message: errMsg,
+        data: null,
+    });
 }

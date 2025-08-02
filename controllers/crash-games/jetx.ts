@@ -1,12 +1,12 @@
 import type { NextFunction, Request, Response } from "express";
 import { BaseController } from "../base";
-import { jetxService } from "../../services/crash-games/jetx";
+import { JetxService } from "../../services/crash-games/jetx";
 
 class JetX extends BaseController {
-    service: any;
+    service: JetxService;
     constructor() {
         super();
-        this.service = jetxService;
+        this.service = new JetxService();
     }
 
     get(req: Request, res: Response, next: NextFunction) {

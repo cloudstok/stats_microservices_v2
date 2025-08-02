@@ -1,11 +1,11 @@
 import { type NextFunction, type Request, type Response } from "express";
-import avaitor from "../routes/avaitor"
+import aviator from "../routes/aviator"
 import crashx from "../routes/crashx"
 import jetx from "../routes/jetx"
 import { notFound } from "../middlewares/notFoundHandler";
 
 const globalRouter = {
-    avaitor,
+    aviator,
     crashx,
     jetx
 } as const;
