@@ -1,6 +1,7 @@
-import { sleep } from "bun";
 import { createPool, type Pool, type PoolConnection, type PoolOptions } from "mysql2/promise";
 import type { ILoadConfigData } from "../interfaces/db";
+
+export let DB_GAMES_LIST: string[] = [];
 
 export class DbConnect {
     maxRetryCount: number;
@@ -18,13 +19,13 @@ export class DbConnect {
 
     async initDbPoolConnection() {
         console.log("try number", this.retryCount);
-        await sleep(1000)
+        // await sleep(1000)
         try {
 
             this.pool = await createPool(this.dbConfig).getConnection();
             if (!this.pool) throw new Error("unable to connect");
             else await this.loadConfig()
-
+            DB_GAMES_LIST = Object.keys(this.gamesDBConfig);
             new GamesDbConnect().initGamesDbPools(this.gamesDBConfig);
 
             return;
@@ -52,7 +53,7 @@ export class GamesDbConnect {
     }
 
     async createDbPool(config: PoolOptions, dbName: string) {
-        console.log(config, dbName);
+        // console.log(config, dbName);
         this.pools[dbName] = createPool(config);
         return;
     }
@@ -60,9 +61,7 @@ export class GamesDbConnect {
     async initGamesDbPools(gamesDbConfig: Record<string, PoolOptions>) {
         this.gamesDbConfig = gamesDbConfig;
         for (const key of Object.keys(this.gamesDbConfig)) {
-            console.log(key, this.gamesDbConfig[key]);
             await this.createDbPool(this.gamesDbConfig[key], key);
-            await sleep(1000);
         }
     }
 

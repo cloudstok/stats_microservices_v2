@@ -1,6 +1,7 @@
 import { GamesDbConnect } from "../db/dbConnect";
+import type { IBetDetailArgs, IBetHistoryArgs } from "../interfaces/service";
 
 export abstract class BaseService extends GamesDbConnect {
-    abstract betHistory(user_id: string, operator_id: string, limit: number): Promise<any>;
-    abstract betDetails(user_id: string, operator_id: string, lobby_id: string): Promise<any>;
+    abstract betHistory(args: IBetHistoryArgs): Promise<any>;
+    abstract betDetails(args: IBetDetailArgs): Promise<any>;
 }

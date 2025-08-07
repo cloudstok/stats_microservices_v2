@@ -1,24 +1,20 @@
 import { type NextFunction, type Request, type Response } from "express";
-import avaitor from "../routes/avaitor"
-import crashx from "../routes/crashx"
-import jetx from "../routes/jetx"
+import crashRouter from "../routes/crash-games/baseCrashRoute"
 import { notFound } from "../middlewares/notFoundHandler";
+import { DB_GAMES_LIST } from "../db/dbConnect";
 
 const globalRouter = {
-    avaitor,
-    crashx,
-    jetx
+    crashRouter
 } as const;
 
 type RouteKey = keyof typeof globalRouter
 
 export const routerMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const app = req.params.app;
-    const route = globalRouter[app as RouteKey];
+    if (!DB_GAMES_LIST.includes(app)) return notFound(req, res, next);
 
-    if (app && typeof route === "function") {
-        return route(req, res, next)
-    }
+    const route = globalRouter[app as RouteKey];
+    if (app && typeof route === "function") return route(req, res, next);
 
     return notFound(req, res, next);
 }
