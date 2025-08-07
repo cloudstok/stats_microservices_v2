@@ -1,13 +1,13 @@
 import type { Request, Response, NextFunction } from "express";
 import { BaseController } from "../base";
 import { ERROR_STATUS_CODE } from "../../enums/statusCodes";
-import { AviatorService } from "../../services/crash-games/aviator";
+import { BaseCrashService } from "../../services/crash-games/baseCrashService";
 
-class Avaitor extends BaseController {
-    service: AviatorService;
+class BaseCrashController extends BaseController {
+    service: BaseCrashService;
     constructor() {
         super();
-        this.service = new AviatorService();
+        this.service = new BaseCrashService();
     }
 
     async getBetHistory(req: Request, res: Response, next: NextFunction) {
@@ -47,4 +47,4 @@ class Avaitor extends BaseController {
     }
 }
 
-export const aviator = new Avaitor();
+export const baseCrashController = new BaseCrashController();
