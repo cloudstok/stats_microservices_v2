@@ -11,10 +11,8 @@ class BaseCrashController extends BaseController {
     }
 
     async getBetHistory(req: Request, res: Response, next: NextFunction) {
-        const { user_id, operator_id, limit = 10 } = req.query;
-        const { app } = req.params;
+        const { app, user_id, operator_id, limit = 10 } = req.body;
 
-        console.log(req.params, app);
         if (!app) return this.sendError(res, "invalid param args", ERROR_STATUS_CODE.BadRequest);
 
         if (
