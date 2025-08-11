@@ -4,7 +4,7 @@ import { baseCrashController } from "../../controllers/crash-games/baseCrashCont
 const router = Router();
 
 router
-    .get("/history", baseCrashController.getBetHistory)
+    .get("/bet-history", baseCrashController.getBetHistory)
     .get("/bet-details", baseCrashController.getBetDetails)
 
 export default router;

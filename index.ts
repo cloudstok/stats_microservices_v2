@@ -6,7 +6,7 @@ import { DbConnect } from "./db/dbConnect";
 export const app = express();
 
 app.use("/api/v1", indexRouter);
-app.use(errorHandler)
+app.use(errorHandler);
 
 const dbInstance = new DbConnect({
     host: process.env.DB_HOST,

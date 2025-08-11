@@ -1,6 +1,7 @@
 import { createPool, type Pool, type PoolConnection, type PoolOptions } from "mysql2/promise";
-import type { ILoadConfigData } from "../interfaces/db";
+import type { ILoadDBConfigData, TGameDbQueries } from "../interfaces/db";
 import { sleep } from "bun";
+import { QueryBuilder } from "../utilities/queryBuilder";
 
 export let DB_GAMES_LIST: Record<string, string[]> = {};
 
@@ -15,12 +16,12 @@ export class GamesDbConnect {
     }
 
     public static getInstance() {
-        if (!this.instance) return new GamesDbConnect();
-        else GamesDbConnect.instance;
+        if (!this.instance) this.instance = new GamesDbConnect();
+        return this.instance;
     }
 
     async createDbPool(config: PoolOptions, dbName: string) {
-        console.log(config, dbName);
+        // console.log(config, dbName);
         this.pools[dbName] = createPool(config);
         return;
     }
@@ -39,7 +40,8 @@ export class GamesDbConnect {
     }
 }
 
-export const gamesDbConnection = new GamesDbConnect();
+export const gamesDbConnection = GamesDbConnect.getInstance();
+export const globalQueryBuilder = QueryBuilder.getInstance();
 
 export class DbConnect {
     maxRetryCount: number;
@@ -69,14 +71,27 @@ export class DbConnect {
         } catch (error: any) {
             console.error("error occured", error.message, " retry count number", this.retryCount++);
             if (this.retryCount > this.maxRetryCount) process.exit(1);
-            else await this.initDbPoolConnection();
+            else {
+                await sleep(1000);
+                await this.initDbPoolConnection();
+            }
         }
     }
 
     async loadConfig() {
-        const [rows]: any = await this.pool.query(`select * from config_master where data_key in ('db_config', 'game_category') and is_active = true`);
-        this.gamesDBConfig = rows.find((e: ILoadConfigData) => e.is_active == 1 && e.data_key == "db_config").value;
-        DB_GAMES_LIST = rows.find((e: ILoadConfigData) => e.is_active == 1 && e.data_key == "game_category").value;
+        const [rows]: any = await this.pool.query(`select * from config_master where data_key in ('db_config', 'game_category', 'db_queries') and is_active = true`);
+        rows.forEach((
+            e: ILoadDBConfigData
+        ) => {
+            if (e.is_active == 1) {
+                switch (e.data_key) {
+                    case "db_config": this.gamesDBConfig = e.value as Record<string, PoolOptions>; break;
+                    case "game_category": DB_GAMES_LIST = e.value as Record<string, string[]>; break;
+                    case "db_queries": globalQueryBuilder.setGamesQueries(e.value as TGameDbQueries); break;
+                }
+            }
+            console.log(globalQueryBuilder.queries);
+        });
         return;
     }
 }
