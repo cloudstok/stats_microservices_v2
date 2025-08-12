@@ -24,6 +24,7 @@ class BaseCrashController extends BaseController {
         ) return this.sendError(res, "invalid user_id or operator_id", ERROR_STATUS_CODE.BadRequest);
 
         let data = await this.service.betHistory({ category, app, path, user_id, operator_id, limit: Number(limit) });
+        data = this.betHistoryDataFormatter(data);
 
         return this.sendSuccess(res, data, "histroy fetched successfully");
     }
@@ -41,8 +42,41 @@ class BaseCrashController extends BaseController {
             !lobby_id
         ) return this.sendError(res, "invalid user_id, operator_id or lobby_id", ERROR_STATUS_CODE.BadRequest);
 
-        const data = await this.service.betDetails({ category, app, path, user_id, operator_id, lobby_id });
+        let data = await this.service.betDetails({ category, app, path, user_id, operator_id, lobby_id });
+        data = this.betDetailsDataFormatter(data);
+
         return this.sendSuccess(res, data, "bet details fetched successfully");
+    }
+
+    betHistoryDataFormatter = (payload: any[]) => payload.map(e => {
+        return {
+            bet_id: e.bet_id,
+            lobby_id: e.lobby_id,
+            user_id: e.user_id,
+            operator_id: e.operator_id,
+            hash: e.hash,
+            auto_cashout: e.auto_cashout,
+            max_mult: e.max_mult,
+            win_amount: e.win_amount,
+            status: e.status,
+            created_at: e.created_at
+        }
+    })
+
+
+    betDetailsDataFormatter(e: any) {
+        return {
+            bet_id: e.bet_id,
+            lobby_id: e.lobby_id,
+            user_id: e.user_id,
+            operator_id: e.operator_id,
+            hash: e.hash,
+            auto_cashout: e.auto_cashout,
+            max_mult: e.max_mult,
+            win_amount: e.win_amount,
+            status: e.status,
+            created_at: e.created_at
+        }
     }
 }
 
