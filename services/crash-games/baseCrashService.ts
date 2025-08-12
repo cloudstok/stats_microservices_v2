@@ -3,17 +3,17 @@ import { BaseService } from "../base";
 
 export class BaseCrashService extends BaseService {
 
-    async betHistory({ app, user_id, operator_id, limit }: IBetHistoryArgs): Promise<any> {
-        const query = `select * from settlement where user_id = ? and operator_id = ? order by created_at desc limit ?`;
+    async betHistory({ category, app, path, user_id, operator_id, limit }: IBetHistoryArgs): Promise<any> {
+        let query = this.queries.getQueryByAppRoute(category, app, path);
         const pool = await this.getGameDbPool(app);
         const [data] = await pool.query(query, [user_id, operator_id, limit]);
         return data;
     }
-    async betDetails({ app, user_id, operator_id, lobby_id }: IBetDetailArgs): Promise<any> {
-        const query = `select * from settlement where user_id = ? and operator_id = ? and lobby_id = ?`;
+    async betDetails({ category, app, path, user_id, operator_id, lobby_id }: IBetDetailArgs): Promise<any> {
+        const query = this.queries.getQueryByAppRoute(category, app, path);
         const pool = await this.getGameDbPool(app);
-        const [data]: any = await pool.query(query, [user_id, operator_id, lobby_id]);
-        return data[0];
+        const [data] = await pool.query(query, [user_id, operator_id, lobby_id]);
+        return data;
     }
 
 }

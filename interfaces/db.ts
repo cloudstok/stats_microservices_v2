@@ -3,8 +3,21 @@ import type { PoolOptions } from "mysql2";
 export interface ILoadConfigData {
     id: number;
     data_key: string;
-    value: Record<string, PoolOptions>;
     is_active: number;
     created_at: Date;
     updated_at: Date;
+}
+
+export interface ILoadDBConfigData extends ILoadConfigData {
+    value: Record<string, PoolOptions>;
+}
+
+// type TGameCategories = Record<string, string>;
+// type TGameQueries = Record<string, TGameCategories>;
+// export type TGameDbQueries = Record<string, TGameQueries>;
+
+export type TGameDbQueries = Record<string, Record<string, Record<string, string>>>
+
+export interface ILoadDBQueriesData extends ILoadConfigData {
+    value: TGameDbQueries;
 }

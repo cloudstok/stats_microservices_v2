@@ -11,8 +11,9 @@ class BaseCrashController extends BaseController {
     }
 
     async getBetHistory(req: Request, res: Response, next: NextFunction) {
-        const { app, user_id, operator_id, limit = 10 } = req.body;
+        const { category, app, user_id, operator_id, limit = 10, } = req.body;
 
+        const path = req.route.path.replace("/", "");
         if (!app) return this.sendError(res, "invalid param args", ERROR_STATUS_CODE.BadRequest);
 
         if (
@@ -22,15 +23,15 @@ class BaseCrashController extends BaseController {
             !operator_id
         ) return this.sendError(res, "invalid user_id or operator_id", ERROR_STATUS_CODE.BadRequest);
 
-        let data = await this.service.betHistory({ app, user_id, operator_id, limit: Number(limit) });
+        let data = await this.service.betHistory({ category, app, path, user_id, operator_id, limit: Number(limit) });
+        data = this.betHistoryDataFormatter(data);
 
         return this.sendSuccess(res, data, "histroy fetched successfully");
     }
     async getBetDetails(req: Request, res: Response, next: NextFunction) {
-        const { user_id, operator_id, lobby_id } = req.query;
-        const { app } = req.params;
-
-        if (!app) this.sendError(res, "invalid param args");
+        const { category, app, user_id, operator_id, lobby_id } = req.body;
+        const path = req.route.path.replace("/", "");
+        if (!app) return this.sendError(res, "invalid param args");
 
         if (
             typeof user_id !== "string" ||
@@ -41,7 +42,41 @@ class BaseCrashController extends BaseController {
             !lobby_id
         ) return this.sendError(res, "invalid user_id, operator_id or lobby_id", ERROR_STATUS_CODE.BadRequest);
 
-        return this.sendSuccess(res, req.body, "bet details fetched successfully");
+        let data = await this.service.betDetails({ category, app, path, user_id, operator_id, lobby_id });
+        data = this.betDetailsDataFormatter(data);
+
+        return this.sendSuccess(res, data, "bet details fetched successfully");
+    }
+
+    betHistoryDataFormatter = (payload: any[]) => payload.map(e => {
+        return {
+            bet_id: e.bet_id,
+            lobby_id: e.lobby_id,
+            user_id: e.user_id,
+            operator_id: e.operator_id,
+            hash: e.hash,
+            auto_cashout: e.auto_cashout,
+            max_mult: e.max_mult,
+            win_amount: e.win_amount,
+            status: e.status,
+            created_at: e.created_at
+        }
+    })
+
+
+    betDetailsDataFormatter(e: any) {
+        return {
+            bet_id: e.bet_id,
+            lobby_id: e.lobby_id,
+            user_id: e.user_id,
+            operator_id: e.operator_id,
+            hash: e.hash,
+            auto_cashout: e.auto_cashout,
+            max_mult: e.max_mult,
+            win_amount: e.win_amount,
+            status: e.status,
+            created_at: e.created_at
+        }
     }
 }
 
