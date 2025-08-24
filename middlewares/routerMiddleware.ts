@@ -1,13 +1,13 @@
 import { type NextFunction, type Request, type Response } from "express";
-import crash from "../routes/crash-games/baseCrashRoute"
+import commonRoute from "../routes/games/commonRoute"
 import { notFound } from "../middlewares/notFoundHandler";
 import { DB_GAMES_LIST } from "../db/dbConnect";
 
-const globalRouter = {
-    crash
-} as const;
+// const globalRouter = {
+//     common
+// } as const;
 
-type RouteKey = keyof typeof globalRouter
+// type RouteKey = keyof typeof globalRouter
 
 export const routerMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const app = req.params.app;
@@ -18,8 +18,9 @@ export const routerMiddleware = (req: Request, res: Response, next: NextFunction
     if (!req.body) req.body = { app, category, ...req.query };
     else req.body = { ...req.body, app, category, ...req.query };
 
-    const route = globalRouter[category as RouteKey];
-    if (app && typeof route === "function") return route(req, res, next);
+    // const route = globalRouter[category as RouteKey];
+
+    if (app && typeof commonRoute === "function") return commonRoute(req, res, next);
 
     return notFound(req, res, next);
 }

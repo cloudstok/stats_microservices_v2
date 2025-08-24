@@ -4,12 +4,13 @@ export interface IServiceArgs {
     user_id: string;
     operator_id: string;
     path: string
+    limit?: number;
+    lobby_id?: string;
 }
 
-export interface IBetHistoryArgs extends IServiceArgs {
-    limit: number;
-}
-
-export interface IBetDetailArgs extends IServiceArgs {
-    lobby_id: string;
+export interface IFetchDataArgs {
+    user_id: string;
+    operator_id: string;
+    lobby_id?: string;
+    limit?: number;
 }

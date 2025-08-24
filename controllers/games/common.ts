@@ -1,9 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import { BaseController } from "../base";
 import { ERROR_STATUS_CODE } from "../../enums/statusCodes";
-import { BaseCrashService } from "../../services/crash-games/baseCrashService";
+import { BaseCrashService } from "../../services/games/common";
 
-class BaseCrashController extends BaseController {
+class CommonController extends BaseController {
     service: BaseCrashService;
     constructor() {
         super();
@@ -11,11 +11,10 @@ class BaseCrashController extends BaseController {
     }
 
     async getBetHistory(req: Request, res: Response, next: NextFunction) {
-        const { category, app, user_id, operator_id, limit = 10, } = req.body;
+        const { category, app, user_id, operator_id, lobby_id, limit } = req.body;
 
         const path = req.route.path.replace("/", "");
         if (!app) return this.sendError(res, "invalid param args", ERROR_STATUS_CODE.BadRequest);
-
         if (
             typeof user_id !== "string" ||
             typeof operator_id !== "string" ||
@@ -23,32 +22,20 @@ class BaseCrashController extends BaseController {
             !operator_id
         ) return this.sendError(res, "invalid user_id or operator_id", ERROR_STATUS_CODE.BadRequest);
 
-        let data = await this.service.betHistory({ category, app, path, user_id, operator_id, limit: Number(limit) });
-        data = this.betHistoryDataFormatter(data);
+        let resp = await this.service.fetch({ category, app, path, user_id, operator_id, limit: Number(limit), lobby_id });
+        console.log({ resp });
+        if (lobby_id && typeof resp) resp = this.betDetailsDataFormatter(resp);
+        else resp = this.betHistoryDataFormatter(resp)
 
-        return this.sendSuccess(res, data, "histroy fetched successfully");
-    }
-    async getBetDetails(req: Request, res: Response, next: NextFunction) {
-        const { category, app, user_id, operator_id, lobby_id } = req.body;
-        const path = req.route.path.replace("/", "");
-        if (!app) return this.sendError(res, "invalid param args");
-
-        if (
-            typeof user_id !== "string" ||
-            typeof operator_id !== "string" ||
-            typeof lobby_id !== "string" ||
-            !user_id ||
-            !operator_id ||
-            !lobby_id
-        ) return this.sendError(res, "invalid user_id, operator_id or lobby_id", ERROR_STATUS_CODE.BadRequest);
-
-        let data = await this.service.betDetails({ category, app, path, user_id, operator_id, lobby_id });
-        data = this.betDetailsDataFormatter(data);
-
-        return this.sendSuccess(res, data, "bet details fetched successfully");
+        return this.sendSuccess(res, resp, "histroy fetched successfully");
     }
 
-    betHistoryDataFormatter = (payload: any[]) => payload.map(e => {
+
+    async getTopWins(req: Request, res: Response, next: NextFunction) {
+
+    }
+
+    betHistoryDataFormatter = (resp: any[]) => resp.map(e => {
         return {
             bet_id: e.bet_id,
             lobby_id: e.lobby_id,
@@ -64,7 +51,7 @@ class BaseCrashController extends BaseController {
     })
 
 
-    betDetailsDataFormatter(e: any) {
+    betDetailsDataFormatter = (resp: any[]) => resp.map(e => {
         return {
             bet_id: e.bet_id,
             lobby_id: e.lobby_id,
@@ -77,7 +64,7 @@ class BaseCrashController extends BaseController {
             status: e.status,
             created_at: e.created_at
         }
-    }
+    })
 }
 
-export const baseCrashController = new BaseCrashController();
+export const commonController = new CommonController();

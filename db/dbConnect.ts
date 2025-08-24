@@ -15,13 +15,12 @@ export class GamesDbConnect {
         this.gamesDbConfig = {};
     }
 
-    public static getInstance() {
+    static getInstance() {
         if (!this.instance) this.instance = new GamesDbConnect();
         return this.instance;
     }
 
     async createDbPool(config: PoolOptions, dbName: string) {
-        // console.log(config, dbName);
         this.pools[dbName] = createPool(config);
         return;
     }
@@ -49,8 +48,10 @@ export class DbConnect {
     private pool!: PoolConnection;
     dbConfig: PoolOptions;
     gamesDBConfig!: Record<string, PoolOptions>;
+    loadConfigQuery: string
 
     constructor(dbConfig: PoolOptions, maxRetryCount: number) {
+        this.loadConfigQuery = `select * from config_master where data_key in ('db_config', 'game_category', 'db_queries') and is_active = true`
         this.dbConfig = dbConfig;
         this.maxRetryCount = maxRetryCount;
 
@@ -79,7 +80,7 @@ export class DbConnect {
     }
 
     async loadConfig() {
-        const [rows]: any = await this.pool.query(`select * from config_master where data_key in ('db_config', 'game_category', 'db_queries') and is_active = true`);
+        const [rows]: any = await this.pool.query(this.loadConfigQuery);
         rows.forEach((
             e: ILoadDBConfigData
         ) => {
