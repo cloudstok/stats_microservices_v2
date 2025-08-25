@@ -3,7 +3,7 @@ import { gamesDbConnection, globalQueryBuilder } from "../db/dbConnect";
 import type { IFetchDataArgs, IServiceArgs } from "../interfaces/service";
 import type { QueryBuilder } from "../utilities/queryBuilder";
 
-export abstract class BaseService {
+export abstract class ABaseService {
     protected gamesDbConnect;
     protected queries: QueryBuilder;
 

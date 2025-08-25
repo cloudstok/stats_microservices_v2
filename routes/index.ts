@@ -4,4 +4,4 @@ import { notFound } from "../middlewares/notFoundHandler";
 
 export const router = Router();
 
-router.use("/:app", routerMiddleware, notFound)
+router.use("/:app/:path", routerMiddleware, notFound)

@@ -4,9 +4,7 @@ import { topWinRouteValidator } from "../../middlewares/notFoundHandler";
 
 const router = Router();
 
-router
-    .get("/bet-history", commonController.getBetHistory)
-    .get("/bet-details", commonController.getBetHistory)
-    .get("/top-wins", topWinRouteValidator, commonController.getTopWins)
+router.get("/", topWinRouteValidator, commonController.getBetHistory)
+
 
 export default router;

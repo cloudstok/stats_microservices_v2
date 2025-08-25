@@ -11,12 +11,13 @@ import { DB_GAMES_LIST } from "../db/dbConnect";
 
 export const routerMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const app = req.params.app;
+    const path = req.params.path;
 
     const category = Object.keys(DB_GAMES_LIST)?.find(key => DB_GAMES_LIST[key]?.includes(app));
     if (!category) return notFound(req, res, next);
 
-    if (!req.body) req.body = { app, category, ...req.query };
-    else req.body = { ...req.body, app, category, ...req.query };
+    if (!req.body) req.body = { category, app, path, ...req.query };
+    else req.body = { ...req.body, category, app, path, ...req.query };
 
     // const route = globalRouter[category as RouteKey];
 

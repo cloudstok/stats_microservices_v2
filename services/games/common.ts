@@ -1,8 +1,8 @@
 import type { Pool, PoolConnection, RowDataPacket } from "mysql2/promise";
 import type { IServiceArgs, IFetchDataArgs } from "../../interfaces/service";
-import { BaseService } from "../base";
+import { ABaseService } from "../base";
 
-export class BaseCrashService extends BaseService {
+export class BaseCrashService extends ABaseService {
     constructor() {
         super();
     }
@@ -10,7 +10,7 @@ export class BaseCrashService extends BaseService {
     async fetch({ category, app, path, user_id, operator_id, limit, lobby_id }: IServiceArgs): Promise<any> {
         const query = this.queries.getQueryByAppRoute(category, app, path);
         const pool = await this.getGameDbPool(app);
-        console.log(pool);
+
         let con: PoolConnection | null = null;
         try {
             con = await pool.getConnection();
