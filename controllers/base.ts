@@ -2,9 +2,9 @@ import type { Response } from "express";
 import { ERROR_STATUS_CODE, SUCCESS_STATUS_CODE } from "../enums/statusCodes";
 import { asyncHandler } from "../middlewares/asyncHandler";
 
-export abstract class BaseController {
+export class BaseController {
     private version: string = "1.0.0";
-    protected abstract service: any;
+    protected service: any;
 
     constructor() {
         const prototype = Object.getPrototypeOf(this);
@@ -37,6 +37,4 @@ export abstract class BaseController {
         data: null,
     });
 
-    abstract betHistoryDataFormatter(payload: any): any;
-    abstract betDetailsDataFormatter(payload: any): any;
 }

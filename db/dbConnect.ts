@@ -4,6 +4,7 @@ import { sleep } from "bun";
 import { QueryBuilder } from "../utilities/queryBuilder";
 
 export let DB_GAMES_LIST: Record<string, string[]> = {};
+export let GAMES_CATEGORIES: Record<string, string[]> = {};
 
 export class GamesDbConnect {
     private static instance: GamesDbConnect;
@@ -15,13 +16,12 @@ export class GamesDbConnect {
         this.gamesDbConfig = {};
     }
 
-    public static getInstance() {
+    static getInstance() {
         if (!this.instance) this.instance = new GamesDbConnect();
         return this.instance;
     }
 
     async createDbPool(config: PoolOptions, dbName: string) {
-        // console.log(config, dbName);
         this.pools[dbName] = createPool(config);
         return;
     }
@@ -49,8 +49,10 @@ export class DbConnect {
     private pool!: PoolConnection;
     dbConfig: PoolOptions;
     gamesDBConfig!: Record<string, PoolOptions>;
+    loadConfigQuery: string
 
     constructor(dbConfig: PoolOptions, maxRetryCount: number) {
+        this.loadConfigQuery = `select * from config_master where data_key in ('db_config', 'games_genre', 'games_cat', 'db_queries') and is_active = true`
         this.dbConfig = dbConfig;
         this.maxRetryCount = maxRetryCount;
 
@@ -79,19 +81,20 @@ export class DbConnect {
     }
 
     async loadConfig() {
-        const [rows]: any = await this.pool.query(`select * from config_master where data_key in ('db_config', 'game_category', 'db_queries') and is_active = true`);
+        const [rows]: any = await this.pool.query(this.loadConfigQuery);
         rows.forEach((
             e: ILoadDBConfigData
         ) => {
             if (e.is_active == 1) {
                 switch (e.data_key) {
                     case "db_config": this.gamesDBConfig = e.value as Record<string, PoolOptions>; break;
-                    case "game_category": DB_GAMES_LIST = e.value as Record<string, string[]>; break;
+                    case "games_genre": DB_GAMES_LIST = e.value as Record<string, string[]>; break;
+                    case "games_cat": GAMES_CATEGORIES = e.value as Record<string, string[]>; break;
                     case "db_queries": globalQueryBuilder.setGamesQueries(e.value as TGameDbQueries); break;
                 }
             }
-            console.log(globalQueryBuilder.queries);
         });
+        console.log(GAMES_CATEGORIES);
         return;
     }
 }
