@@ -17,7 +17,7 @@ export const routerMiddleware = (req: Request, res: Response, next: NextFunction
     if (!category) return notFound(req, res, next);
 
     if (!req.body) req.body = { category, app, path, ...req.query };
-    else req.body = { ...req.body, category, app, path, ...req.query };
+    else req.body = { category, app, path, ...req.body, ...req.query };
 
     // const route = globalRouter[category as RouteKey];
 

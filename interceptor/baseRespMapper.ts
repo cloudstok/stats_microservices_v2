@@ -1,15 +1,15 @@
 import { RespMapper } from "./common/mapper";
-import { MiniMapper } from "./common/mini";
+import { AAAMiniMapper } from "./custom/aaaMini";
 import { FruitBurstMapper } from "./custom/fruitBurst";
 
 export class BaseRespMapper {
     protected mapper: RespMapper
-    protected mini: MiniMapper
-    protected fruitBurst: FruitBurstMapper
+    protected fruit_burst: FruitBurstMapper
+    protected aaa_mini: AAAMiniMapper
 
     constructor() {
         this.mapper = new RespMapper()
-        this.mini = new MiniMapper()
-        this.fruitBurst = new FruitBurstMapper()
+        this.fruit_burst = new FruitBurstMapper()
+        this.aaa_mini = new AAAMiniMapper()
     }
 }

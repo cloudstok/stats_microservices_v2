@@ -6,5 +6,4 @@ const router = Router();
 
 router.get("/", topWinRouteValidator, commonController.getBetHistory)
 
-
 export default router;

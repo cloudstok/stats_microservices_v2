@@ -1,6 +1,6 @@
-import type { Pool, PoolConnection, RowDataPacket } from "mysql2/promise";
+import type { PoolConnection } from "mysql2/promise";
 import type { IServiceArgs, IFetchDataArgs } from "../../interfaces/service";
-import { ABaseService } from "../base";
+import { ABaseService } from "../abstractBaseService";
 
 export class BaseCrashService extends ABaseService {
     constructor() {
@@ -8,13 +8,14 @@ export class BaseCrashService extends ABaseService {
     }
 
     async fetch({ category, app, path, user_id, operator_id, limit, lobby_id }: IServiceArgs): Promise<any> {
+        console.log({ category, app, path });
         const query = this.queries.getQueryByAppRoute(category, app, path);
         const pool = await this.getGameDbPool(app);
 
         let con: PoolConnection | null = null;
         try {
             con = await pool.getConnection();
-            console.log(query);
+            console.log({ query });
             const data = await this.fetchData(con, query, { user_id, operator_id, lobby_id, limit });
             return data;
         } catch (err: any) {
