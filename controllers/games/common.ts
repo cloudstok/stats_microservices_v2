@@ -18,8 +18,8 @@ class CommonController extends BaseController {
     async getBetHistory(req: Request, res: Response, next: NextFunction) {
         const { category, app, path, user_id, operator_id, lobby_id, limit } = req.body;
 
-
-        if (!app) return this.sendError(res, "invalid param args", ERROR_STATUS_CODE.BadRequest);
+        if (!app || !path) return this.sendError(res, "invalid param args", ERROR_STATUS_CODE.BadRequest);
+        if ((path == "bet-details" && !lobby_id) || (path == "bet-history" && !limit)) return this.sendError(res, "invalid param args", ERROR_STATUS_CODE.BadRequest);
         if (
             typeof user_id !== "string" ||
             typeof operator_id !== "string" ||
@@ -29,16 +29,13 @@ class CommonController extends BaseController {
 
         let resp = await this.service.fetch({ category, app, path, user_id, operator_id, limit: Number(limit), lobby_id });
 
-        let mapperKey: keyof BaseRespMapper = "mapper" as keyof BaseRespMapper;
-        if (GAMES_CATEGORIES["specific"].includes(app)) mapperKey = app as keyof BaseRespMapper;
-        const mapper: ARespMapper = this.mapper[mapperKey];
 
-        console.log({ mapper, mapperKey, specific: GAMES_CATEGORIES["specific"].includes(app) });
+        const mapper: ARespMapper = this.mapper.getMapper(category, app)
 
-        if (lobby_id && typeof resp) resp = mapper.details(resp);
+        if (path == "bet-details") resp = mapper.details(resp);
         else resp = mapper.history(resp)
 
-        return this.sendSuccess(res, resp, "histroy fetched successfully");
+        return this.sendSuccess(res, resp, "histroy/details fetched successfully");
     }
 }
 

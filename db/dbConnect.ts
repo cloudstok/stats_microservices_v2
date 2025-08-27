@@ -3,6 +3,7 @@ import type { ILoadDBConfigData, TGameDbQueries } from "../interfaces/db";
 import { sleep } from "bun";
 import { QueryBuilder } from "../utilities/queryBuilder";
 
+export let DB_GAMES_QUERIES: TGameDbQueries = {};
 export let DB_GAMES_LIST: Record<string, string[]> = {};
 export let GAMES_CATEGORIES: Record<string, string[]> = {};
 
@@ -52,7 +53,7 @@ export class DbConnect {
     loadConfigQuery: string
 
     constructor(dbConfig: PoolOptions, maxRetryCount: number) {
-        this.loadConfigQuery = `select * from config_master where data_key in ('db_config', 'games_genre', 'games_cat', 'db_queries') and is_active = true`
+        this.loadConfigQuery = `select * from config_master where data_key in ('db_config', 'games_cat', 'db_queries') and is_active = true`
         this.dbConfig = dbConfig;
         this.maxRetryCount = maxRetryCount;
 
@@ -82,19 +83,30 @@ export class DbConnect {
 
     async loadConfig() {
         const [rows]: any = await this.pool.query(this.loadConfigQuery);
-        rows.forEach((
-            e: ILoadDBConfigData
-        ) => {
+        rows.forEach((e: ILoadDBConfigData) => {
             if (e.is_active == 1) {
                 switch (e.data_key) {
-                    case "db_config": this.gamesDBConfig = e.value as Record<string, PoolOptions>; break;
-                    case "games_genre": DB_GAMES_LIST = e.value as Record<string, string[]>; break;
-                    case "games_cat": GAMES_CATEGORIES = e.value as Record<string, string[]>; break;
-                    case "db_queries": globalQueryBuilder.setGamesQueries(e.value as TGameDbQueries); break;
+                    case "db_config":
+                        this.gamesDBConfig = e.value as Record<string, PoolOptions>;
+                        break;
+                    case "games_cat":
+                        GAMES_CATEGORIES = e.value as Record<string, string[]>;
+                        break;
+                    case "db_queries":
+                        globalQueryBuilder.setGamesQueries(e.value as TGameDbQueries);
+                        DB_GAMES_QUERIES = e.value as TGameDbQueries
+                        break;
                 }
             }
         });
-        console.log(GAMES_CATEGORIES);
+        this.loadGamesList();
+        return;
+    }
+
+    loadGamesList() {
+        Object.keys(DB_GAMES_QUERIES).forEach(cat => {
+            DB_GAMES_LIST[cat] = Object.keys(DB_GAMES_QUERIES[cat]);
+        });
         return;
     }
 }

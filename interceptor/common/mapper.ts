@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class RespMapper extends ARespMapper {
+export class CrashMapper extends ARespMapper {
 
     constructor() {
         super();

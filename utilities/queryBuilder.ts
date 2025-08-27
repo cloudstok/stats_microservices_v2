@@ -33,31 +33,3 @@ export class QueryBuilder {
          ${offset ? `offset ${offset}` : ``}`;
     }
 }
-
-// let exampleQueries = {
-//     crash: {
-//         aviator: {
-//             "bet-details": "select * from settlement where user_id = ? and operator_id = ? and lobby_id = ?",
-//             "bet-history": "select * from settlement where user_id = ? and operator_id = ? and limit ?",
-//         }
-//     },
-//     lottery: {
-//         k3: {
-//             "bet-details": "select * from settlement where user_id = ? and operator_id = ? and lobby_id = ?",
-//             "bet-history": "select * from settlement where user_id = ? and operator_id = ? and limit ?",
-//         }
-//     },
-//     mini: {
-//         mini_roulette: {
-//             "bet-details": "select * from settlement where user_id = ? and operator_id = ? and lobby_id = ?",
-//             "bet-history": "select * from settlement where user_id = ? and operator_id = ? and limit ?",
-//         }
-//     },
-//     slot: {
-//         lucky_spin: {
-//             "bet-details": "select * from settlement where user_id = ? and operator_id = ? and lobby_id = ?",
-//             "bet-history": "select * from settlement where user_id = ? and operator_id = ? and limit ?",
-//         }
-//     }
-// }
-// console.log(JSON.stringify(exampleQueries));
