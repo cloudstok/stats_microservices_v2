@@ -10,8 +10,7 @@ import { DB_GAMES_LIST } from "../db/dbConnect";
 // type RouteKey = keyof typeof globalRouter
 
 export const routerMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const app = req.params.app;
-    const path = req.params.path;
+    const { app, path } = req.params;
 
     const category = Object.keys(DB_GAMES_LIST)?.find(key => DB_GAMES_LIST[key]?.includes(app));
     if (!category) return notFound(req, res, next);
@@ -22,6 +21,5 @@ export const routerMiddleware = (req: Request, res: Response, next: NextFunction
     // const route = globalRouter[category as RouteKey];
 
     if (app && typeof commonRoute === "function") return commonRoute(req, res, next);
-
-    return notFound(req, res, next);
+    else return notFound(req, res, next);
 }

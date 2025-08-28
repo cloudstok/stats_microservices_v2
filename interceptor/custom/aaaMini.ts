@@ -4,6 +4,18 @@ export class AAAMiniMapper extends ARespMapper {
     constructor() {
         super();
     }
+    formatter(path: string, resp: any[]) {
+        let formattedResp
+        switch (path) {
+            case "bet-history": formattedResp = this.history(resp);
+                break;
+            case "bet-details": formattedResp = this.details(resp);
+                break;
+            default: formattedResp = resp;
+                break;
+        }
+        return formattedResp;
+    }
     history(resp: any[]) {
         if (resp.length <= 0) return []
 

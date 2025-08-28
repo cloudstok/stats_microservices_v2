@@ -11,17 +11,17 @@ export class BaseCrashService extends ABaseService {
         const query = this.queries.getQueryByAppRoute(category, app, path);
         const pool = await this.getGameDbPool(app);
 
-        let con: PoolConnection | null = null;
+        let conn: PoolConnection | null = null;
         try {
-            con = await pool.getConnection();
-            const data = await this.fetchData(con, query, { user_id, operator_id, lobby_id, limit });
+            conn = await pool.getConnection();
+            const data = await this.fetchData(conn, query, { user_id, operator_id, lobby_id, limit });
             return data;
         } catch (err: any) {
             console.error("fetch error:", err.message);
             throw err;
         } finally {
-            if (con) {
-                con.release();
+            if (conn) {
+                conn.release();
                 console.log("connection released successfully");
             }
         }

@@ -1,6 +1,6 @@
 import { GAMES_CATEGORIES } from "../db/dbConnect";
 import type { ARespMapper } from "./abstractMapper";
-import { CrashMapper } from "./common/mapper";
+import { CrashMapper } from "./common/crash";
 import { AAAMiniMapper } from "./custom/aaaMini";
 import { FruitBurstMapper } from "./custom/fruitBurst";
 
