@@ -1,9 +1,20 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class RespMapper extends ARespMapper {
-
+export class CrashMapper extends ARespMapper {
     constructor() {
         super();
+    }
+    formatter(path: string, resp: any[]) {
+        let formattedResp
+        switch (path) {
+            case "bet-history": formattedResp = this.history(resp);
+                break;
+            case "bet-details": formattedResp = this.details(resp);
+                break;
+            default: formattedResp = resp;
+                break;
+        }
+        return formattedResp;
     }
     history = (resp: any[]) => resp.map(e => {
         return {
