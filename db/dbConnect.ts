@@ -2,6 +2,7 @@ import { createPool, type Pool, type PoolConnection, type PoolOptions } from "my
 import type { ILoadDBConfigData, TGameDbQueries } from "../interfaces/db";
 import { sleep } from "bun";
 import { QueryBuilder } from "../utilities/queryBuilder";
+import { configMaster } from "./tables";
 
 export let DB_GAMES_QUERIES: TGameDbQueries = {};
 export let DB_GAMES_LIST: Record<string, string[]> = {};
@@ -64,8 +65,11 @@ export class DbConnect {
         try {
 
             this.pool = await createPool(this.dbConfig).getConnection();
-            if (!this.pool) throw new Error("unable to connect");
-            else await this.loadConfig()
+            if (!this.pool) { throw new Error("unable to connect"); }
+            else {
+                await this.pool.execute(configMaster);
+                await this.loadConfig();
+            }
             gamesDbConnection.initGamesDbPools(this.gamesDBConfig);
 
             return;
@@ -82,7 +86,7 @@ export class DbConnect {
     async loadConfig() {
         const [rows]: any = await this.pool.query(this.loadConfigQuery);
         rows.forEach((e: ILoadDBConfigData) => {
-            if (e.is_active == 1) {
+            if (e && e.is_active == 1) {
                 switch (e.data_key) {
                     case "db_config":
                         this.gamesDBConfig = e.value as Record<string, PoolOptions>;
@@ -97,7 +101,6 @@ export class DbConnect {
                 }
             }
         });
-        console.log(DB_GAMES_QUERIES);
         this.loadGamesList();
         return;
     }

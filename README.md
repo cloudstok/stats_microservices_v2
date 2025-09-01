@@ -1,4 +1,4 @@
-# prototype-3
+# stats_v2
 
 To install dependencies:
 
