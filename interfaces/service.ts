@@ -6,6 +6,8 @@ export interface IServiceArgs {
     path: string
     limit?: number;
     lobby_id?: string;
+    freq?: string;
+    unit?: string;
 }
 
 export interface IFetchDataArgs {
