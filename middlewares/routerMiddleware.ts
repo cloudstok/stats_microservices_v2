@@ -3,12 +3,6 @@ import commonRoute from "../routes/games/commonRoute"
 import { notFound } from "../middlewares/notFoundHandler";
 import { DB_GAMES_LIST } from "../db/dbConnect";
 
-// const globalRouter = {
-//     common
-// } as const;
-
-// type RouteKey = keyof typeof globalRouter
-
 export const routerMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const { app, path } = req.params;
 
@@ -17,8 +11,6 @@ export const routerMiddleware = (req: Request, res: Response, next: NextFunction
 
     if (!req.body) req.body = { category, app, path, ...req.query };
     else req.body = { category, app, path, ...req.body, ...req.query };
-
-    // const route = globalRouter[category as RouteKey];
 
     if (app && typeof commonRoute === "function") return commonRoute(req, res, next);
     else return notFound(req, res, next);

@@ -17,7 +17,7 @@ export class BaseRespMapper {
 
     getMapper(category: string, app: string): ARespMapper {
         let key = category;
-        if (GAMES_CATEGORIES["specific"].includes(app)) key = app;
+        if (GAMES_CATEGORIES && GAMES_CATEGORIES["specific"].includes(app)) key = app;
         // else {  // only use it when you need to make multiple categroy-wise mappers
         //     switch (category) {
         //         case "crash": break;

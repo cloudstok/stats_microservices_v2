@@ -56,8 +56,6 @@ export class DbConnect {
         this.loadConfigQuery = `select * from config_master where data_key in ('db_config', 'games_cat', 'db_queries') and is_active = true`
         this.dbConfig = dbConfig;
         this.maxRetryCount = maxRetryCount;
-
-        (async () => await this.initDbPoolConnection())();
     };
 
     async initDbPoolConnection() {
@@ -99,6 +97,7 @@ export class DbConnect {
                 }
             }
         });
+        console.log(DB_GAMES_QUERIES);
         this.loadGamesList();
         return;
     }

@@ -15,5 +15,6 @@ const dbInstance = new DbConnect({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
 }, 5);
+(async () => await dbInstance.initDbPoolConnection())();
 
 app.listen(3000, () => console.log("server running on port", 3000));
