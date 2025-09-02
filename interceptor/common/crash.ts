@@ -21,6 +21,7 @@ export class CrashMapper extends ARespMapper {
         }
         return formattedResp;
     }
+
     history = (resp: any[]) => resp.map(e => {
         return {
             lobby_id: e.lobby_id,
@@ -34,6 +35,7 @@ export class CrashMapper extends ARespMapper {
             created_at: e.created_at
         }
     })
+
     prevRoundHistory = (resp: any[]) => {
         const data = {
             round_max_mult: resp[0].round_max_mult,
@@ -59,26 +61,9 @@ export class CrashMapper extends ARespMapper {
         }
         return data;
     }
-    // details = (resp: any[]) => {
-    //     if (!resp.length) return {};
-    //     const e = resp[0];
-    //     return {
-    //         lobby_id: e.lobby_id,
-    //         user_id: e.user_id,
-    //         operator_id: e.operator_id,
-    //         bet_amount: e.bet_amount,
-    //         auto_cashout: e.auto_cashout,
-    //         max_mult: e.max_mult,
-    //         win_amount: e.win_amount,
-    //         status: e.status,
-    //         created_at: e.created_at
-    //     };
-    // };
-    details = (resp: any[]) => {
-        if (!resp.length) return {};
 
+    details = (resp: any[]) => {
         return resp.reduce((acc, e, index) => {
-            const calculatedAmount = +e.bet_amount * +e.max_mult;
             acc[`bet_${index + 1}`] = {
                 lobby_id: e.lobby_id,
                 user_id: e.user_id,
@@ -89,11 +74,7 @@ export class CrashMapper extends ARespMapper {
                 win_amount: e.win_amount,
                 status: e.status,
                 created_at: e.created_at,
-                plane_status: e.status,
-                final_amount:
-                    e.status === "cashout"
-                        ? calculatedAmount.toFixed(2)
-                        : 0.00
+                plane_status: e.status.toLowerCase(),
             };
             return acc;
         }, {});
