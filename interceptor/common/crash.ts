@@ -29,6 +29,7 @@ export class CrashMapper extends ARespMapper {
             auto_cashout: e.auto_cashout,
             max_mult: e.max_mult,
             win_amount: e.win_amount,
+            round_max_mult: e.round_max_mult,
             status: e.status,
             created_at: e.created_at
         }
