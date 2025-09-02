@@ -14,5 +14,5 @@ export interface IFetchDataArgs {
     user_id: string;
     operator_id: string;
     lobby_id?: string;
-    limit?: number;
+    [key: string]: any;
 }
