@@ -59,19 +59,47 @@ export class CrashMapper extends ARespMapper {
         }
         return data;
     }
-    details = (resp: any[]) => resp.map(e => {
-        return {
-            lobby_id: e.lobby_id,
-            user_id: e.user_id,
-            operator_id: e.operator_id,
-            bet_amount: e.bet_amount,
-            auto_cashout: e.auto_cashout,
-            max_mult: e.max_mult,
-            win_amount: e.win_amount,
-            status: e.status,
-            created_at: e.created_at
-        }
-    })
+    // details = (resp: any[]) => {
+    //     if (!resp.length) return {};
+    //     const e = resp[0];
+    //     return {
+    //         lobby_id: e.lobby_id,
+    //         user_id: e.user_id,
+    //         operator_id: e.operator_id,
+    //         bet_amount: e.bet_amount,
+    //         auto_cashout: e.auto_cashout,
+    //         max_mult: e.max_mult,
+    //         win_amount: e.win_amount,
+    //         status: e.status,
+    //         created_at: e.created_at
+    //     };
+    // };
+    details = (resp: any[]) => {
+        if (!resp.length) return {};
+
+        return resp.reduce((acc, e, index) => {
+            const calculatedAmount = +e.bet_amount * +e.max_mult;
+            acc[`bet_${index + 1}`] = {
+                lobby_id: e.lobby_id,
+                user_id: e.user_id,
+                operator_id: e.operator_id,
+                bet_amount: e.bet_amount,
+                auto_cashout: e.auto_cashout,
+                max_mult: e.max_mult,
+                win_amount: e.win_amount,
+                status: e.status,
+                created_at: e.created_at,
+                plane_status: e.status,
+                final_amount:
+                    e.status === "cashout"
+                        ? calculatedAmount.toFixed(2)
+                        : 0.00
+            };
+            return acc;
+        }, {});
+    };
+
+
     lobbyDetails = (resp: any[]) => {
         const obj = resp[0]; // first row of the response
 
