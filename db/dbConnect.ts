@@ -15,6 +15,8 @@ export class GamesDbConnect {
     private static instance: GamesDbConnect;
     pools: Record<string, Pool>;
     gamesDbConfig: Record<string, PoolOptions>;
+    retryCount = 0;
+    maxRetryCount = 5;
 
     constructor() {
         this.pools = {};
@@ -27,7 +29,21 @@ export class GamesDbConnect {
     }
 
     async createDbPool(config: PoolOptions, dbName: string) {
-        this.pools[dbName] = createPool(config);
+        try {
+            this.pools[dbName] = createPool(config);
+            if (!this.pools[dbName]) { throw new Error(`unable to connect for ${dbName}`); }
+            dbLogger.info(`DB Connection Successful ${new Date().toISOString()} for ${dbName}`)
+
+            return;
+        } catch (error: any) {
+            console.error("error occured", error.message, " retry count number", this.retryCount++);
+            if (this.retryCount > this.maxRetryCount) process.exit(1);
+            else {
+                await sleep(1000);
+                this.createDbPool(config, dbName);
+            }
+        }
+        this.retryCount = 0;
         return;
     }
 
@@ -36,6 +52,7 @@ export class GamesDbConnect {
         for (const key of Object.keys(this.gamesDbConfig)) {
             await this.createDbPool(this.gamesDbConfig[key], key);
         }
+        console.log(this.gamesDbConfig, "pools created successfully");
     }
 
     async getGameDbPool(dbName: string): Promise<Pool> {
