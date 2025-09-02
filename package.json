@@ -18,7 +18,8 @@
     "@types/express": "^5.0.3",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "mysql2": "^3.14.3"
+    "mysql2": "^3.14.3",
+    "pino": "^9.9.0"
   },
   "version": "1.0.0",
   "description": "To install dependencies:",

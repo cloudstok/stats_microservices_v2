@@ -75,19 +75,14 @@ export class CrashMapper extends ARespMapper {
         const obj = resp[0]; // first row of the response
 
         const hashedSeed = obj.hashedSeed || obj.hashedseed; // handle both cases
-        if (!hashedSeed) {
-            throw new Error("Missing hashedSeed/hashedseed in response");
-        }
+        if (!hashedSeed) throw new Error("Missing hashedSeed/hashedseed in response");
 
         const hex = hashedSeed.slice(0, 13);
-
         const lobbbyObj = {
             ...obj,
             hex,
             decimal: Number(BigInt("0x" + hex)),
         };
-
-        console.log({ lobbbyObj });
         return lobbbyObj;
     };
 

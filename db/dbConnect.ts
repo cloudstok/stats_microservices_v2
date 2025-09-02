@@ -3,6 +3,9 @@ import type { ILoadDBConfigData, TGameDbQueries } from "../interfaces/db";
 import { sleep } from "bun";
 import { QueryBuilder } from "../utilities/queryBuilder";
 import { configMaster } from "./tables";
+import { createLogger } from "../utilities/logger";
+
+const dbLogger = createLogger("DB", "plain");
 
 export let DB_GAMES_QUERIES: TGameDbQueries = {};
 export let DB_GAMES_LIST: Record<string, string[]> = {};
@@ -60,7 +63,7 @@ export class DbConnect {
     };
 
     async initDbPoolConnection() {
-        console.log("try number", this.retryCount);
+        dbLogger.info(`try number ${this.retryCount}`);
         await sleep(1000)
         try {
 
@@ -71,6 +74,7 @@ export class DbConnect {
                 await this.loadConfig();
             }
             gamesDbConnection.initGamesDbPools(this.gamesDBConfig);
+            dbLogger.info(`DB Connection Successful ${new Date().toISOString()}`)
 
             return;
         } catch (error: any) {

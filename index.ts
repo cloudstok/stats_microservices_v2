@@ -1,14 +1,16 @@
 import express from "express";
+import cors from "cors";
 import { router as indexRouter } from "./routes/app";
 import { router as homeRouter } from "./routes/home"
 import { errorHandler } from "./middlewares/errorHandler";
 import { DbConnect } from "./db/dbConnect";
-import cors from "cors"
+import { createLogger } from "./utilities/logger";
 
+const logger = createLogger("SERVER", "plain");
 export const app = express();
 
-app.use(cors({ origin: "*" }))
-app.use("/", homeRouter)
+app.use(cors({ origin: "*" }));
+app.use("/", homeRouter);
 app.use("/api/v1", indexRouter);
 app.use(errorHandler);
 
@@ -21,4 +23,4 @@ const dbInstance = new DbConnect({
 }, 5);
 (async () => await dbInstance.initDbPoolConnection())();
 
-app.listen(process.env.PORT, () => console.log("server running on port", process.env.PORT));
+app.listen(process.env.PORT, () => logger.info(`Server Running On Port: ${process.env.PORT}`));
