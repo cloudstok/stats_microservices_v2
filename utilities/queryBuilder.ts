@@ -44,7 +44,7 @@ export class QueryBuilder {
         if (aap == 'pilot') {
             baseQuery = `
         SELECT 
-            st.name, st.lobby_id, st.avatar, st.bet_amount, 
+            st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
             st.max_mult as settled_max_mult, st.part_mult, st.is_part_co, st.created_at,
             st.status, (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
         FROM settlement as st WHERE st.status = 'cashout'`;
