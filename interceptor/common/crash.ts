@@ -5,7 +5,8 @@ export class CrashMapper extends ARespMapper {
         super();
     }
     formatter(path: string, resp: any[]) {
-        if (!resp.length) return resp;
+        if (!Array.isArray(resp) || !resp.length) return resp;
+
         let formattedResp;
         switch (path) {
             case "bet-history": formattedResp = this.history(resp);
@@ -27,11 +28,11 @@ export class CrashMapper extends ARespMapper {
             lobby_id: e.lobby_id,
             user_id: e.user_id,
             bet_amount: e.bet_amount,
-            auto_cashout: e.auto_cashout,
-            max_mult: e.max_mult,
-            win_amount: e.win_amount,
-            round_max_mult: e.round_max_mult,
-            status: e.status,
+            auto_cashout: e.auto_cashout || null,
+            max_mult: e.max_mult || 0,
+            win_amount: e.win_amount || 0,
+            round_max_mult: e.round_max_mult || 0,
+            status: e.status || null,
             created_at: e.created_at
         }
     })
@@ -49,13 +50,13 @@ export class CrashMapper extends ARespMapper {
                     operator_id: e.operator_id,
                     hash: e.hash,
                     bet_amount: e.bet_amount,
-                    auto_cashout: e.auto_cashout,
+                    auto_cashout: e.auto_cashout || 0,
                     avatar: e.avatar,
-                    max_mult: e.max_mult,
-                    win_amount: e.win_amount,
-                    status: e.status,
+                    max_mult: e.max_mult || 0,
+                    win_amount: e.win_amount || 0,
+                    status: e.status || null,
                     created_at: e.created_at,
-                    round_max_mult: e.round_max_mult,
+                    round_max_mult: e.round_max_mult || 0,
                 }
             })
         }
@@ -64,18 +65,21 @@ export class CrashMapper extends ARespMapper {
 
     details = (resp: any[]) => {
         return resp.reduce((acc, e, index) => {
+            if (!e) return acc;
+
             acc[`bet_${index + 1}`] = {
                 lobby_id: e.lobby_id,
                 user_id: e.user_id,
                 operator_id: e.operator_id,
                 bet_amount: e.bet_amount,
-                auto_cashout: e.auto_cashout,
-                max_mult: e.max_mult,
-                win_amount: e.win_amount,
-                status: e.status,
+                auto_cashout: e.auto_cashout || 0,
+                max_mult: e.max_mult || 0,
+                win_amount: e.win_amount || 0,
+                status: e.status || null,
                 created_at: e.created_at,
-                plane_status: e.status.toLowerCase(),
+                plane_status: e?.plane_status?.toLowerCase() || null,
             };
+
             return acc;
         }, {});
     };

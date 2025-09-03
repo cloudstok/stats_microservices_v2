@@ -32,7 +32,7 @@ export class GamesDbConnect {
         try {
             this.pools[dbName] = createPool(config);
             if (!this.pools[dbName]) { throw new Error(`unable to connect for ${dbName}`); }
-            dbLogger.info(`DB Connection Successful ${new Date().toISOString()} for ${dbName}`)
+            dbLogger.info(`DB Pool Created For ${dbName} at ${new Date().toISOString()}`)
 
             return;
         } catch (error: any) {
@@ -52,7 +52,6 @@ export class GamesDbConnect {
         for (const key of Object.keys(this.gamesDbConfig)) {
             await this.createDbPool(this.gamesDbConfig[key], key);
         }
-        console.log(this.gamesDbConfig, "pools created successfully");
     }
 
     async getGameDbPool(dbName: string): Promise<Pool> {

@@ -11,9 +11,9 @@ export class BaseCrashService extends ABaseService {
 
         let query = (freq && unit) ? this.queries.getTopWinQuery(freq, app, unit as TimeUnit, limit) : null;
         if (!query) query = this.queries.getQueryByAppRoute(category, app, path);
-
-        if (query) query = query.toLowerCase().replace('limit ?', `limit ${limit}`);
-        else throw new Error("query not found for endpoint")
+        console.log({ query });
+        if (query.toLowerCase().includes('limit')) query = query.toLowerCase().replace('limit ?', `limit ${limit}`);
+        if (!query) throw new Error("query not found for endpoint")
 
         const pool = await this.getGameDbPool(app);
         let conn: PoolConnection | null = null;
@@ -27,7 +27,6 @@ export class BaseCrashService extends ABaseService {
         } finally {
             if (conn) {
                 conn.release();
-                console.log("connection released successfully");
             }
         }
     }
