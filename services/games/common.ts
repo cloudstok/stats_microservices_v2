@@ -11,7 +11,6 @@ export class BaseCrashService extends ABaseService {
 
         let query = (freq && unit) ? this.queries.getTopWinQuery(freq, app, unit as TimeUnit, limit) : null;
         if (!query) query = this.queries.getQueryByAppRoute(category, app, path);
-        console.log({ query });
         if (query.toLowerCase().includes('limit')) query = query.toLowerCase().replace('limit ?', `limit ${limit}`);
         if (!query) throw new Error("query not found for endpoint")
 
