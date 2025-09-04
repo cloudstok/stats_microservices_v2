@@ -33,7 +33,7 @@ export class CrashMapper extends ARespMapper {
             win_amount: e.win_amount || 0,
             round_max_mult: e.round_max_mult || 0,
             avatar: e.avatar || null,
-            status: e.status || null,
+            status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
             created_at: e.created_at
         }
     })
@@ -47,7 +47,7 @@ export class CrashMapper extends ARespMapper {
                     id: e.id,
                     bet_id: e.bet_id,
                     lobby_id: e.lobby_id,
-                    user_id: `${e.user_id[0]}***${e.user_id.slice(-1)}`,
+                    user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
                     name: `${e.name[0]}***${e.name.slice(-1)}`,
                     operator_id: e.operator_id,
                     hash: e.hash,
@@ -56,7 +56,7 @@ export class CrashMapper extends ARespMapper {
                     avatar: e.avatar,
                     max_mult: e.max_mult || 0,
                     win_amount: e.win_amount || 0,
-                    status: e.status || null,
+                    status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
                     created_at: e.created_at,
                     round_max_mult: e.round_max_mult || 0,
                 }
@@ -71,7 +71,7 @@ export class CrashMapper extends ARespMapper {
 
             acc[`bet_${index + 1}`] = {
                 lobby_id: e.lobby_id,
-                user_id: `${e.user_id[0]}***${e.user_id.slice(-1)}`,
+                user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
                 operator_id: e.operator_id,
                 bet_amount: e.bet_amount,
                 auto_cashout: e.auto_cashout || 0,
@@ -79,7 +79,7 @@ export class CrashMapper extends ARespMapper {
                 win_amount: e.win_amount || 0,
                 created_at: e.created_at,
                 round_max_mult: e.round_max_mult,
-                plane_status: e?.plane_status?.toLowerCase() || null,
+                plane_status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
             };
 
             return acc;
