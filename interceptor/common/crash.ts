@@ -77,8 +77,8 @@ export class CrashMapper extends ARespMapper {
                 auto_cashout: e.auto_cashout || 0,
                 max_mult: e.max_mult || 0,
                 win_amount: e.win_amount || 0,
-                status: e.status || null,
                 created_at: e.created_at,
+                round_max_mult: e.round_max_mult,
                 plane_status: e?.plane_status?.toLowerCase() || null,
             };
 
