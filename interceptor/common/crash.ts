@@ -26,16 +26,18 @@ export class CrashMapper extends ARespMapper {
     history = (resp: any[]) => resp.map(e => {
         return {
             lobby_id: e.lobby_id,
-            user_id: e.user_id,
+            user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
             bet_amount: e.bet_amount,
             auto_cashout: e.auto_cashout || null,
             max_mult: e.max_mult || 0,
             win_amount: e.win_amount || 0,
             round_max_mult: e.round_max_mult || 0,
+            avatar: e.avatar || null,
             status: e.status || null,
             created_at: e.created_at
         }
     })
+
 
     prevRoundHistory = (resp: any[]) => {
         const data = {
@@ -69,7 +71,7 @@ export class CrashMapper extends ARespMapper {
 
             acc[`bet_${index + 1}`] = {
                 lobby_id: e.lobby_id,
-                user_id: e.user_id,
+                user_id: `${e.user_id[0]}***${e.user_id.slice(-1)}`,
                 operator_id: e.operator_id,
                 bet_amount: e.bet_amount,
                 auto_cashout: e.auto_cashout || 0,
