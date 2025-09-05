@@ -1,4 +1,20 @@
 {
+    "slot": {
+        "coin_flip": {
+            "bet-details": "SELECT * FROM settlements WHERE user_id = ? AND operator_id = ? AND bet_id = ?",
+            "bet-history": " SELECT bet_id,user_id,operator_id,bet_amount,win_amount,win_mult,status,created_at , user_bets FROM settlements WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?"
+        },
+        "heads_and_tails": {
+            "bet-details": "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND round_id = ?",
+            "bet-history": "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?"
+        }
+    },
+    "cards": {
+        "teen_patti_turbo": {
+            "bet-details": "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND round_id = ?",
+            "bet-history": "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?"
+        }
+    },
     "crash": {
         "jetx": {
             "bet-details": "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?",
@@ -80,13 +96,6 @@
             "bet-history": "SELECT lobby_id, bet_amount, status, max_mult, win_amount, created_at, user_id, avatar  FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY id DESC LIMIT ?",
             "lobby-details": "select lobby_id, client_seeds, max_mult as round_max_mult, server_seed as serverSeed, hash as hashedSeed, created_at from lobbies where lobby_id = ?",
             "previous-round-history": "SELECT s.*, rs.max_mult as round_max_mult from settlement s join round_stats rs on s.lobby_id = rs.lobby_id WHERE rs.lobby_id = (SELECT lobby_id from round_stats ORDER BY id desc LIMIT 1)"
-        }
-    },
-    "slot": {
-        "coin_flip": {
-            "bet-details": "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?",
-            "bet-history": " SELECT bet_id,user_id,operator_id,bet_amount,win_amount,win_mult,status,created_at , user_bets FROM settlements WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?",
-            "lobby-details": "select lobby_id, client_seeds, max_mult as round_max_mult, server_seed as serverSeed, hash as hashedSeed, created_at from lobbies where lobby_id = ?"
         }
     }
 }
