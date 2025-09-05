@@ -4,6 +4,8 @@ import { CrashMapper } from "./common/crash";
 import { AAAMiniMapper } from "./custom/aaaMini";
 import { FruitBurstMapper } from "./custom/fruitBurst";
 import { CoinPilot } from "./custom/coinPilot";
+import { HeadsAndTailsMapper } from "./custom/headsAndTails";
+import { TeenPattiTurbo } from "./custom/teenPattiTurbo";
 import { CoinFlip } from "./custom/coinFlip";
 
 export class BaseRespMapper {
@@ -16,7 +18,9 @@ export class BaseRespMapper {
             aaa_mini: new AAAMiniMapper(),
             coin_pilot: new CoinPilot(),
             pilot: new CoinPilot(),
-            coin_flip: new CoinFlip()
+            heads_and_tails: new HeadsAndTailsMapper(),
+            teen_patti_turbo: new TeenPattiTurbo(),
+            coin_flip: new CoinFlip(),
         };
     }
 
