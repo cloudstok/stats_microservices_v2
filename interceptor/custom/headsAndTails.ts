@@ -25,8 +25,8 @@ export class HeadsAndTailsMapper extends ARespMapper {
                 round_id: row.round_id,
                 user_id: row.user_id,
                 operator_id: row.operator_id,
-                bet_amount:row.bet_amount,
-                mult:row.mult,
+                bet_amount: row.bet_amount,
+                mult: row.mult,
                 bet_on: row.bet_on,
                 result: row.result,
                 winning_amount: row.winning_amount,
@@ -38,26 +38,22 @@ export class HeadsAndTailsMapper extends ARespMapper {
     }
 
     details(resp: any[]) {
-    console.log(resp);
-    if (!resp || !Array.isArray(resp) || !resp.length) return [];
+        if (!resp || !Array.isArray(resp) || !resp.length) return {};
 
-    return resp.map((row: any, index) => {
+        const row = resp[0];
+
         return {
-            [`bet_${index + 1}`]: { 
-                round_id: row.round_id,
-                user_id: row.user_id,
-                operator_id: row.operator_id,
-                bet_amount: row.bet_amount,
-                mult: row.mult,
-                bet_on: row.bet_on === 1 ? 'Heads' : 'Tails',
-                result: row.result === 1 ? 'Heads' : 'Tails',
-                winning_amount: row.winning_amount,
-                multiplier: row.multiplier,
-                status: row.status,
-                created_at: row.created_at
-            }
+            round_id: row.round_id,
+            user_id: row.user_id,   
+            operator_id: row.operator_id,
+            bet_amount: row.bet_amount,
+            bet_on: row.bet_on === 1 ? 'Heads' : 'Tails',
+            result: row.result === 1 ? 'Heads' : 'Tails',
+            winning_amount: row.winning_amount,
+            multiplier: row.multiplier,
+            status: row.status,
+            created_at: row.created_at
         };
-    });
-}
+    }
 
 }
