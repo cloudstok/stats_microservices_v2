@@ -4,6 +4,7 @@ import { CrashMapper } from "./common/crash";
 import { AAAMiniMapper } from "./custom/aaaMini";
 import { FruitBurstMapper } from "./custom/fruitBurst";
 import { CoinPilot } from "./custom/coinPilot";
+import { CoinFlip } from "./custom/coinFlip";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -15,6 +16,7 @@ export class BaseRespMapper {
             aaa_mini: new AAAMiniMapper(),
             coin_pilot: new CoinPilot(),
             pilot: new CoinPilot(),
+            coin_flip: new CoinFlip()
         };
     }
 
