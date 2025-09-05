@@ -6,6 +6,7 @@ import { FruitBurstMapper } from "./custom/fruitBurst";
 import { CoinPilot } from "./custom/coinPilot";
 import { HeadsAndTailsMapper } from "./custom/headsAndTails";
 import { TeenPattiTurbo } from "./custom/teenPattiTurbo";
+import { CoinFlip } from "./custom/coinFlip";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -18,7 +19,8 @@ export class BaseRespMapper {
             coin_pilot: new CoinPilot(),
             pilot: new CoinPilot(),
             heads_and_tails: new HeadsAndTailsMapper(),
-            teen_patti_turbo: new TeenPattiTurbo()
+            teen_patti_turbo: new TeenPattiTurbo(),
+            coin_flip: new CoinFlip(),
         };
     }
 

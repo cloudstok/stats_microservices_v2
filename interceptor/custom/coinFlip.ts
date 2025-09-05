@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class CrashMapper extends ARespMapper {
+export class CoinFlip extends ARespMapper {
     constructor() {
         super();
     }
@@ -13,8 +13,6 @@ export class CrashMapper extends ARespMapper {
                 break;
             case "bet-details": formattedResp = this.details(resp);
                 break;
-            case "previous-round-history": formattedResp = this.prevRoundHistory(resp);
-                break;
             case "lobby-details": formattedResp = this.lobbyDetails(resp);
                 break;
             default: formattedResp = resp;
@@ -25,19 +23,17 @@ export class CrashMapper extends ARespMapper {
 
     history = (resp: any[]) => resp.map(e => {
         return {
-            lobby_id: e.lobby_id,
-            user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
+            bet_id: e.bet_id,
+            user_id: e.user_id,
+            operator_id: e.operator_id,
             bet_amount: e.bet_amount,
-            auto_cashout: e.auto_cashout || null,
-            max_mult: e.max_mult || 0,
-            win_amount: e.win_amount || 0,
-            round_max_mult: e.round_max_mult || 0,
-            avatar: e.avatar || null,
-            status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
-            created_at: e.created_at
+            user_bets: e.user_bets,
+            win_amount: e.win_amount,
+            win_mult: e.win_mult,
+            status: e.status,
+            created_at: e.created_at,
         }
-    })
-
+    });
 
     prevRoundHistory = (resp: any[]) => {
         const data = {
@@ -47,7 +43,7 @@ export class CrashMapper extends ARespMapper {
                     id: e.id,
                     bet_id: e.bet_id,
                     lobby_id: e.lobby_id,
-                    user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
+                    user_id: `${e.user_id[0]}***${e.user_id.slice(-1)}`,
                     name: `${e.name[0]}***${e.name.slice(-1)}`,
                     operator_id: e.operator_id,
                     hash: e.hash,
@@ -56,7 +52,7 @@ export class CrashMapper extends ARespMapper {
                     avatar: e.avatar,
                     max_mult: e.max_mult || 0,
                     win_amount: e.win_amount || 0,
-                    status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
+                    status: e.status || null,
                     created_at: e.created_at,
                     round_max_mult: e.round_max_mult || 0,
                 }
@@ -65,26 +61,35 @@ export class CrashMapper extends ARespMapper {
         return data;
     }
 
-    details = (resp: any[]) => {
-        return resp.reduce((acc, e, index) => {
-            if (!e) return acc;
+    details(resp: any[]) {
+        const data: any = {
+            user_id: resp[0].user_id,
+            lobby_id: resp[0].lobby_id,
+            operator_id: resp[0].operator_id
+        };
 
-            acc[`bet_${index + 1}`] = {
-                lobby_id: e.lobby_id,
-                user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
-                operator_id: e.operator_id,
-                bet_amount: e.bet_amount,
-                auto_cashout: e.auto_cashout || 0,
-                max_mult: e.max_mult || 0,
-                win_amount: e.win_amount || 0,
-                created_at: e.created_at,
-                round_max_mult: e.round_max_mult,
-                plane_status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
+        resp.forEach((row, i) => {
+            const betData: any = {
+                bet_amount: row.bet_amount,
+                auto_cashout: row.auto_cashout,
+                total_max_mult: row.max_mult,
+                total_cashout_amt: row.win_amount,
+                status: row.win_amount > 0 ? "WIN" : "LOSS",
+                time: new Date(row.created_at).toISOString(),
+                is_partial_cashout: row.is_part_co === 1 ? "YES" : "NO"
             };
 
-            return acc;
-        }, {});
-    };
+            if (row.is_part_co) {
+                betData.prt_cash_mult = row.part_mult;
+                betData.prt_cash_amt = ((row.part_mult * row.bet_amount) / 2).toFixed(2);
+                betData.part_cashout_time = new Date(row.part_co_at).toISOString();
+            }
+
+            data[`bet_${i + 1}`] = betData;
+        });
+
+        return data;
+    }
 
 
     lobbyDetails = (resp: any[]) => {
