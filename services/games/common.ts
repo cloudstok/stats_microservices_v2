@@ -18,7 +18,7 @@ export class BaseCrashService extends ABaseService {
         let conn: PoolConnection | null = null;
         try {
             conn = await pool.getConnection();
-            const data = await this.fetchData(conn, query, { user_id, operator_id, lobby_id, limit });
+            const data = await this.fetchData(conn, query, { user_id, operator_id, lobby_id });
             return data;
         } catch (err: any) {
             console.error("fetch error:", err.message);

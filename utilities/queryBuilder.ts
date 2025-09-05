@@ -34,21 +34,6 @@ export class QueryBuilder {
     }
 
     getTopWinQuery(freq: string, aap: string, unit: TimeUnit, limit: number = 20): string {
-        let baseQuery = `
-        SELECT 
-            st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
-            st.max_mult as settled_max_mult, st.created_at, st.status,
-            (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
-        FROM settlement as st WHERE st.status = 'cashout'`;
-
-        if (aap == "pilot" || aap == "coin_pilot") {
-            baseQuery = `
-         SELECT 
-            st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
-            st.max_mult as settled_max_mult, st.part_mult, st.is_part_co, st.created_at,
-            st.status, (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
-        FROM settlement as st WHERE st.status = 'cashout'`;
-        }
 
         const orderClauses = {
             HW: `ORDER BY st.max_mult DESC LIMIT ${limit}`,
@@ -60,7 +45,7 @@ export class QueryBuilder {
             YEAR: "st.created_at > curDate() - interval 1 year",
             MONTH: "st.created_at > curDate() - interval 1 month",
             WEEK: "st.created_at > curDate() - interval 1 week",
-            DAY: "st.created_at > curDate() - interval 1 day"
+            DAY: "st.created_at > curDate() - interval 1 day",
         };
 
         const mwDateConditions = {
@@ -69,6 +54,29 @@ export class QueryBuilder {
             WEEK: "created_at > curDate() - interval 1 week",
             DAY: "created_at > curDate() - interval 1 day"
         };
+
+        let baseQuery = "";
+
+        switch (aap) {
+            case "pilot":
+            case "coin_pilot":
+                baseQuery = `SELECT 
+                        st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
+                        st.max_mult as settled_max_mult, st.part_mult, st.is_part_co, st.created_at,
+                        st.status, (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
+                    FROM settlement as st WHERE st.status = 'cashout'`;
+                break;
+            case "footballx": baseQuery = `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit]} ORDER BY win_amount DESC LIMIT 10`
+                return baseQuery;
+
+            default:
+                baseQuery = `SELECT 
+                        st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
+                        st.max_mult as settled_max_mult, st.created_at, st.status,
+                        (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
+                    FROM settlement as st WHERE st.status = 'cashout'`
+                break;
+        }
 
         if (["HW", "BW"].includes(freq)) {
             return `${baseQuery} AND ${dateConditions[unit]} ${orderClauses[freq as TOrder]}`;
