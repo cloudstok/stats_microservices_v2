@@ -17,6 +17,8 @@ export class CrashMapper extends ARespMapper {
                 break;
             case "lobby-details": formattedResp = this.lobbyDetails(resp);
                 break;
+            case "top-win": formattedResp = this.topWin(resp);
+                break;
             default: formattedResp = resp;
                 break;
         }
@@ -37,7 +39,6 @@ export class CrashMapper extends ARespMapper {
             created_at: e.created_at
         }
     })
-
 
     prevRoundHistory = (resp: any[]) => {
         const data = {
@@ -100,6 +101,23 @@ export class CrashMapper extends ARespMapper {
             decimal: Number(BigInt("0x" + hex)),
         };
         return lobbbyObj;
+    };
+
+    topWin = (resp: any[]) => {
+        return resp.map(e => {
+            return {
+                lobby_id: e.lobby_id,
+                name: e.name ? `${e.name[0]}***${e.name.slice(-1)}` : "",
+                user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
+                avatar: e.avatar || null,
+                bet_amount: e.bet_amount,
+                win_amount: e.win_amount,
+                max_mult: e.settled_max_mult || e.max_mult || 0,
+                round_max_mult: e.round_max_mult || 0,
+                status: e.status,
+                created_at: e.created_at
+            }
+        });
     };
 
 }
