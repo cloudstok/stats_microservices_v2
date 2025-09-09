@@ -112,7 +112,7 @@ export class CrashMapper extends ARespMapper {
                 avatar: e.avatar || null,
                 bet_amount: e.bet_amount,
                 win_amount: e.win_amount,
-                max_mult: e.settled_max_mult || e.max_mult || 0,
+                settled_max_mult: e.settled_max_mult || e.max_mult || 0,
                 round_max_mult: e.round_max_mult || 0,
                 status: e.status,
                 created_at: e.created_at
