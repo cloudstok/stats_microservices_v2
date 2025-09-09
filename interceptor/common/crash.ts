@@ -104,20 +104,12 @@ export class CrashMapper extends ARespMapper {
     };
 
     topWin = (resp: any[]) => {
-        return resp.map(e => {
-            return {
-                lobby_id: e.lobby_id,
-                name: e.name ? `${e.name[0]}***${e.name.slice(-1)}` : "",
-                user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
-                avatar: e.avatar || null,
-                bet_amount: e.bet_amount,
-                win_amount: e.win_amount,
-                settled_max_mult: e.settled_max_mult || e.max_mult || 0,
-                round_max_mult: e.round_max_mult || 0,
-                status: e.status,
-                created_at: e.created_at
-            }
-        });
+        const mask = (str: string) => `${str[0]}***${str.slice(-1)}`;
+        resp.forEach(e => {
+            if (e.name) e.name = mask(e.name);
+            if (e.user_id) e.user_id = mask(e.user_id);
+        })
+        return resp;
     };
 
 }
