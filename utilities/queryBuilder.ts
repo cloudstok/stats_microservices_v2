@@ -25,12 +25,33 @@ export class QueryBuilder {
         return this.queries[cat][app][path] as string;
     }
 
-    getCustomQuery(fields: string[], args: string[], table: string = "settlement", orderBy?: string, order?: string, limit?: number, offset?: number) {
-        return `select ${fields.join(", ")} from ${table}
-         where ${args.map(e => `${e} = ?`).join(" and ")}
+    getCustomQuery(table: string = "settlement", fields: string[], condArgs: string[], orderBy?: string, order?: string, limit?: number, offset?: number) {
+        const whereClause = condArgs.map(k => `${k} = ?`).join(" and ");
+        return `select ${fields.length ? fields.join(", ") : "*"} 
+        from ${table} 
+        ${whereClause.length ? `where ${condArgs.map(e => `${e} = ?`).join(" and ")}` : ""}
          ${orderBy && order ? `order by ${orderBy} ${order}` : ``}
          ${limit ? `limit ${limit}` : ``}
-         ${offset ? `offset ${offset}` : ``}`;
+         ${offset ? `offset ${offset}` : ``}`.trim();
+    }
+
+    getSelectQuery(table: string, name?: boolean) {
+        return name ? `select * from ${table} where app = ?` : `select * from ${table}`;
+    }
+
+    getInsertQuery(table: string, fields: string[]) {
+        return `insert ignore into ${table} (${fields.join(", ")}) values (${fields.map(e => "?").join(", ")});`;
+    }
+
+    getUpdateQuery(table: string, updateArgs: string[], conditionArgs: string[]) {
+        const setClause = updateArgs.map((k) => `${k} = ?`).join(", ");
+        const whereClause = conditionArgs.map(k => `${k} = ?`).join(" and ");
+        return `update ${table} set ${setClause} where ${whereClause};`;
+    }
+
+    getDeleteQuery(table: string, condArgs: string[]) {
+        const whereClause = condArgs.map((k) => `${k} = ?`).join(" and ")
+        return `delete from ${table} where ${whereClause}`
     }
 
     getTopWinQuery(freq: string, aap: string, unit: TimeUnit, limit: number = 20): string {
@@ -41,14 +62,14 @@ export class QueryBuilder {
             MW: `ORDER BY max_mult DESC LIMIT ${limit}`
         };
 
-        const dateConditions = {
+        const dateConditions: Record<TimeUnit, string> = {
             YEAR: "st.created_at > curDate() - interval 1 year",
             MONTH: "st.created_at > curDate() - interval 1 month",
             WEEK: "st.created_at > curDate() - interval 1 week",
             DAY: "st.created_at > curDate() - interval 1 day",
         };
 
-        const mwDateConditions = {
+        const mwDateConditions: Record<TimeUnit, string> = {
             YEAR: "created_at > curDate() - interval 1 year",
             MONTH: "created_at > curDate() - interval 1 month",
             WEEK: "created_at > curDate() - interval 1 week",
@@ -66,7 +87,7 @@ export class QueryBuilder {
                         (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
                     FROM settlement as st WHERE st.status = 'cashout'`;
                 break;
-            case "footballx": baseQuery = `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit]} ORDER BY win_amount DESC LIMIT 10`
+            case "footballx": baseQuery = `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit.toUpperCase() as TimeUnit]} ORDER BY win_amount DESC LIMIT 10`
                 return baseQuery;
 
             default:

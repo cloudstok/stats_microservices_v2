@@ -2,8 +2,9 @@ import { createPool, type Pool, type PoolConnection, type PoolOptions } from "my
 import type { ILoadDBConfigData, TGameDbQueries } from "../interfaces/db";
 import { sleep } from "bun";
 import { QueryBuilder } from "../utilities/queryBuilder";
-import { configMaster } from "./tables";
+import { configMaster, gameDbConfig, gameDbQueries, users } from "./tables";
 import { createLogger } from "../utilities/logger";
+import { decryption } from "../utilities/crypto";
 
 const dbLogger = createLogger("DB", "plain");
 
@@ -68,7 +69,8 @@ export const globalQueryBuilder = QueryBuilder.getInstance();
 export class DbConnect {
     maxRetryCount: number;
     retryCount: number = 0;
-    private pool!: PoolConnection;
+    private pool!: Pool;
+    private secretKey: string
     dbConfig: PoolOptions;
     gamesDBConfig!: Record<string, PoolOptions>;
     loadConfigQuery: string
@@ -77,19 +79,25 @@ export class DbConnect {
         this.loadConfigQuery = `select * from config_master where data_key in ('db_config', 'games_cat', 'db_queries') and is_active = true`
         this.dbConfig = dbConfig;
         this.maxRetryCount = maxRetryCount;
+        this.secretKey = process.env.CRYPTO_SECRET as string;
     };
 
     async initDbPoolConnection() {
         dbLogger.info(`try number ${this.retryCount}`);
-        await sleep(1000)
         try {
 
-            this.pool = await createPool(this.dbConfig).getConnection();
-            if (!this.pool) { throw new Error("unable to connect"); }
+            this.pool = createPool(this.dbConfig)
+            const conn = await this.pool.getConnection();
+            if (!this.pool || !conn) throw new Error("unable to connect");
             else {
-                await this.pool.execute(configMaster);
+                await conn.execute(configMaster);
+                await conn.execute(gameDbConfig);
+                await conn.execute(gameDbQueries);
+                await conn.execute(users);
                 await this.loadConfig();
+                await this.loadConfigRows();
             }
+
             gamesDbConnection.initGamesDbPools(this.gamesDBConfig);
             dbLogger.info(`DB Connection Successful ${new Date().toISOString()}`)
 
@@ -126,10 +134,43 @@ export class DbConnect {
         return;
     }
 
+    async loadConfigRows() {
+        let conn: PoolConnection | null = null;
+        try {
+            conn = await this.getPool().getConnection();
+            const [rows]: any = await conn.query("select * from games_db_configs where is_active = true");
+
+            const result: TGamesDbConfig = {};
+
+            for (const row of rows) {
+                result[row.app] = {
+                    host: await decryption(row.host, this.secretKey),
+                    port: row.port,
+                    user: await decryption(row.user, this.secretKey),
+                    password: await decryption(row.password, this.secretKey),
+                    database: await decryption(row.default_db, this.secretKey)
+                };
+            }
+            console.log(result);
+            return result;
+        } catch (error: any) {
+            console.error("error occured:", error.message);
+        }
+        finally {
+            if (conn) {
+                conn.release()
+            }
+        }
+    }
+
     loadGamesList() {
         Object.keys(DB_GAMES_QUERIES).forEach(cat => {
             DB_GAMES_LIST[cat] = Object.keys(DB_GAMES_QUERIES[cat]);
         });
         return;
+    }
+
+    getPool() {
+        return this.pool ? this.pool : createPool(this.dbConfig);
     }
 }
