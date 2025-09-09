@@ -8,6 +8,7 @@ import { RiderMapper } from "./custom/riderMapper";
 import { HeadsAndTailsMapper } from "./custom/headsAndTails";
 import { TeenPattiTurbo } from "./custom/teenPattiTurbo";
 import { CoinFlip } from "./custom/coinFlip";
+import { color_2 } from "./custom/colorTow";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -23,6 +24,7 @@ export class BaseRespMapper {
             heads_and_tails: new HeadsAndTailsMapper(),
             teen_patti_turbo: new TeenPattiTurbo(),
             coin_flip: new CoinFlip(),
+            color_2: new color_2(),
         };
     }
 
