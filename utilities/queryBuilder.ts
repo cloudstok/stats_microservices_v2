@@ -63,7 +63,7 @@ export class QueryBuilder {
                 baseQuery = `SELECT 
                         st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
                         st.max_mult as settled_max_mult, st.part_mult, st.is_part_co, st.created_at,
-                        st.status, (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
+                        (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
                     FROM settlement as st WHERE st.status = 'cashout'`;
                 break;
             case "footballx": baseQuery = `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit]} ORDER BY win_amount DESC LIMIT 10`
@@ -72,7 +72,7 @@ export class QueryBuilder {
             default:
                 baseQuery = `SELECT 
                         st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
-                        st.max_mult as settled_max_mult, st.created_at, st.status,
+                        st.max_mult as settled_max_mult, st.created_at,
                         (select rs.max_mult from round_stats as rs where rs.lobby_id = st.lobby_id) as round_max_mult
                     FROM settlement as st WHERE st.status = 'cashout'`
                 break;
@@ -81,7 +81,7 @@ export class QueryBuilder {
         if (["HW", "BW"].includes(freq)) {
             return `${baseQuery} AND ${dateConditions[unit]} ${orderClauses[freq as TOrder]}`;
         } else if (freq === "MW") {
-            return `SELECT * FROM round_stats WHERE ${mwDateConditions[unit]} ${orderClauses.MW}`;
+            return `SELECT lobby_id, max_mult, created_at FROM round_stats WHERE ${mwDateConditions[unit]} ${orderClauses.MW}`;
         } else return "";
     };
 }
