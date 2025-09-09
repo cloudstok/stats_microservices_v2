@@ -11,6 +11,7 @@ import { CoinFlip } from "./custom/coinFlip";
 import { FootballXMapper } from "./custom/footballx";
 import { SevenUpDownMapper } from "./custom/sevenUpDown";
 import { ThirtyTwoCardsMapper } from "./custom/thirtyTwoCardsMini";
+import { LotteryMapper } from "./common/lottery";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -29,20 +30,13 @@ export class BaseRespMapper {
             footballx: new FootballXMapper(),
             seven_up_down: new SevenUpDownMapper(),
             thirty_two_cards: new ThirtyTwoCardsMapper(),
+            lottery: new LotteryMapper()
         };
     }
 
     getMapper(category: string, app: string): ARespMapper {
         let key = category;
         if (GAMES_CATEGORIES && GAMES_CATEGORIES["specific"].includes(app)) key = app;
-        // else {  // only use it when you need to make multiple categroy-wise mappers
-        //     switch (category) {
-        //         case "crash": break;
-        //         case "lottery": break;
-        //         case "mini": break;
-        //         case "slot": break;
-        //     }
-        // }
         return this.mappers[key];
     }
 }
