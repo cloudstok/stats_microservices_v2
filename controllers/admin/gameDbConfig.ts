@@ -19,19 +19,30 @@ export class GamesDbConfig extends BaseController {
 
     async find(req: Request, res: Response) {
         let { app } = req.query;
-        [app] = [app].map(e => decodeURIComponent(String(e)));
+        app = decodeURIComponent(String(app));
         let method: TMethod = "find";
         let reqObj: Record<string, string> = {};
-        if (app) {
+        if (app && (app != "undefined")) {
             method = "findById";
             reqObj["app"] = app;
         }
-        const data = await this.service.executeQuery(method, "games_db_configs", reqObj);
+        let data = await this.service.executeQuery(method, "games_db_configs", reqObj);
+        data = Array.isArray(data) ? data : [data];
+        data = data.map((e: TConfigFromDb) => {
+            return {
+                app: e.app,
+                host: e.host,
+                port: e.port,
+                user: e.user,
+                password: e.password,
+                database: e.default_db,
+                isActive: e.is_active,
+            }
+        })
         return this.sendSuccess(res, data, "data fetched successfully");
     }
     async create(req: Request, res: Response) {
         let { app, host, user, db, password } = req.body;
-        [app, host, user, db, password] = [app, host, user, db, password].map(e => decodeURIComponent(String(e)));
         [host, user, db, password] = await Promise.all([host, user, db, password].map(e => this.encrypt(e, this.secretKey)));
         const data = await this.service.executeQuery("post", "games_db_configs", { app, host, user, default_db: db, password });
         return this.sendSuccess(res, { id: data.insertId }, "insert successful");

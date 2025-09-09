@@ -16,13 +16,11 @@ export class GamesDbConfigService {
         let conn: PoolConnection | null = null;
         try {
             conn = await pool.getConnection();
-            console.log({ table, args, condArgs });
-            let query = this.getQueryAccToMethod(method, table, Object.keys(args), condArgs ? Object.keys(condArgs) : []);
+            let query = this.getQueryAccToMethod(method, table, args ? Object.keys(args) : [], condArgs ? Object.keys(condArgs) : []);
             let queryValues = Object.values(args);
             if (condArgs) queryValues = queryValues.concat(Object.values(condArgs))
             const [data]: any = await conn.execute(query, queryValues);
             return data;
-
         } catch (error: any) {
             console.error("error occured:", error.message);
         } finally {
@@ -33,8 +31,8 @@ export class GamesDbConfigService {
     getQueryAccToMethod(method: TMethod, table: string, args: string[], condArgs: string[]) {
         let query = "";
         switch (method) {
-            case "find": query = this.queryBuilder.getSimpleQuery(table); break;
-            case "findById": query = this.queryBuilder.getCustomQuery(table, [], condArgs); break;
+            case "find": query = this.queryBuilder.getSelectQuery(table); break;
+            case "findById": query = this.queryBuilder.getSelectQuery(table, true); break;
             case "post": query = this.queryBuilder.getInsertQuery(table, args); break;
             case "patch": query = this.queryBuilder.getUpdateQuery(table, args, condArgs); break;
             case "delete": query = this.queryBuilder.getDeleteQuery(table, condArgs); break;

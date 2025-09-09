@@ -1,4 +1,4 @@
-import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js"
 
 
 export const encryption = async (plainText: string, secret: string) => {

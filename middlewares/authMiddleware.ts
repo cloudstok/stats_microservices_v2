@@ -32,7 +32,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
         if (!req.body) req.body = {}
-        req.body["user"] = {
+        req.body["userCreds"] = {
             userId: payload.userId,
             role: payload.role,
         }

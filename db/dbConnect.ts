@@ -4,6 +4,7 @@ import { sleep } from "bun";
 import { QueryBuilder } from "../utilities/queryBuilder";
 import { configMaster, gameDbConfig, gameDbQueries, users } from "./tables";
 import { createLogger } from "../utilities/logger";
+import { decryption } from "../utilities/crypto";
 
 const dbLogger = createLogger("DB", "plain");
 
@@ -68,6 +69,7 @@ export class DbConnect {
     maxRetryCount: number;
     retryCount: number = 0;
     private pool!: Pool;
+    private secretKey: string
     dbConfig: PoolOptions;
     gamesDBConfig!: Record<string, PoolOptions>;
     loadConfigQuery: string
@@ -76,6 +78,7 @@ export class DbConnect {
         this.loadConfigQuery = `select * from config_master where data_key in ('db_config', 'games_cat', 'db_queries') and is_active = true`
         this.dbConfig = dbConfig;
         this.maxRetryCount = maxRetryCount;
+        this.secretKey = process.env.CRYPTO_SECRET as string;
     };
 
     async initDbPoolConnection() {
@@ -140,13 +143,14 @@ export class DbConnect {
 
             for (const row of rows) {
                 result[row.app] = {
-                    host: row.host,
+                    host: await decryption(row.host, this.secretKey),
                     port: row.port,
-                    username: row.user,
-                    password: row.password,
-                    database: row.default_db
+                    user: await decryption(row.user, this.secretKey),
+                    password: await decryption(row.password, this.secretKey),
+                    database: await decryption(row.default_db, this.secretKey)
                 };
             }
+            console.log(result);
             return result;
         } catch (error: any) {
             console.error("error occured:", error.message);

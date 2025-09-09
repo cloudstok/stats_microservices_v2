@@ -28,7 +28,7 @@ password text not null,
 default_db text not null,
 is_active bool default true,
 created_at timestamp default current_timestamp,
-updated_at timestamp on update current_timestamp
+updated_at timestamp  default current_timestamp on update current_timestamp
 );`
 
 export const gameDbQueries =
@@ -40,5 +40,5 @@ end_point varchar (64) not null,
 db_query text not null,
 game_cat enum("specific", "common") default "common",
 created_at timestamp default current_timestamp,
-updated_at timestamp on update current_timestamp
+updated_at timestamp  default current_timestamp on update current_timestamp
 );`;
