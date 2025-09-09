@@ -40,6 +40,11 @@ export class CoinFlip extends ARespMapper {
 
         const e = resp[0];
 
+        const flipsObj = e.user_bets?.reduce((acc: any, bet: any, index: number) => {
+            acc[`flip_${index + 1}`] = bet;
+            return acc;
+        }, {}) || {};
+
         const data: any = {
             bet_id: e.bet_id,
             user_id: e.user_id,
@@ -47,12 +52,9 @@ export class CoinFlip extends ARespMapper {
             bet_amount: e.bet_amount,
             win_amount: e.win_amount,
             win_mult: e.win_mult,
-            flips: e.user_bets?.reduce((acc: any, bet: any, index: number) => {
-                acc[`flip_${index + 1}`] = bet;
-                return acc;
-            }, {}) || {},
             status: e.status,
             created_at: e.created_at,
+            ...flipsObj // 👈 flatten flips into top-level
         };
 
         return data;

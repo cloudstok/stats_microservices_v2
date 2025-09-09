@@ -33,17 +33,34 @@ export class color_2 extends ARespMapper {
 
 
     details(resp: any[]) {
+        if (!resp || resp.length === 0) {
+            return null;
+        }
+
+        const e = resp[0];
+
+        const betsObj = JSON.parse(e.userBets || "[]")?.reduce(
+            (acc: any, bet: any, index: number) => {
+                acc[`bet_${index + 1}`] = bet;
+                return acc;
+            },
+            {}
+        );
+
         const data: any = {
-            lobby_id: resp[0].lobby_id,
-            user_id: resp[0].user_id,
-            operator_id: resp[0].operator_id,
-            bet_amount: resp[0].bet_amount,
-            win_amount: resp[0].win_amount,
-            max_mult: resp[0].max_mult,
-            created_at: resp[0].created_at,
+            lobby_id: e.lobby_id,
+            user_id: e.user_id,
+            operator_id: e.operator_id,
+            bet_amount: e.bet_amount,
+            win_amount: e.win_amount,
+            max_mult: e.max_mult,
+            created_at: e.created_at,
+            ...betsObj, // 👈 spread bets into top-level
         };
+
         return data;
     }
 
 
+    // userBets
 }
