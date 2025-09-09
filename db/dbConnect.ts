@@ -37,7 +37,8 @@ export class GamesDbConnect {
 
             return;
         } catch (error: any) {
-            console.error("error occured", error.message, " retry count number", this.retryCount++);
+            console.error("error occured", error.message, " retry count number",);
+            this.retryCount += 1;
             if (this.retryCount > this.maxRetryCount) process.exit(1);
             else {
                 await sleep(1000);
