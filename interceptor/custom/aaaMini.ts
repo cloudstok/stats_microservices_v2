@@ -22,7 +22,7 @@ export class AAAMiniMapper extends ARespMapper {
         const result: any[] = [];
         for (const row of resp) {
             try {
-                const userBets = JSON.parse(row.userBets || "[]");
+                const userBets = JSON.parse(row.userbets || "[]");;
                 const gameResult = JSON.parse(row.result || "{}");
                 const winner = gameResult.winner;
                 const winnerCard = gameResult.card || '';
