@@ -1,10 +1,10 @@
 import type { PoolConnection } from "mysql2/promise";
-import { gamesDbConnection, globalQueryBuilder } from "../db/dbConnect";
+import { GamesDbConnect, gamesDbConnection, globalQueryBuilder } from "../db/dbConnect";
 import type { IFetchDataArgs, IServiceArgs } from "../interfaces/service";
 import type { QueryBuilder } from "../utilities/queryBuilder";
 
 export abstract class ABaseService {
-    protected gamesDbConnect;
+    protected gamesDbConnect: GamesDbConnect;
     protected queries: QueryBuilder;
 
     constructor() {

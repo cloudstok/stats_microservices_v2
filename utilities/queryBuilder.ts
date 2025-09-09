@@ -25,12 +25,32 @@ export class QueryBuilder {
         return this.queries[cat][app][path] as string;
     }
 
-    getCustomQuery(fields: string[], args: string[], table: string = "settlement", orderBy?: string, order?: string, limit?: number, offset?: number) {
-        return `select ${fields.join(", ")} from ${table}
-         where ${args.map(e => `${e} = ?`).join(" and ")}
+    getCustomQuery(table: string = "settlement", fields: string[], condArgs: string[], orderBy?: string, order?: string, limit?: number, offset?: number) {
+        const whereClause = condArgs.map(k => `${k} = ?`).join(" and ");
+        return `select * from ${table} 
+        ${whereClause.length ? `where ${condArgs.map(e => `${e} = ?`).join(" and ")}` : ""}
          ${orderBy && order ? `order by ${orderBy} ${order}` : ``}
          ${limit ? `limit ${limit}` : ``}
-         ${offset ? `offset ${offset}` : ``}`;
+         ${offset ? `offset ${offset}` : ``}`.trim();
+    }
+
+    getSimpleQuery(table: string) {
+        return `select * from ${table}`;
+    }
+
+    getInsertQuery(table: string, fields: string[]) {
+        return `insert ignore into ${table} (${fields.join(", ")}) values (${fields.map(e => "?").join(", ")});`;
+    }
+
+    getUpdateQuery(table: string, updateArgs: string[], conditionArgs: string[]) {
+        const setClause = updateArgs.map((k) => `${k} = ?`).join(", ");
+        const whereClause = conditionArgs.map(k => `${k} = ?`).join(" and ");
+        return `update ${table} set ${setClause} where ${whereClause};`;
+    }
+
+    getDeleteQuery(table: string, condArgs: string[]) {
+        const whereClause = condArgs.map((k) => `${k} = ?`).join(" and ")
+        return `delete from ${table} where ${whereClause}`
     }
 
     getTopWinQuery(freq: string, aap: string, unit: TimeUnit, limit: number = 20): string {
