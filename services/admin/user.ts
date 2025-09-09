@@ -50,7 +50,6 @@ export class UserService {
         try {
             const query = this.queryBuilder.getInsertQuery("users", ["name", "user_id", "password", "role"])
             if (!query) throw new Error("invalid query")
-            console.log(query);
             conn = await pool.getConnection();
             const [data] = await conn.query(query, [name, userId, password, role])
             return data;
