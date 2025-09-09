@@ -52,7 +52,7 @@ export class AAAMiniMapper extends ARespMapper {
     details(resp: any) {
         if (!resp || !Array.isArray(resp) || !resp.length) return [];
 
-        let globalFinalData: any[] = [];
+        let globalFinalData = {};
         resp.forEach((userBet: any) => {
             const roundResult = JSON.parse(userBet.result);
             const userBets = JSON.parse(userBet.userBets);
@@ -106,7 +106,7 @@ export class AAAMiniMapper extends ARespMapper {
                 };
             });
 
-            globalFinalData = [...globalFinalData, finalData]
+            globalFinalData = finalData;
         });
         return globalFinalData;
     }

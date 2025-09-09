@@ -151,7 +151,6 @@ export class DbConnect {
                     database: await decryption(row.default_db, this.secretKey)
                 };
             }
-            console.log(result);
             return result;
         } catch (error: any) {
             console.error("error occured:", error.message);
