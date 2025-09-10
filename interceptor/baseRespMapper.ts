@@ -19,6 +19,11 @@ import { ColorPredictionMapper } from "./custom/colorPrediction";
 import { VortexMapper } from "./custom/vortex";
 import { MoreSlotsMapper } from "./custom/moreSlots";
 import { CricketMinesMapper } from "./custom/cricketMines";
+import { DragonTigerMapper } from "./custom/dragonTigerMini";
+import { BollywoodCasinoMapper } from "./custom/bollywoodCasinoMini";
+import { SuperOverMapper } from "./custom/superoverMini";
+import { DoCardTeenPattiMapper } from "./custom/doCardTeenPattiMini";
+import { MiniMapper } from "./common/mini";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -45,6 +50,11 @@ export class BaseRespMapper {
             vortex: new VortexMapper(),
             more_slot: new MoreSlotsMapper(),
             cricket_mines: new CricketMinesMapper()
+            dragon_tiger: new DragonTigerMapper(),
+            bollywood_casino: new BollywoodCasinoMapper(),
+            superover: new SuperOverMapper(),
+            do_card_teen_patti: new DoCardTeenPattiMapper(),
+            mini: new MiniMapper(),
         };
     }
 

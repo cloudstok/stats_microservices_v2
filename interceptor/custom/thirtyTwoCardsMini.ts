@@ -7,7 +7,6 @@ export class ThirtyTwoCardsMapper extends ARespMapper {
 
     formatter(path: string, resp: any[]) {
         let formattedResp;
-        console.log(resp);
         switch (path) {
             case "bet-history":
                 formattedResp = this.history(resp);
@@ -100,10 +99,10 @@ export class ThirtyTwoCardsMapper extends ARespMapper {
                 finalData[`Bet${i + 1}`] = {
                     chip: chipName,
                     cat: catName,
-                    bet_amount: e.betAmt,
-                    win_amount: e.win ? e.winAmt : 0 - e.betAmt,
-                    mult: e.winMult === 0 ? e.baseMult : e.winMult,
-                    status: e.win ? "win" : "loss",
+                    bet_amount: e.betAmount,
+                    win_amount: e.win ? e.winAmount : 0 - e.betAmount,
+                    mult: e.mult,
+                    status: e.win,
                 };
             });
 
