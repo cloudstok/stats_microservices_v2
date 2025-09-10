@@ -12,6 +12,13 @@ import { FootballXMapper } from "./custom/footballx";
 import { SevenUpDownMapper } from "./custom/sevenUpDown";
 import { ThirtyTwoCardsMapper } from "./custom/thirtyTwoCardsMini";
 import { LotteryMapper } from "./common/lottery";
+import { TwistMapper } from "./custom/twist";
+import { MinesMapper } from "./custom/mines";
+import { PlinkoMapper } from "./custom/plinko";
+import { ColorPredictionMapper } from "./custom/colorPrediction";
+import { VortexMapper } from "./custom/vortex";
+import { MoreSlotsMapper } from "./custom/moreSlots";
+import { CricketMinesMapper } from "./custom/cricketMines";
 import { DragonTigerMapper } from "./custom/dragonTigerMini";
 import { BollywoodCasinoMapper } from "./custom/bollywoodCasinoMini";
 import { SuperOverMapper } from "./custom/superoverMini";
@@ -36,11 +43,18 @@ export class BaseRespMapper {
             seven_up_down: new SevenUpDownMapper(),
             thirty_two_cards: new ThirtyTwoCardsMapper(),
             lottery: new LotteryMapper(),
+            twist: new TwistMapper(),
+            mines: new MinesMapper(),
+            plinko: new PlinkoMapper(),
+            color: new ColorPredictionMapper(),
+            vortex: new VortexMapper(),
+            more_slot: new MoreSlotsMapper(),
+            cricket_mines: new CricketMinesMapper()
             dragon_tiger: new DragonTigerMapper(),
             bollywood_casino: new BollywoodCasinoMapper(),
             superover: new SuperOverMapper(),
             do_card_teen_patti: new DoCardTeenPattiMapper(),
-            mini: new MiniMapper()
+            mini: new MiniMapper(),
         };
     }
 
