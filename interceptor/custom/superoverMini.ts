@@ -64,7 +64,9 @@ export class SuperOverMapper extends ARespMapper {
                         created_at: row.created_at,
                         chip: bet.chip === 1 ? gameResult.teamA : gameResult.teamB,
                         betAmount: Number(bet.betAmount),
-                        winAmount: Number(bet.winAmount),
+                        winAmount: bet.status === "win"
+                            ? Number(bet.winAmount) - Number(bet.betAmount)
+                            : 0 - Number(bet.betAmount),
                         mult: Number(bet.mult),
                         status: bet.status?.toLowerCase() || "loss",
                     });
@@ -115,7 +117,9 @@ export class SuperOverMapper extends ARespMapper {
                         team: bet.chip === 1 ? winResult.teamA : winResult.teamB,
                         bet_amount: bet.betAmount,
                         status: bet.status?.toUpperCase() || "LOSS",
-                        win_amount: bet.winAmount || 0,
+                        win_amount: bet.status === "win"
+                            ? bet.winAmount - bet.betAmount
+                            : 0 - bet.betAmount,
                         multiplier: bet.mult,
                     };
                     betIndex++;

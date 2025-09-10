@@ -24,6 +24,7 @@ import { BollywoodCasinoMapper } from "./custom/bollywoodCasinoMini";
 import { SuperOverMapper } from "./custom/superoverMini";
 import { DoCardTeenPattiMapper } from "./custom/doCardTeenPattiMini";
 import { MiniMapper } from "./common/mini";
+import { K3Mapper } from "./custom/k3";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -55,6 +56,8 @@ export class BaseRespMapper {
             superover: new SuperOverMapper(),
             do_card_teen_patti: new DoCardTeenPattiMapper(),
             mini: new MiniMapper(),
+            k3: new K3Mapper()
+
         };
     }
 
