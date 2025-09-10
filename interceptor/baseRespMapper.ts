@@ -49,7 +49,7 @@ export class BaseRespMapper {
             color: new ColorPredictionMapper(),
             vortex: new VortexMapper(),
             more_slot: new MoreSlotsMapper(),
-            cricket_mines: new CricketMinesMapper()
+            cricket_mines: new CricketMinesMapper(),
             dragon_tiger: new DragonTigerMapper(),
             bollywood_casino: new BollywoodCasinoMapper(),
             superover: new SuperOverMapper(),
