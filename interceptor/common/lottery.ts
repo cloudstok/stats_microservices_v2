@@ -112,7 +112,7 @@ export class LotteryMapper extends ARespMapper {
         const finalData: any = {};
         resp.map((e, index) => {
             const finalObj = {
-                result: this.getDetailsFromWinningNumber(e.winning_number),
+                ...this.getDetailsFromWinningNumber(e.winning_number),
                 status: e.win_amount > 0 ? 'WIN' : 'LOSS',
                 bet_amount: e.bet_amount,
                 chip: this.getChipValueFromChip(e.chip),
