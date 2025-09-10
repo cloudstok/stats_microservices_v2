@@ -24,6 +24,9 @@ import { BollywoodCasinoMapper } from "./custom/bollywoodCasinoMini";
 import { SuperOverMapper } from "./custom/superoverMini";
 import { DoCardTeenPattiMapper } from "./custom/doCardTeenPattiMini";
 import { MiniMapper } from "./common/mini";
+import { LuckySevenMapper } from "./custom/luckySevenMini";
+import { TeenPattiMapper } from "./custom/teenPattiMini";
+import { DragonTigerLionMapper } from "./custom/dragonTigerLionMini";
 import { K3Mapper } from "./custom/k3";
 
 export class BaseRespMapper {
@@ -55,9 +58,11 @@ export class BaseRespMapper {
             bollywood_casino: new BollywoodCasinoMapper(),
             superover: new SuperOverMapper(),
             do_card_teen_patti: new DoCardTeenPattiMapper(),
+            teen_patti_mini: new TeenPattiMapper(),
+            dragon_tiger_lion: new DragonTigerLionMapper(),
+            lucky_seven: new LuckySevenMapper(),
             mini: new MiniMapper(),
             k3: new K3Mapper()
-
         };
     }
 
