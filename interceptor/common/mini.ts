@@ -31,7 +31,7 @@ export class MiniMapper extends ARespMapper {
                 const gameResult = JSON.parse(row.result || "{}");
 
                 for (const bet of userBets) {
-                    let chip = bet.chip;
+                    let chip = bet.chip || bet.cat;
 
                     let winAmount = Number(bet.winAmount) || 0;
                     const betAmount = Number(bet.betAmount) || 0;
@@ -58,7 +58,7 @@ export class MiniMapper extends ARespMapper {
         return result;
     }
 
-    details(resp: any[], dbName?: string) {
+    details(resp: any[]) {
         if (!resp || resp.length === 0) return {};
 
         try {
