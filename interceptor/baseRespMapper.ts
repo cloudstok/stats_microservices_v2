@@ -12,6 +12,11 @@ import { FootballXMapper } from "./custom/footballx";
 import { SevenUpDownMapper } from "./custom/sevenUpDown";
 import { ThirtyTwoCardsMapper } from "./custom/thirtyTwoCardsMini";
 import { LotteryMapper } from "./common/lottery";
+import { DragonTigerMapper } from "./custom/dragonTigerMini";
+import { BollywoodCasinoMapper } from "./custom/bollywoodCasinoMini";
+import { SuperOverMapper } from "./custom/superoverMini";
+import { DoCardTeenPattiMapper } from "./custom/doCardTeenPattiMini";
+import { MiniMapper } from "./common/mini";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -30,7 +35,12 @@ export class BaseRespMapper {
             footballx: new FootballXMapper(),
             seven_up_down: new SevenUpDownMapper(),
             thirty_two_cards: new ThirtyTwoCardsMapper(),
-            lottery: new LotteryMapper()
+            lottery: new LotteryMapper(),
+            dragon_tiger: new DragonTigerMapper(),
+            bollywood_casino: new BollywoodCasinoMapper(),
+            superover: new SuperOverMapper(),
+            do_card_teen_patti: new DoCardTeenPattiMapper(),
+            mini: new MiniMapper()
         };
     }
 
