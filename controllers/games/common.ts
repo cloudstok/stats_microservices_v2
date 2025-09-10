@@ -26,7 +26,7 @@ class CommonController extends BaseController {
 
         let resp = await this.service.fetch({ category, app, path, user_id, operator_id, limit: Number(limit || "20"), lobby_id, freq, unit });
         const mapper: ARespMapper = this.mapper.getMapper(category, app)
-
+        console.log(resp);
         resp = mapper.formatter(path, resp, limit)
 
         return this.sendSuccess(res, resp, `${path} fetched successfully`);

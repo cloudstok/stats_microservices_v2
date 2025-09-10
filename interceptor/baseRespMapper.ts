@@ -12,6 +12,13 @@ import { FootballXMapper } from "./custom/footballx";
 import { SevenUpDownMapper } from "./custom/sevenUpDown";
 import { ThirtyTwoCardsMapper } from "./custom/thirtyTwoCardsMini";
 import { LotteryMapper } from "./common/lottery";
+import { TwistMapper } from "./custom/twist";
+import { MinesMapper } from "./custom/mines";
+import { PlinkoMapper } from "./custom/plinko";
+import { ColorPredictionMapper } from "./custom/colorPrediction";
+import { VortexMapper } from "./custom/vortex";
+import { MoreSlotsMapper } from "./custom/moreSlots";
+import { CricketMinesMapper } from "./custom/cricketMines";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -30,7 +37,14 @@ export class BaseRespMapper {
             footballx: new FootballXMapper(),
             seven_up_down: new SevenUpDownMapper(),
             thirty_two_cards: new ThirtyTwoCardsMapper(),
-            lottery: new LotteryMapper()
+            lottery: new LotteryMapper(),
+            twist: new TwistMapper(),
+            mines: new MinesMapper(),
+            plinko: new PlinkoMapper(),
+            color: new ColorPredictionMapper(),
+            vortex: new VortexMapper(),
+            more_slot: new MoreSlotsMapper(),
+            cricket_mines: new CricketMinesMapper()
         };
     }
 
