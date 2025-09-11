@@ -42,6 +42,7 @@ import { SattaMatkaMapper } from "./custom/sattaMatka";
 import { RunAndGuessMapper } from "./custom/runGuess";
 import { Quick3DLotteryMapper } from "./custom/quick3DLottery";
 import { IndiaLotteryMapper } from "./custom/indiaLottery";
+import { RapidRouletteMapper } from "./custom/rapidRoulette";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -90,7 +91,8 @@ export class BaseRespMapper {
             satta_matka: new SattaMatkaMapper(),
             run_and_guess: new RunAndGuessMapper(),
             quick_3d_lottery: new Quick3DLotteryMapper(),
-            india_lottery: new IndiaLotteryMapper()
+            india_lottery: new IndiaLotteryMapper(),
+            rapid_roulette: new RapidRouletteMapper()
         };
     }
 
