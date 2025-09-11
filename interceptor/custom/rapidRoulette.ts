@@ -17,7 +17,7 @@ export class RapidRouletteMapper extends ARespMapper {
         super();
     }
 
-    getChipDat(chip: number[]) {
+    getChipData(chip: number[]) {
         if (chip.length == 1) {
             if (this.rangeChips[chip[0]]) {
                 const data = this.rangeChips[chip[0]];
@@ -99,7 +99,7 @@ export class RapidRouletteMapper extends ARespMapper {
                         created_at: row.created_at,
                         ...bet,
                         type: this.chipType(bet.chip),
-                        chip: this.chipType(bet.chip)
+                        chip: this.getChipData(bet.chip)
                     });
                 };
             } catch (e) {
