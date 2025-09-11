@@ -28,6 +28,15 @@ import { LuckySevenMapper } from "./custom/luckySevenMini";
 import { TeenPattiMapper } from "./custom/teenPattiMini";
 import { DragonTigerLionMapper } from "./custom/dragonTigerLionMini";
 import { K3Mapper } from "./custom/k3";
+import { KenoMapper } from "./custom/keno";
+import { DiamondSlotMapper } from "./custom/diamondSlot";
+import { BallBallMapper } from "./custom/ballBall";
+import { CrashHiLoMapper } from "./custom/crashHilo";
+import { RedQueenMapper } from "./custom/redQueen";
+import { KingThimblesMapper } from "./custom/kingThimbles";
+import { GoalMapper } from "./custom/goal";
+import { FlashRouletteMapper } from "./custom/flashRoulette";
+import { DoubleWheelGameMapper } from "./custom/doubleWheel";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -62,7 +71,16 @@ export class BaseRespMapper {
             dragon_tiger_lion: new DragonTigerLionMapper(),
             lucky_seven: new LuckySevenMapper(),
             mini: new MiniMapper(),
-            k3: new K3Mapper()
+            k3: new K3Mapper(),
+            keno: new KenoMapper(),
+            diamond_slot: new DiamondSlotMapper(),
+            ball_n_ball: new BallBallMapper(),
+            crash_hilo: new CrashHiLoMapper(),
+            red_queen: new RedQueenMapper(),
+            king_thimbles: new KingThimblesMapper(),
+            goal: new GoalMapper(),
+            flash_roulette: new FlashRouletteMapper(),
+            double_wheel: new DoubleWheelGameMapper(),
         };
     }
 

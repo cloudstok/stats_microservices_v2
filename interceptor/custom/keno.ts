@@ -1,11 +1,12 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class FruitBurstMapper extends ARespMapper {
+export class KenoMapper extends ARespMapper {
     constructor() {
         super();
     }
+
     formatter(path: string, resp: any[]) {
-        let formattedResp
+        let formattedResp;
         switch (path) {
             case "bet-history": formattedResp = this.history(resp);
                 break;
@@ -16,35 +17,32 @@ export class FruitBurstMapper extends ARespMapper {
         }
         return formattedResp;
     }
+
+
     history(resp: any[]) {
         if (!Array.isArray(resp) || resp.length <= 0) return [];
         return resp.map((e) => {
             return {
-                player_id: e.player_id ? `${e.player_id.slice(0, 2)}***${e.player_id.slice(-2)}` : "",
+                user_id: e.user_id ? `${e.user_id.slice(0, 2)}***${e.user_id.slice(-2)}` : "",
                 ...e
             };
         });
     }
+
     details(resp: any[]) {
         if (!resp || !resp.length) return {}
         const e = resp[0];
 
-        let transformedResult: any = {
+        return {
             lobby_id: e.match_id,
-            user_id: e.player_id,
+            user_id: e.user_id ? `${e.user_id.slice(0, 2)}***${e.user_id.slice(-2)}` : "",
             operator_id: e.operator_id,
             total_bet_amount: e.bet_amt,
+            win_amount: e.win_amt,
+            mult: e.win_mult,
+            status: e.status,
             bet_time: e.created_at,
-            status: e.status
-        }
-        if (e?.result?.length) {
-            e.result.forEach((bet: any, idx: number) => {
-                transformedResult[`Bet${idx + 1}`] = {
-                    mult: bet.cmbMtp,
-                    win_amount: bet.cmbPyt
-                }
-            });
-        }
-        return transformedResult;
+        };
     }
+
 }
