@@ -30,10 +30,7 @@ export class CrashMapper extends ARespMapper {
         const multKey = e.match_max_mult !== undefined ? "match_max_mult" : "round_max_mult";
         return {
             lobby_id: e.lobby_id,
-            user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
-            operator_id:e.operator_id || null,
             bet_amount: e.bet_amount,
-            auto_cashout: e.auto_cashout || null,
             max_mult: e.max_mult || 0,
             win_amount: e.win_amount || 0,
             [multKey]: e[multKey] ?? 0, 
@@ -48,21 +45,13 @@ export class CrashMapper extends ARespMapper {
             round_max_mult: resp[0].round_max_mult,
             bets: resp.map(e => {
                 return {
-                    id: e.id,
-                    bet_id: e.bet_id,
-                    lobby_id: e.lobby_id,
-                    user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
                     name: `${e.name[0]}***${e.name.slice(-1)}`,
-                    operator_id: e.operator_id,
-                    hash: e.hash,
                     bet_amount: e.bet_amount,
-                    auto_cashout: e.auto_cashout || 0,
                     avatar: e.avatar,
                     max_mult: e.max_mult || 0,
                     win_amount: e.win_amount || 0,
                     status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
-                    created_at: e.created_at,
-                    round_max_mult: e.round_max_mult || 0,
+                    created_at: e.created_at
                 }
             })
         }

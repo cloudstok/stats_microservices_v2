@@ -23,7 +23,6 @@ export class ThimblesMapper extends ARespMapper {
     }
 
     details(resp: any[]) {
-        console.log(resp)
         if (!resp || resp.length === 0) return {};
 
         const row = resp[0];
@@ -35,7 +34,7 @@ export class ThimblesMapper extends ARespMapper {
             total_bet_amount: row.Total_BetAmount,
             total_win_amount: row.Total_WinAmount,
             time: row.Time,
-            multiplier: row.multiplier,
+            multiplier: row.status == 'WIN' ? row.multiplier : 0.00,
             status: row.status,
             type: row.type
         };
