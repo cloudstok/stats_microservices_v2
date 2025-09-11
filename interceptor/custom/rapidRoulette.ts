@@ -88,7 +88,7 @@ export class RapidRouletteMapper extends ARespMapper {
         const result: any[] = [];
         for (const row of resp) {
             try {
-                const bets = JSON.parse(row.userBets || "[]");
+                const bets = JSON.parse(row.userbets || "[]");
                 for (const bet of bets) {
                     result.push({
                         user_id: row.user_id,
