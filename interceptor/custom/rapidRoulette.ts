@@ -123,6 +123,7 @@ export class RapidRouletteMapper extends ARespMapper {
                 color: this.determineColor(parseInt(rowData.result)),
                 time: rowData.created_at,
                 ...bet,
+                chip: JSON.stringify(bet.chip),
                 type: this.chipType(bet.chip)
             }
         });
