@@ -28,6 +28,9 @@ import { LuckySevenMapper } from "./custom/luckySevenMini";
 import { TeenPattiMapper } from "./custom/teenPattiMini";
 import { DragonTigerLionMapper } from "./custom/dragonTigerLionMini";
 import { K3Mapper } from "./custom/k3";
+import { ChickenRoadMapper } from "./custom/chickenRoad2.0";
+import { SattaMatkaMapper } from "./custom/sattaMatka";
+import { RunAndGuessMapper } from "./custom/runGuess";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -62,7 +65,10 @@ export class BaseRespMapper {
             dragon_tiger_lion: new DragonTigerLionMapper(),
             lucky_seven: new LuckySevenMapper(),
             mini: new MiniMapper(),
-            k3: new K3Mapper()
+            k3: new K3Mapper(),
+            chicken_road: new ChickenRoadMapper(),
+            satta_matka: new SattaMatkaMapper(),
+            run_and_guess: new RunAndGuessMapper()
         };
     }
 
