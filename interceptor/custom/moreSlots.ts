@@ -1,0 +1,64 @@
+import { ARespMapper } from "../abstractMapper";
+
+export class MoreSlotsMapper extends ARespMapper {
+    constructor() {
+        super();
+    }
+
+    formatter(path: string, resp: any[]) {
+
+        let formattedResp;
+        switch (path) {
+            case "bet-history":
+                formattedResp = this.history(resp);
+                break;
+            case "bet-details":
+                formattedResp = this.details(resp);
+                break;
+            default:
+                formattedResp = resp;
+                break;
+        }
+        return formattedResp;
+    }
+
+    history = (resp: any[]) => {
+        if (!Array.isArray(resp) || resp.length <= 0) return [];
+
+        return resp.map(e => {
+            return {
+                settlement_id: e.settlement_id,
+                match_id: e.match_id,
+                user_id: e.user_id ? `${e.user_id.slice(0, 2)}***${e.user_id.slice(-2)}` : "",
+                operator_id: e.operator_id,
+                bet_amount: e.bet_amount,
+                range: e.range,
+                category: e.category,
+                payout: e.payout,
+                result: e.result,
+                status: e.status,
+                win_amount: e.win_amount,
+                created_at: e.created_at
+            };
+        });
+    };
+
+    details = (resp: any[]) => {
+        if (!resp || !resp.length) return {};
+
+        const e = resp[0];
+        return {
+            match_id: e.match_id,
+            user_id: e.user_id,
+            operator_id: e.operator_id,
+            bet_amount: e.bet_amount,
+            range: e.range,
+            category: e.category,
+            payout: e.payout,
+            result: e.result,
+            status: e.status,
+            win_amount: e.win_amount,
+            created_at: e.created_at
+        };
+    };
+}

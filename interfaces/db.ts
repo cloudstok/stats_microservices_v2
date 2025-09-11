@@ -12,10 +12,6 @@ export interface ILoadDBConfigData extends ILoadConfigData {
     value: Record<string, PoolOptions>;
 }
 
-// type TGameCategories = Record<string, string>;
-// type TGameQueries = Record<string, TGameCategories>;
-// export type TGameDbQueries = Record<string, TGameQueries>;
-
 export type TGameDbQueries = Record<string, Record<string, Record<string, string>>>
 
 export interface ILoadDBQueriesData extends ILoadConfigData {

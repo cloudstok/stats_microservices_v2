@@ -25,10 +25,8 @@ class CommonController extends BaseController {
         // payload validator
 
         let resp = await this.service.fetch({ category, app, path, user_id, operator_id, limit: Number(limit || "20"), lobby_id, freq, unit });
-        console.log("resp", resp);
         const mapper: ARespMapper = this.mapper.getMapper(category, app)
-
-        resp = mapper.formatter(path, resp)
+        resp = mapper.formatter(path, resp, limit)
 
         return this.sendSuccess(res, resp, `${path} fetched successfully`);
     }
