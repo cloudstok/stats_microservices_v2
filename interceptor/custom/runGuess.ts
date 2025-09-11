@@ -40,7 +40,7 @@ export class RunAndGuessMapper extends ARespMapper {
         const result: any[] = [];
         for (const row of resp) {
             try {
-                const bets = JSON.parse(row.userBets || "[]");
+                const bets = JSON.parse(row.userbets || "[]");
                 const roundResult = JSON.parse(row.result || "{}");
                 for (const bet of bets) {
                     result.push({
