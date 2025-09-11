@@ -24,7 +24,7 @@ export class RiderMapper extends ARespMapper {
         return {
             lobby_id: e.lobby_id,
             user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
-            bet_amount: e.bet_amount,
+            bet_amount:(e.bet_amount),
             max_mult: e.max_mult || 0,
             payout: isWin ? e.bet_amount * e.max_mult : 0,
             status: isWin ? "Win" : "Loss",

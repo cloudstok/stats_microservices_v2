@@ -33,10 +33,11 @@ export class TwistMapper extends ARespMapper {
     details = (resp: any[]) => {
         if (!resp || !resp.length) return {};
         const e = resp[0]
+
         return {
             round_id: e.lobby_id,
             bet_amount: e.bet_amount,
-            win_amount: Number((e.bet_amount * e.max_mult) - e.bet_amount).toFixed(2),
+            win_amount: Number((e.bet_amount * e.max_mult) ).toFixed(2),
             max_mult: e.max_mult || 0,
             status: e.status,
             created_at: e.created_at,

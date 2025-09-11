@@ -40,6 +40,9 @@ import { DoubleWheelGameMapper } from "./custom/doubleWheel";
 import { ChickenRoadMapper } from "./custom/chickenRoad2.0";
 import { SattaMatkaMapper } from "./custom/sattaMatka";
 import { RunAndGuessMapper } from "./custom/runGuess";
+import { TeenPatti2_0Mapper } from "./custom/teenPatti2.0";
+import { ThimblesMapper } from "./custom/thimbles";
+import { TwentyOneMapper } from "./custom/twentyOne";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -86,7 +89,10 @@ export class BaseRespMapper {
             double_wheel: new DoubleWheelGameMapper(),
             chicken_road: new ChickenRoadMapper(),
             satta_matka: new SattaMatkaMapper(),
-            run_and_guess: new RunAndGuessMapper()
+            run_and_guess: new RunAndGuessMapper(),
+            teen_patti_2_0: new TeenPatti2_0Mapper(),
+            thimbles: new ThimblesMapper(),
+            twenty_one: new TwentyOneMapper()
         };
     }
 
