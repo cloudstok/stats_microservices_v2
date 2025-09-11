@@ -23,28 +23,30 @@ export class KingThimblesMapper extends ARespMapper {
 
     history(resp: any[]) {
         if (!resp || resp.length <= 0) return [];
+
         return resp.map((row: any) => {
+            let parsedBet: any = {};
+            try {
+                parsedBet = row.userbets ? JSON.parse(row.userbets) : {};
+            } catch (e) {
+                console.error("Failed to parse userbets:", row.userbets, e);
+            }
+
             const gameResult = row.result ? JSON.parse(row.result) : {};
-            const stake = Number(row.bet_amount ?? 0);
-            const winAmt = Number(row.win_amount ?? 0);
-            const odds = Number(row.mult ?? 0);
-            const status = row.status || "lose";
-            const pl =
-                status === "win"
-                    ? (winAmt - stake)
-                    : -stake;
+            const stake = Number(parsedBet.btAmt ?? 0);
+            const winAmt = Number(parsedBet.winAmt ?? 0);
+            const odds = Number(parsedBet.mult ?? 0);
+            const status = parsedBet.status || "lose";
+            const pl = status === "win" ? winAmt - stake : -stake;
 
             return {
-                round_id: row.round_id,
-                user_id: row.user_id,
-                operator_id: row.operator_id,
-                stake,
-                odds,
-                pl,
-                betOn: Number(row.bet_on ?? 0),
+                stake: stake.toFixed(2),
+                odds: odds.toFixed(2),
+                pl: pl.toFixed(2),
+                betOn: parsedBet.betOn ?? null,
+                round_id: row.lobby_id ?? row.round_id ?? null,
                 status,
-                winningPos: (gameResult.result || []).join(", "),
-                created_at: row.created_at
+                winningPos: (gameResult.result || []).join(", ")
             };
         });
     }
@@ -54,21 +56,29 @@ export class KingThimblesMapper extends ARespMapper {
         const row = resp[0];
         const gameResult = row.result ? JSON.parse(row.result) : {};
 
-        const stake = Number(row.bet_amount ?? 0);
-        const winAmt = Number(row.win_amount ?? 0);
-        const odds = Number(row.mult ?? 0);
+        // Parse userBets JSON
+        const userBets = row.userBets ? JSON.parse(row.userBets) : {};
+
+        const stake = Number(userBets.btAmt ?? 0);
+        const winAmt = Number(userBets.winAmt ?? 0);
+        const odds = Number(userBets.mult ?? 0);
+        const status = userBets.status || "lose";
+        const pl = status === "win" ? (winAmt - stake) : -stake;
 
         return {
             round_id: row.round_id,
+            lobby_id: row.lobby_id,
             user_id: row.user_id,
             operator_id: row.operator_id,
-            stake,
-            odds,
-            pl: row.status === "win" ? (winAmt - stake) : -stake,
-            betOn: Number(row.bet_on ?? 0),
-            status: row.status,
+            stake: stake.toFixed(2),
+            odds: odds.toFixed(2),
+            pl: pl.toFixed(2),
+            betOn: Number(userBets.betOn ?? 0),
+            status,
             winningPos: (gameResult.result || []).join(", "),
             created_at: row.created_at
         };
     }
+
+
 }
