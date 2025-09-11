@@ -44,6 +44,9 @@ import { TeenPatti2_0Mapper } from "./custom/teenPatti2.0";
 import { ThimblesMapper } from "./custom/thimbles";
 import { TwentyOneMapper } from "./custom/twentyOne";
 import { PumpedxhMapper } from "./custom/pumpedx";
+import { Quick3DLotteryMapper } from "./custom/quick3DLottery";
+import { IndiaLotteryMapper } from "./custom/indiaLottery";
+import { RapidRouletteMapper } from "./custom/rapidRoulette";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -94,7 +97,10 @@ export class BaseRespMapper {
             teen_patti_2_0: new TeenPatti2_0Mapper(),
             thimbles: new ThimblesMapper(),
             twenty_one: new TwentyOneMapper(),
-            pumpedx:new PumpedxhMapper()
+            pumpedx:new PumpedxhMapper(),
+            quick_3d_lottery: new Quick3DLotteryMapper(),
+            india_lottery: new IndiaLotteryMapper(),
+            rapid_roulette: new RapidRouletteMapper()
         };
     }
 
