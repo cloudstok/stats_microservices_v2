@@ -95,7 +95,7 @@ export class BaseRespMapper {
             run_and_guess: new RunAndGuessMapper(),
             teen_patti_2_0: new TeenPatti2_0Mapper(),
             thimbles: new ThimblesMapper(),
-            twenty_one: new TwentyOneMapper()
+            twenty_one: new TwentyOneMapper(),
             quick_3d_lottery: new Quick3DLotteryMapper(),
             india_lottery: new IndiaLotteryMapper(),
             rapid_roulette: new RapidRouletteMapper()
