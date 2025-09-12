@@ -51,7 +51,7 @@ export class IndiaLotteryMapper extends ARespMapper {
                         operator_id: row.operator_id,
                         result: row.result,
                         max_mult: row.max_mult,
-                        win_amount: bet.status == "win" ? Number(bet.win_amount).toFixed(2) : '0.00',
+                        win_amount: bet.status == "win" ? Number(bet.winAmount).toFixed(2) : '0.00',
                         created_at: row.created_at,
                         betAmount: Number(bet.betAmount).toFixed(2)
                     });
