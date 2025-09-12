@@ -47,6 +47,7 @@ import { PumpedxhMapper } from "./custom/pumpedx";
 import { Quick3DLotteryMapper } from "./custom/quick3DLottery";
 import { IndiaLotteryMapper } from "./custom/indiaLottery";
 import { RapidRouletteMapper } from "./custom/rapidRoulette";
+import { AndarBaharMapper } from "./custom/andarBahar";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -101,7 +102,8 @@ export class BaseRespMapper {
             pumpedx: new PumpedxhMapper(),
             quick_3d_lottery: new Quick3DLotteryMapper(),
             india_lottery: new IndiaLotteryMapper(),
-            rapid_roulette: new RapidRouletteMapper()
+            rapid_roulette: new RapidRouletteMapper(),
+            andar_bahar: new AndarBaharMapper()
         };
     }
 
