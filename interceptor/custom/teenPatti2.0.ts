@@ -5,7 +5,7 @@ export class TeenPatti2_0Mapper extends ARespMapper {
         super();
     }
 
-    formatter(path: string, resp: any[], id?: any) {
+    formatter(path: string, resp: any[], limit?: number, id?: string) {
         let formattedResp;
         switch (path) {
             case "bet-history": formattedResp = this.history(resp, id);
@@ -23,7 +23,6 @@ export class TeenPatti2_0Mapper extends ARespMapper {
         if (id) {
             for (const row of resp) {
                 let bets: any[] = [];
-                console.log(resp)
                 try {
                     bets = row.userbets ? JSON.parse(row.userbets) : [];
                 } catch (err) {
@@ -107,7 +106,7 @@ export class TeenPatti2_0Mapper extends ARespMapper {
         };
 
         if (rowResult.bonusHand?.handType !== "no_hand_match") {
-            const bonusResult:any = {};
+            const bonusResult: any = {};
             rowResult.bonusHand?.winningCards?.forEach((card: any, index: any) => {
                 bonusResult[`card_${index + 1}`] = card || null;
             });
