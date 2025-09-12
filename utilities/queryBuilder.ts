@@ -81,6 +81,7 @@ export class QueryBuilder {
         switch (aap) {
             case "pilot":
             case "coin_pilot":
+            case "cup_pilot":
                 baseQuery = `SELECT 
                         st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
                         st.max_mult as settled_max_mult, st.part_mult, st.is_part_co, st.created_at,

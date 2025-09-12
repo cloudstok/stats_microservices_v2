@@ -36,7 +36,7 @@ export class TeenPatti2_0Mapper extends ARespMapper {
 
                 const bet = bets.find((b: any) => String(b.chip) === String(id));
                 if (bet) {
-                    return [{
+                    return {
                         created_at: row.created_at,
                         betResult: {
                             chip: bet.chip,
@@ -46,17 +46,20 @@ export class TeenPatti2_0Mapper extends ARespMapper {
                             status: bet.status || null
                         },
                         lobby_id: row.lobby_id,
-                        roundResult: row.result ? (() => {
-                            try {
-                                return JSON.parse(row.result);
-                            } catch {
-                                return row.result;
-                            }
-                        })() : null
-                    }];
+                        roundResult: row.result
+                            ? (() => {
+                                try {
+                                    return JSON.parse(row.result);
+                                } catch {
+                                    return row.result;
+                                }
+                            })()
+                            : null
+                    };
                 }
             }
         }
+
         return resp.flatMap((row: any) => {
             let bets: any[] = [];
             try {

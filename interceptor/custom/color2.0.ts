@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class CoinFlip extends ARespMapper {
+export class Color2_0 extends ARespMapper {
     constructor() {
         super();
     }
@@ -21,44 +21,46 @@ export class CoinFlip extends ARespMapper {
 
     history = (resp: any[]) => resp.map(e => {
         return {
-            bet_id: e.bet_id,
+            lobby_id: e.lobby_id,
             user_id: e.user_id,
             operator_id: e.operator_id,
             bet_amount: e.bet_amount,
-            user_bets: e.user_bets,
-            win_amount: e.win_amount,
-            win_mult: e.win_mult,
-            status: e.status,
+            profit: e.win_amount - e.bet_amount,
+            max_mult: e.max_mult,
             created_at: e.created_at,
         }
     });
 
+
     details(resp: any[]) {
         if (!resp || resp.length === 0) {
-            return null; // prevent crash if resp is empty
+            return null;
         }
 
         const e = resp[0];
 
-        const flipsObj = e.user_bets?.reduce((acc: any, bet: any, index: number) => {
-            acc[`flip_${index + 1}`] = bet;
-            return acc;
-        }, {}) || {};
+        const betsObj = JSON.parse(e.userBets || "[]")?.reduce(
+            (acc: any, bet: any, index: number) => {
+                acc[`bet_${index + 1}`] = bet;
+                return acc;
+            },
+            {}
+        );
 
         const data: any = {
-            bet_id: e.bet_id,
+            lobby_id: e.lobby_id,
             user_id: e.user_id,
             operator_id: e.operator_id,
             bet_amount: e.bet_amount,
             win_amount: e.win_amount,
-            win_mult: e.win_mult,
-            status: e.status,
+            max_mult: e.max_mult,
             created_at: e.created_at,
-            ...flipsObj // 👈 flatten flips into top-level
+            ...betsObj, // 👈 spread bets into top-level
         };
 
         return data;
     }
 
 
+    // userBets
 }

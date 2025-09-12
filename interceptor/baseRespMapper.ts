@@ -3,7 +3,7 @@ import type { ARespMapper } from "./abstractMapper";
 import { CrashMapper } from "./common/crash";
 import { AAAMiniMapper } from "./custom/aaaMini";
 import { FruitBurstMapper } from "./custom/fruitBurst";
-import { CoinPilot } from "./custom/coinPilot";
+import { Pilot } from "./custom/pilot";
 import { RiderMapper } from "./custom/riderMapper";
 import { HeadsAndTailsMapper } from "./custom/headsAndTails";
 import { TeenPattiTurbo } from "./custom/teenPattiTurbo";
@@ -28,6 +28,10 @@ import { LuckySevenMapper } from "./custom/luckySevenMini";
 import { TeenPattiMapper } from "./custom/teenPattiMini";
 import { DragonTigerLionMapper } from "./custom/dragonTigerLionMini";
 import { K3Mapper } from "./custom/k3";
+import { LuckySpin } from "./custom/luckySpin";
+import { Lines } from "./custom/lines";
+import { FourAces } from "./custom/fourAces";
+import { Double_roll } from "./custom/double_role";
 import { KenoMapper } from "./custom/keno";
 import { DiamondSlotMapper } from "./custom/diamondSlot";
 import { BallBallMapper } from "./custom/ballBall";
@@ -47,6 +51,7 @@ import { PumpedxhMapper } from "./custom/pumpedx";
 import { Quick3DLotteryMapper } from "./custom/quick3DLottery";
 import { IndiaLotteryMapper } from "./custom/indiaLottery";
 import { RapidRouletteMapper } from "./custom/rapidRoulette";
+import { Color2_0 } from "./custom/color2.0";
 import { AndarBaharMapper } from "./custom/andarBahar";
 
 export class BaseRespMapper {
@@ -57,8 +62,9 @@ export class BaseRespMapper {
             crash: new CrashMapper(),
             fruit_burst: new FruitBurstMapper(),
             aaa_mini: new AAAMiniMapper(),
-            coin_pilot: new CoinPilot(),
-            pilot: new CoinPilot(),
+            coin_pilot: new Pilot(),
+            pilot: new Pilot(),
+            cup_pilot: new Pilot(),
             rider: new RiderMapper(),
             heads_and_tails: new HeadsAndTailsMapper(),
             teen_patti_turbo: new TeenPattiTurbo(),
@@ -84,6 +90,10 @@ export class BaseRespMapper {
             lucky_seven: new LuckySevenMapper(),
             mini: new MiniMapper(),
             k3: new K3Mapper(),
+            lucky_spin: new LuckySpin(),
+            lines: new Lines(),
+            four_aces: new FourAces(),
+            double_roll: new Double_roll(),
             keno: new KenoMapper(),
             diamond_slot: new DiamondSlotMapper(),
             ball_n_ball: new BallBallMapper(),
@@ -103,6 +113,7 @@ export class BaseRespMapper {
             quick_3d_lottery: new Quick3DLotteryMapper(),
             india_lottery: new IndiaLotteryMapper(),
             rapid_roulette: new RapidRouletteMapper(),
+            color_2: new Color2_0(),
             andar_bahar: new AndarBaharMapper()
         };
     }
