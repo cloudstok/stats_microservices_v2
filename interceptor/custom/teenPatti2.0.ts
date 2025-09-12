@@ -21,7 +21,6 @@ export class TeenPatti2_0Mapper extends ARespMapper {
     }
 
     history(resp: any[], id?: any) {
-        console.log(resp, id);
         if (!Array.isArray(resp) || resp.length === 0) return [];
         if (id) {
             for (const row of resp) {
