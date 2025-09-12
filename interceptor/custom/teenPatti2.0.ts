@@ -8,7 +8,9 @@ export class TeenPatti2_0Mapper extends ARespMapper {
     formatter(path: string, resp: any[], limit?: number, id?: string) {
         let formattedResp;
         switch (path) {
-            case "bet-history": formattedResp = this.history(resp, id);
+            case "bet-history": formattedResp = this.history(resp);
+                break;
+            case "single-bet-history": formattedResp = this.history(resp, id);
                 break;
             case "bet-details": formattedResp = this.details(resp);
                 break;
@@ -19,12 +21,13 @@ export class TeenPatti2_0Mapper extends ARespMapper {
     }
 
     history(resp: any[], id?: any) {
+        console.log(resp, id);
         if (!Array.isArray(resp) || resp.length === 0) return [];
         if (id) {
             for (const row of resp) {
                 let bets: any[] = [];
                 try {
-                    bets = row.userbets ? JSON.parse(row.userbets) : [];
+                    bets = row.userBets ? JSON.parse(row.userBets) : [];
                 } catch (err) {
                     console.error("Invalid JSON in userbets:", row.userbets, err);
                     bets = [];
