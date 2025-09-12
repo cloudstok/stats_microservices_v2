@@ -107,14 +107,12 @@ export class TeenPatti2_0Mapper extends ARespMapper {
         };
 
         if (rowResult.bonusHand?.handType !== "no_hand_match") {
-            bet_details.round_result.bonusHand = {
-                card_1: rowResult.bonusHand?.winningCards?.[0] || null,
-                card_2: rowResult.bonusHand?.winningCards?.[1] || null,
-                card_3: rowResult.bonusHand?.winningCards?.[2] || null,
-                card_4: rowResult.bonusHand?.winningCards?.[3] || null,
-                card_5: rowResult.bonusHand?.winningCards?.[4] || null,
-                hand_type: rowResult.bonusHand?.handType || null
-            };
+            const bonusResult:any = {};
+            rowResult.bonusHand?.winningCards?.forEach((card: any, index: any) => {
+                bonusResult[`card_${index + 1}`] = card || null;
+            });
+            bonusResult.handType = rowResult.bonusHand?.handType;
+            bet_details.round_result.bonusHand = bonusResult;
         }
 
         const chipDescriptions: Record<number, string> = {
