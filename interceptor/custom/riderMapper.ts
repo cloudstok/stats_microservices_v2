@@ -19,39 +19,33 @@ export class RiderMapper extends ARespMapper {
         return formattedResp;
     }
 
-    history = (resp: any[]) => resp.map(e => {
-        const isWin = e.round_max_mult >= e.max_mult;
-        return {
-            lobby_id: e.lobby_id,
-            user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
-            bet_amount: e.bet_amount,
-            max_mult: e.max_mult || 0,
-            payout: isWin ? e.bet_amount * e.max_mult : 0,
-            status: isWin ? "Win" : "Loss",
-            match_max_mult: e.round_max_mult || 0,
-            created_at: e.created_at
-        }
-    })
+    history(resp: any[]) {
+        if (!resp || !Array.isArray(resp) || resp.length == 0) return [];
+        return resp.map(e => {
+            const isWin = Number(e.max_mult) < Number(e.match_max_mult);
+            return {
+                bet_amount: e.bet_amount,
+                max_mult: e.max_mult,
+                payout: isWin ? Math.min(Number(e.bet_amount * e.max_mult), 500000).toFixed(2) : 0.00,
+                match_max_mult: e.match_max_mult,
+                status: isWin ? 'WIN' : 'LOSS',
+                created_at: e.created_at
+            };
+        })
+    };
 
     details = (resp: any[]) => {
-        
-        return resp.reduce((acc, e, index) => {
-            if (!e) return acc;
-            const isWin = e.round_max_mult >= e.max_mult;
-            acc[`bet_${index + 1}`] = {
-                lobby_id: e.lobby_id,
-                user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
-                operator_id: e.operator_id,
-                bet_amount: e.bet_amount,
-                max_mult: e.max_mult || 0,
-                payout: isWin ? e.bet_amount * e.max_mult : 0,
-                status: isWin ? "Win" : "Loss",
-                created_at: e.created_at,
-                round_max_mult: e.round_max_mult
-            };
-
-            return acc;
-        }, {});
+        if (!resp) return {};
+        const respData = resp[0];
+        const isWin = Number(respData.max_mult) < Number(respData.match_max_mult);
+        return {
+            bet_amount: respData.bet_amount,
+            max_mult: respData.max_mult,
+            payout: isWin ? Math.min(Number(respData.bet_amount * respData.max_mult), 500000).toFixed(2) : 0.00,
+            match_max_mult: respData.match_max_mult,
+            status: isWin ? 'WIN' : 'LOSS',
+            created_at: respData.created_at
+        }
     };
 
 }

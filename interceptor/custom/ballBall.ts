@@ -1,12 +1,16 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class FruitBurstMapper extends ARespMapper {
+export class BallBallMapper extends ARespMapper {
     constructor() {
         super();
     }
+
     formatter(path: string, resp: any[]) {
-        let formattedResp
+        let formattedResp;
+
         switch (path) {
+            case "single-bet-history": formattedResp = resp;
+                break;
             case "bet-history": formattedResp = this.history(resp);
                 break;
             case "bet-details": formattedResp = this.details(resp);
@@ -16,35 +20,31 @@ export class FruitBurstMapper extends ARespMapper {
         }
         return formattedResp;
     }
+
+
     history(resp: any[]) {
         if (!Array.isArray(resp) || resp.length <= 0) return [];
         return resp.map((e) => {
             return {
-                player_id: e.player_id ? `${e.player_id.slice(0, 2)}***${e.player_id.slice(-2)}` : "",
-                ...e
+                ...e,
+                player_id: `${e.player_id.slice(0, 2)}***${e.player_id.slice(-2)}`,
             };
         });
     }
+
     details(resp: any[]) {
         if (!resp || !resp.length) return {}
         const e = resp[0];
-
-        let transformedResult: any = {
+        return {
             lobby_id: e.match_id,
-            user_id: e.player_id,
+            user_id: `${e.player_id.slice(0, 2)}***${e.player_id.slice(-2)}`,
             operator_id: e.operator_id,
             total_bet_amount: e.bet_amt,
             bet_time: e.created_at,
+            win_amount: e.won_amt,
+            mult: e.result.multiplier,
             status: e.status
-        }
-        if (e?.result?.length) {
-            e.result.forEach((bet: any, idx: number) => {
-                transformedResult[`Bet${idx + 1}`] = {
-                    mult: bet.cmbMtp,
-                    win_amount: bet.cmbPyt
-                }
-            });
-        }
-        return transformedResult;
+        };
     }
+
 }

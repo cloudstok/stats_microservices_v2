@@ -8,7 +8,7 @@ import { RiderMapper } from "./custom/riderMapper";
 import { HeadsAndTailsMapper } from "./custom/headsAndTails";
 import { TeenPattiTurbo } from "./custom/teenPattiTurbo";
 import { CoinFlip } from "./custom/coinFlip";
-import { FootballXMapper } from "./custom/footballx";
+import { BurstGameMapper } from "./custom/burstGame";
 import { SevenUpDownMapper } from "./custom/sevenUpDown";
 import { ThirtyTwoCardsMapper } from "./custom/thirtyTwoCardsMini";
 import { LotteryMapper } from "./common/lottery";
@@ -33,6 +33,26 @@ import { lines } from "./custom/lines";
 import { fourAces } from "./custom/four_aces";
 import { Double_roll } from "./custom/double_role";
 import { rapidRoulette } from "./custom/rapidRoulette";
+import { KenoMapper } from "./custom/keno";
+import { DiamondSlotMapper } from "./custom/diamondSlot";
+import { BallBallMapper } from "./custom/ballBall";
+import { CrashHiLoMapper } from "./custom/crashHilo";
+import { RedQueenMapper } from "./custom/redQueen";
+import { KingThimblesMapper } from "./custom/kingThimbles";
+import { GoalMapper } from "./custom/goal";
+import { FlashRouletteMapper } from "./custom/flashRoulette";
+import { DoubleWheelGameMapper } from "./custom/doubleWheel";
+import { ChickenRoadMapper } from "./custom/chickenRoad2.0";
+import { SattaMatkaMapper } from "./custom/sattaMatka";
+import { RunAndGuessMapper } from "./custom/runGuess";
+import { TeenPatti2_0Mapper } from "./custom/teenPatti2.0";
+import { ThimblesMapper } from "./custom/thimbles";
+import { TwentyOneMapper } from "./custom/twentyOne";
+import { PumpedxhMapper } from "./custom/pumpedx";
+import { Quick3DLotteryMapper } from "./custom/quick3DLottery";
+import { IndiaLotteryMapper } from "./custom/indiaLottery";
+import { RapidRouletteMapper } from "./custom/rapidRoulette";
+
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
 
@@ -43,11 +63,13 @@ export class BaseRespMapper {
             aaa_mini: new AAAMiniMapper(),
             coin_pilot: new CoinPilot(),
             pilot: new CoinPilot(),
+            cup_pilot: new CoinPilot(),
             rider: new RiderMapper(),
             heads_and_tails: new HeadsAndTailsMapper(),
             teen_patti_turbo: new TeenPattiTurbo(),
             coin_flip: new CoinFlip(),
-            footballx: new FootballXMapper(),
+            footballx: new BurstGameMapper(),
+            balloon: new BurstGameMapper(),
             seven_up_down: new SevenUpDownMapper(),
             thirty_two_cards: new ThirtyTwoCardsMapper(),
             lottery: new LotteryMapper(),
@@ -72,7 +94,26 @@ export class BaseRespMapper {
             lines: new lines(),
             four_aces: new fourAces(),
             double_roll: new Double_roll(),
-            rapid_roulette: new rapidRoulette()
+            rapid_roulette: new rapidRoulette(),
+            keno: new KenoMapper(),
+            diamond_slot: new DiamondSlotMapper(),
+            ball_n_ball: new BallBallMapper(),
+            crash_hilo: new CrashHiLoMapper(),
+            red_queen: new RedQueenMapper(),
+            king_thimbles: new KingThimblesMapper(),
+            goal: new GoalMapper(),
+            flash_roulette: new FlashRouletteMapper(),
+            double_wheel: new DoubleWheelGameMapper(),
+            chicken_road: new ChickenRoadMapper(),
+            satta_matka: new SattaMatkaMapper(),
+            run_and_guess: new RunAndGuessMapper(),
+            teen_patti_2_0: new TeenPatti2_0Mapper(),
+            thimbles: new ThimblesMapper(),
+            twenty_one: new TwentyOneMapper(),
+            pumpedx: new PumpedxhMapper(),
+            quick_3d_lottery: new Quick3DLotteryMapper(),
+            india_lottery: new IndiaLotteryMapper(),
+            rapid_roulette: new RapidRouletteMapper()
         };
 
     }
