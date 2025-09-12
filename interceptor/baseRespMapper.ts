@@ -58,6 +58,7 @@ export class BaseRespMapper {
             aaa_mini: new AAAMiniMapper(),
             coin_pilot: new CoinPilot(),
             pilot: new CoinPilot(),
+            cup_pilot: new CoinPilot(),
             rider: new RiderMapper(),
             heads_and_tails: new HeadsAndTailsMapper(),
             teen_patti_turbo: new TeenPattiTurbo(),
