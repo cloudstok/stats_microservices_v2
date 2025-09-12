@@ -28,7 +28,11 @@ import { LuckySevenMapper } from "./custom/luckySevenMini";
 import { TeenPattiMapper } from "./custom/teenPattiMini";
 import { DragonTigerLionMapper } from "./custom/dragonTigerLionMini";
 import { K3Mapper } from "./custom/k3";
-
+import { LuckySpin } from "./custom/luckySpin";
+import { lines } from "./custom/lines";
+import { fourAces } from "./custom/four_aces";
+import { Double_roll } from "./custom/double_role";
+import { rapidRoulette } from "./custom/rapidRoulette";
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
 
@@ -62,8 +66,15 @@ export class BaseRespMapper {
             dragon_tiger_lion: new DragonTigerLionMapper(),
             lucky_seven: new LuckySevenMapper(),
             mini: new MiniMapper(),
-            k3: new K3Mapper()
+            k3: new K3Mapper(),
+            lucky_spin: new LuckySpin(),
+            hypersonicx: new LuckySpin(),
+            lines: new lines(),
+            four_aces: new fourAces(),
+            double_roll: new Double_roll(),
+            rapid_roulette: new rapidRoulette()
         };
+
     }
 
     getMapper(category: string, app: string): ARespMapper {
