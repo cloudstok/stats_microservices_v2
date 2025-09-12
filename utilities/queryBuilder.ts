@@ -90,7 +90,9 @@ export class QueryBuilder {
                 break;
             case "footballx":
             case 'balloon':
-                return `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit.toUpperCase() as TimeUnit]} ORDER BY win_amount DESC LIMIT 10`
+                return `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit.toUpperCase() as TimeUnit]} ORDER BY win_amount DESC LIMIT 10`;
+            case 'andar_bahar':
+                return `SELECT user_id, SUM(win_amount) AS total_winnings FROM settlement GROUP BY user_id ORDER BY total_winnings DESC LIMIT 30`;
             case "double_wheel": return `SELECT * FROM settlement ORDER BY win_amount DESC LIMIT ?`
             default:
                 baseQuery = `SELECT 
