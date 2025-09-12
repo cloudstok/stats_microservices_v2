@@ -23,12 +23,7 @@ export class AndarBaharMapper extends ARespMapper {
 
     history(resp: any[]) {
         if (!Array.isArray(resp) || resp.length <= 0) return [];
-        return resp.map((e) => {
-            return {
-                ...e,
-                wA: parseFloat(e.wA)
-            };
-        });
+        return resp;
     };
 
     details(resp: any[]) {
@@ -68,7 +63,6 @@ export class AndarBaharMapper extends ARespMapper {
     };
 
     topWin = (resp: any[]) => {
-        const mask = (str: string) => `${str[0]}***${str.slice(-1)}`;
         return resp.map(row => {
             return {
                 urId: row.user_id,
