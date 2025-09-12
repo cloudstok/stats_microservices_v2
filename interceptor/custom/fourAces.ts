@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class fourAces extends ARespMapper {
+export class FourAces extends ARespMapper {
     constructor() {
         super();
     }

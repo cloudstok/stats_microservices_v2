@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class color_2 extends ARespMapper {
+export class Color2_0 extends ARespMapper {
     constructor() {
         super();
     }

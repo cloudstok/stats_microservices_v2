@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class lines extends ARespMapper {
+export class Lines extends ARespMapper {
     constructor() {
         super();
     }
