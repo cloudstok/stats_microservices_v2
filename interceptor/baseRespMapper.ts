@@ -53,6 +53,7 @@ import { IndiaLotteryMapper } from "./custom/indiaLottery";
 import { RapidRouletteMapper } from "./custom/rapidRoulette";
 import { Color2_0 } from "./custom/color2.0";
 import { AndarBaharMapper } from "./custom/andarBahar";
+import { MiniRouletteMapper } from "./custom/miniRoulette";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -114,7 +115,8 @@ export class BaseRespMapper {
             india_lottery: new IndiaLotteryMapper(),
             rapid_roulette: new RapidRouletteMapper(),
             color_2: new Color2_0(),
-            andar_bahar: new AndarBaharMapper()
+            andar_bahar: new AndarBaharMapper(),
+            mini_roulette: new MiniRouletteMapper()
         };
     }
 
