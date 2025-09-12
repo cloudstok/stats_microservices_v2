@@ -32,7 +32,6 @@ import { LuckySpin } from "./custom/luckySpin";
 import { lines } from "./custom/lines";
 import { fourAces } from "./custom/four_aces";
 import { Double_roll } from "./custom/double_role";
-import { rapidRoulette } from "./custom/rapidRoulette";
 import { KenoMapper } from "./custom/keno";
 import { DiamondSlotMapper } from "./custom/diamondSlot";
 import { BallBallMapper } from "./custom/ballBall";
@@ -94,7 +93,6 @@ export class BaseRespMapper {
             lines: new lines(),
             four_aces: new fourAces(),
             double_roll: new Double_roll(),
-            rapid_roulette: new rapidRoulette(),
             keno: new KenoMapper(),
             diamond_slot: new DiamondSlotMapper(),
             ball_n_ball: new BallBallMapper(),
