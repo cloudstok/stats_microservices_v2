@@ -8,7 +8,7 @@ import { RiderMapper } from "./custom/riderMapper";
 import { HeadsAndTailsMapper } from "./custom/headsAndTails";
 import { TeenPattiTurbo } from "./custom/teenPattiTurbo";
 import { CoinFlip } from "./custom/coinFlip";
-import { FootballXMapper } from "./custom/footballx";
+import { BurstGameMapper } from "./custom/burstGame";
 import { SevenUpDownMapper } from "./custom/sevenUpDown";
 import { ThirtyTwoCardsMapper } from "./custom/thirtyTwoCardsMini";
 import { LotteryMapper } from "./common/lottery";
@@ -62,7 +62,8 @@ export class BaseRespMapper {
             heads_and_tails: new HeadsAndTailsMapper(),
             teen_patti_turbo: new TeenPattiTurbo(),
             coin_flip: new CoinFlip(),
-            footballx: new FootballXMapper(),
+            footballx: new BurstGameMapper(),
+            balloon: new BurstGameMapper(),
             seven_up_down: new SevenUpDownMapper(),
             thirty_two_cards: new ThirtyTwoCardsMapper(),
             lottery: new LotteryMapper(),

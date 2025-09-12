@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class FootballXMapper extends ARespMapper {
+export class BurstGameMapper extends ARespMapper {
     constructor() {
         super();
     }
