@@ -43,6 +43,11 @@ export class QueryBuilder {
         return `insert ignore into ${table} (${fields.join(", ")}) values (${fields.map(e => "?").join(", ")});`;
     }
 
+    getMultiInsertQuery(table: string, fields: string[], argsArr: string[][]) {
+        return `insert ignore into ${table} (${fields.join(", ")}) 
+        values ${argsArr.map((e: string[]) => `(${fields.map(e => "?").join(", ")})`).join(", ")}`;
+    }
+
     getUpdateQuery(table: string, updateArgs: string[], conditionArgs: string[]) {
         const setClause = updateArgs.map((k) => `${k} = ?`).join(", ");
         const whereClause = conditionArgs.map(k => `${k} = ?`).join(" and ");
