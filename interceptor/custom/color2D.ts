@@ -5,13 +5,11 @@ export class Color2DMapper extends ARespMapper {
         super();
     };
 
-    formatter(path: string, resp: any[], limit?: number, id?: string) {
+    formatter(path: string, resp: any[]) {
         if (!Array.isArray(resp) || !resp.length) return resp;
         let formattedResp;
         switch (path) {
             case "bet-history": formattedResp = this.history(resp);
-                break;
-            case "single-bet-history": formattedResp = this.history(resp, id);
                 break;
             case "bet-details": formattedResp = this.details(resp);
                 break;
@@ -21,12 +19,8 @@ export class Color2DMapper extends ARespMapper {
         return formattedResp;
     };
 
-    history(resp: any[], id?: any) {
-        if (!id) return resp;
-        const bet = resp[0];
-        return {
-            ...bet, result: JSON.parse(bet.result), user_bets: JSON.parse(bet.user_bets)
-        };
+    history(resp: any[]) {
+        return resp;
     };
 
     details(resp: any[]) {
