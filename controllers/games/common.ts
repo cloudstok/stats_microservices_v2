@@ -15,7 +15,7 @@ class CommonController extends BaseController {
     }
 
     async getBetHistory(req: Request, res: Response) {
-        const { category, app, path, user_id, operator_id, lobby_id, limit, freq, unit, id } = req.body;
+        let { category, app, path, user_id, operator_id, lobby_id, limit, freq, unit, id } = req.body;
 
         if ((path == "bet-details" && !lobby_id) ||
             (path == "bet-history" && !limit) ||
