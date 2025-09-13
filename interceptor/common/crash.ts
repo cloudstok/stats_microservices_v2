@@ -33,7 +33,7 @@ export class CrashMapper extends ARespMapper {
             bet_amount: e.bet_amount,
             max_mult: e.max_mult || 0,
             win_amount: e.win_amount || 0,
-            [multKey]: e[multKey] ?? 0, 
+            [multKey]: e[multKey] ?? 0,
             avatar: e.avatar || null,
             status: e.status ?? (e.plane_status ? e.plane_status.toLowerCase() : null),
             created_at: e.created_at
@@ -68,7 +68,7 @@ export class CrashMapper extends ARespMapper {
                 operator_id: e.operator_id,
                 bet_amount: e.bet_amount,
                 auto_cashout: e.auto_cashout || 0,
-                max_mult: e.max_mult || 0,
+                max_mult: e.max_mult || e.win_mult || 0,
                 win_amount: e.win_amount || 0,
                 created_at: e.created_at,
                 round_max_mult: e.round_max_mult,
