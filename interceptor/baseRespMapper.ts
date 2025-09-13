@@ -54,6 +54,7 @@ import { RapidRouletteMapper } from "./custom/rapidRoulette";
 import { Color2_0 } from "./custom/color2.0";
 import { AndarBaharMapper } from "./custom/andarBahar";
 import { MiniRouletteMapper } from "./custom/miniRoulette";
+import { Color2DMapper } from "./custom/color2D";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -116,7 +117,8 @@ export class BaseRespMapper {
             rapid_roulette: new RapidRouletteMapper(),
             color_2: new Color2_0(),
             andar_bahar: new AndarBaharMapper(),
-            mini_roulette: new MiniRouletteMapper()
+            mini_roulette: new MiniRouletteMapper(),
+            color_2d: new Color2DMapper()
         };
     }
 
