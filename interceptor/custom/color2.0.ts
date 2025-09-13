@@ -55,12 +55,9 @@ export class Color2_0 extends ARespMapper {
             win_amount: e.win_amount,
             max_mult: e.max_mult,
             created_at: e.created_at,
-            ...betsObj, // 👈 spread bets into top-level
+            ...betsObj,
         };
 
         return data;
-    }
-
-
-    // userBets
+    };
 }
