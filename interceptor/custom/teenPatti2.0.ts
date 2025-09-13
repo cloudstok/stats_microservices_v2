@@ -5,10 +5,12 @@ export class TeenPatti2_0Mapper extends ARespMapper {
         super();
     }
 
-    formatter(path: string, resp: any[], id?: any) {
+    formatter(path: string, resp: any[], limit?: number, id?: string) {
         let formattedResp;
         switch (path) {
-            case "bet-history": formattedResp = this.history(resp, id);
+            case "bet-history": formattedResp = this.history(resp);
+                break;
+            case "single-bet-history": formattedResp = this.history(resp, id);
                 break;
             case "bet-details": formattedResp = this.details(resp);
                 break;
@@ -23,9 +25,8 @@ export class TeenPatti2_0Mapper extends ARespMapper {
         if (id) {
             for (const row of resp) {
                 let bets: any[] = [];
-                console.log(resp)
                 try {
-                    bets = row.userbets ? JSON.parse(row.userbets) : [];
+                    bets = row.userBets ? JSON.parse(row.userBets) : [];
                 } catch (err) {
                     console.error("Invalid JSON in userbets:", row.userbets, err);
                     bets = [];
@@ -35,7 +36,7 @@ export class TeenPatti2_0Mapper extends ARespMapper {
 
                 const bet = bets.find((b: any) => String(b.chip) === String(id));
                 if (bet) {
-                    return [{
+                    return {
                         created_at: row.created_at,
                         betResult: {
                             chip: bet.chip,
@@ -45,17 +46,20 @@ export class TeenPatti2_0Mapper extends ARespMapper {
                             status: bet.status || null
                         },
                         lobby_id: row.lobby_id,
-                        roundResult: row.result ? (() => {
-                            try {
-                                return JSON.parse(row.result);
-                            } catch {
-                                return row.result;
-                            }
-                        })() : null
-                    }];
+                        roundResult: row.result
+                            ? (() => {
+                                try {
+                                    return JSON.parse(row.result);
+                                } catch {
+                                    return row.result;
+                                }
+                            })()
+                            : null
+                    };
                 }
             }
         }
+
         return resp.flatMap((row: any) => {
             let bets: any[] = [];
             try {
@@ -107,14 +111,12 @@ export class TeenPatti2_0Mapper extends ARespMapper {
         };
 
         if (rowResult.bonusHand?.handType !== "no_hand_match") {
-            bet_details.round_result.bonusHand = {
-                card_1: rowResult.bonusHand?.winningCards?.[0] || null,
-                card_2: rowResult.bonusHand?.winningCards?.[1] || null,
-                card_3: rowResult.bonusHand?.winningCards?.[2] || null,
-                card_4: rowResult.bonusHand?.winningCards?.[3] || null,
-                card_5: rowResult.bonusHand?.winningCards?.[4] || null,
-                hand_type: rowResult.bonusHand?.handType || null
-            };
+            const bonusResult: any = {};
+            rowResult.bonusHand?.winningCards?.forEach((card: any, index: any) => {
+                bonusResult[`card_${index + 1}`] = card || null;
+            });
+            bonusResult.handType = rowResult.bonusHand?.handType;
+            bet_details.round_result.bonusHand = bonusResult;
         }
 
         const chipDescriptions: Record<number, string> = {

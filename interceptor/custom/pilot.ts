@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class CoinPilot extends ARespMapper {
+export class Pilot extends ARespMapper {
     constructor() {
         super();
     }

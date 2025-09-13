@@ -54,7 +54,7 @@ export class CricketMinesMapper extends ARespMapper {
                 gridSize: gridSize,
                 wicketCount: wicketCount,
                 revealedCells: revealedCells,
-                minesData: playerGrid
+                minesData: JSON.stringify(playerGrid)
             };
         });
     };

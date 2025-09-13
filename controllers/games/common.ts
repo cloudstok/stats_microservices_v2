@@ -15,7 +15,7 @@ class CommonController extends BaseController {
     }
 
     async getBetHistory(req: Request, res: Response) {
-        let { category, app, path, user_id, operator_id, lobby_id, limit, freq, unit } = req.body;
+        const { category, app, path, user_id, operator_id, lobby_id, limit, freq, unit, id } = req.body;
 
         if ((path == "bet-details" && !lobby_id) ||
             (path == "bet-history" && !limit) ||
@@ -26,7 +26,7 @@ class CommonController extends BaseController {
         user_id = decodeURIComponent(user_id);
         let resp = await this.service.fetch({ category, app, path, user_id, operator_id, limit: Number(limit || "20"), lobby_id, freq, unit });
         const mapper: ARespMapper = this.mapper.getMapper(category, app)
-        resp = mapper.formatter(path, resp, limit)
+        resp = mapper.formatter(path, resp, limit, id)
 
         return this.sendSuccess(res, resp, `${path} fetched successfully`);
     }
