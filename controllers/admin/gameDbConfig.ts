@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { BaseController } from "../base";
 import { GamesDbConfigService } from "../../services/admin/gamesDbConfig";
 import { decryption, encryption } from "../../utilities/crypto";
+import { ERROR_STATUS_CODE } from "../../enums/statusCodes";
 
 export class GamesDbConfig extends BaseController {
     service: GamesDbConfigService;
@@ -41,12 +42,32 @@ export class GamesDbConfig extends BaseController {
         })
         return this.sendSuccess(res, data, "data fetched successfully");
     }
+
     async create(req: Request, res: Response) {
-        let { app, host, user, db, password } = req.body;
-        [host, user, db, password] = await Promise.all([host, user, db, password].map(e => this.encrypt(e, this.secretKey)));
-        const data = await this.service.executeQuery("post", "games_db_configs", { app, host, user, default_db: db, password });
+        let { app, host, user, default_db, password } = req.body;
+        if (!app || !host || !user || !default_db || !password) return this.sendError(res, "invalid payload", ERROR_STATUS_CODE.BadRequest);
+        [host, user, default_db, password] = await Promise.all([host, user, default_db, password].map(e => this.encrypt(e, this.secretKey)));
+        const data = await this.service.executeQuery("post", "games_db_configs", { app, host, user, default_db, password });
         return this.sendSuccess(res, { id: data.insertId }, "insert successful");
     }
+
+    async createMult(req: Request, res: Response) {
+        let { configs }: { configs: any[] } = req.body;
+        let isInvalid = 0;
+        let hashedConfigs: any[] = []
+        if (!Array.isArray(configs) || !configs.length) isInvalid++;
+        for await (let { app, host, user, default_db, password } of configs) {
+            if (!app || !host || !user || !default_db || !password) isInvalid++;
+            console.log(app, host, user, default_db, password);
+            [host, user, default_db, password] = await Promise.all([host, user, default_db, password].map(e => this.encrypt(e, this.secretKey)));
+            console.log(app, host, user, default_db, password);
+            hashedConfigs.push({ app, host, user, default_db, password })
+        }
+        if (isInvalid) return this.sendError(res, "invalid payload", ERROR_STATUS_CODE.BadRequest);
+        const data = await this.service.executeQuery("post_mult", "games_db_configs", hashedConfigs);
+        return this.sendSuccess(res, data, "multiple insert successful");
+    }
+
     async update(req: Request, res: Response) {
         let id = req.params.id;
         let { app, host, user, db, password } = req.body;
@@ -55,6 +76,7 @@ export class GamesDbConfig extends BaseController {
         const data: any = await this.service.executeQuery("patch", "games_db_configs", { app, host, user, default_db: db, password, }, { id });
         return this.sendSuccess(res, data, "update successful");
     }
+
     async updateStatus(req: Request, res: Response) {
         let { id, isActive } = req.params;
         const data = await this.service.executeQuery("patch", "games_db_configs", { is_active: isActive }, { id });

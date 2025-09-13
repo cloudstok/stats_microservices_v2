@@ -1,7 +1,7 @@
 type TimeUnit = "YEAR" | "MONTH" | "WEEK" | "DAY";
 type TOrder = "HW" | "BW" | "MW";
-type TMethod = "findById" | "find" | "post" | "patch" | "delete";
-type TMethodArgs = Record<string, string | number | boolean>;
+type TMethod = "findById" | "find" | "post" | "post_mult" | "patch" | "delete";
+type TMethodArgs = Record<string, string>;
 type TDbConfig = {
     host: string;
     port: number;
