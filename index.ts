@@ -22,3 +22,16 @@ app.use("/api/v1", indexRouter);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => logger.info(`Server Running On Port: ${process.env.PORT}`));
+
+
+// const configsObject = {};
+
+// const configsArray = Object.keys(configsObject).map(app => ({
+//     app,
+//     // @ts-ignore
+//     ...configsObject[app]
+// }));
+
+// setTimeout(() => {
+//     console.log("configsArray", configsArray);
+// }, 1000);
