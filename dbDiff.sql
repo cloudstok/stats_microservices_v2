@@ -24,6 +24,7 @@ CALL insert_game_db_query("crash", "aviatrix", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "tropicana", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "rocket_queen", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "coin_pilot", "top-win", "x", "common");
+CALL insert_game_db_query("crash", "cup_pilot", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "pilot", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "airjet", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "astronaut", "top-win", "x", "common");
@@ -62,6 +63,9 @@ CALL insert_game_db_query("crash", "aviator_3d", "bet-details", "SELECT  s.*, rs
 CALL insert_game_db_query("crash", "coin_pilot", "bet-history", "SELECT lobby_id, bet_amount, status, max_mult, win_amount, part_mult, is_part_co, created_at, user_id, avatar  FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY id DESC LIMIT ?", "specific");
 CALL insert_game_db_query("crash", "coin_pilot", "bet-details", "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?", "specific");
 CALL insert_game_db_query("crash", "coin_pilot", "lobby-details", "select lobby_id, client_seeds, max_mult as round_max_mult, server_seed as serverSeed, hash as hashedSeed, created_at from lobbies where lobby_id = ?", "specific");
+CALL insert_game_db_query("crash", "cup_pilot", "bet-history", "SELECT lobby_id, bet_amount, status, max_mult, win_amount, part_mult, is_part_co, created_at, user_id, avatar  FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY id DESC LIMIT ?", "specific");
+CALL insert_game_db_query("crash", "cup_pilot", "bet-details", "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?", "specific");
+CALL insert_game_db_query("crash", "cup_pilot", "lobby-details", "select lobby_id, client_seeds, max_mult as round_max_mult, server_seed as serverSeed, hash as hashedSeed, created_at from lobbies where lobby_id = ?", "specific");
 CALL insert_game_db_query("crash", "train_rush", "bet-history", "SELECT lobby_id, bet_amount, status, max_mult, win_amount, created_at, user_id, avatar  FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?", "common");
 CALL insert_game_db_query("crash", "train_rush", "bet-details", "SELECT s.user_id as user_id, s.operator_id as operator_id, s.lobby_id as lobby_id, s.bet_amount as bet_amount, s.max_mult as max_mult, s.auto_cashout as auto_cashout, s.created_at as created_at, s.status as plane_status, s.win_amount as win_amount, r.max_mult as round_max_mult FROM settlement AS s left JOIN round_stats AS r ON s.lobby_id = r.lobby_id where  s.user_id = ? and s.operator_id = ? and s.lobby_id = ?", "common");
 CALL insert_game_db_query("crash", "aviator_2_o", "bet-history", "SELECT lobby_id, bet_amount, status, max_mult, win_amount, created_at, user_id, avatar  FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY id DESC LIMIT ?", "common");
