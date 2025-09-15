@@ -71,6 +71,7 @@ export class MiniRouletteMapper extends ARespMapper {
             time: rowData.created_at,
             color: this.red.includes(rowData.winning_number) ? "red" : "black",
             winning_number: rowData.winning_number,
+            status: rowData.status,
             total_bet_amount: rowData.bet_amount,
             win_amount: rowData.win_amount,
             created_at: rowData.created_at
