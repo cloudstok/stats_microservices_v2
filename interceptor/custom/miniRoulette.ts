@@ -70,7 +70,11 @@ export class MiniRouletteMapper extends ARespMapper {
             operator_id: rowData.operator_id,
             time: rowData.created_at,
             color: this.red.includes(rowData.winning_number) ? "red" : "black",
-            winning_number: rowData.winning_number
+            winning_number: rowData.winning_number,
+            total_bet_amount: rowData.bet_amount,
+            total_win_amount: rowData.win_amount,
+            win_mult: rowData.max_mult,
+            created_at: rowData.created_at
         };
         const bets = rowData.bet_data;
         bets.map((bet: any, index: number) => {
