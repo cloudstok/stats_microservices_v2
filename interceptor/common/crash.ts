@@ -100,6 +100,7 @@ export class CrashMapper extends ARespMapper {
         resp.forEach(e => {
             if (e.name) e.name = mask(e.name);
             if (e.user_id) e.user_id = mask(e.user_id);
+            if (e.win_amount == 0) e.win_amount = Number(e.bet_amount * e.settled_max_mult).toFixed(2)
         })
         return resp;
     };
