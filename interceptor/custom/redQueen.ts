@@ -8,7 +8,6 @@ export class RedQueenMapper extends ARespMapper {
 
     formatter(path: string, resp: any) {
         let formattedResp;
-        console.log(resp);
         switch (path) {
             case "bet-history":
                 formattedResp = this.history(resp);
@@ -27,35 +26,43 @@ export class RedQueenMapper extends ARespMapper {
     }
 
     details(resp: any) {
-        if (!resp) return {};
+        if (!Array.isArray(resp) || !resp.length) return {};
 
-        const rankMap: Record<string, string> = { 'Q': 'Queen', 'J': 'Jack' };
-        const suitMap: Record<string, string> = { 'H': 'Hearts', 'S': 'Spades', 'C': 'Clubs', 'D': 'Diamonds' };
+        // take the first row
+        const row = resp[0];
 
         let cards: string[] = [];
-        cards = JSON.parse(resp.card_data);
         let queenPosition: number | null = null;
 
-        cards.forEach((card: string, index: number) => {
-            const [rank] = card.split(':');
-            if (rank && suitMap) {
-                if (rank === 'Q' && queenPosition === null) {
-                    queenPosition = index + 1; // 1-based index
-                }
+        try {
+            if (row.card_data) {
+                cards = JSON.parse(row.card_data);
             }
+        } catch (err) {
+            console.error("Failed to parse card_data:", row.card_data, err);
+            cards = [];
+        }
 
+        cards.forEach((card: string, index: number) => {
+            const [rank] = card.split(":");
+            if (rank === "Q" && queenPosition === null) {
+                queenPosition = index + 1; // 1-based index
+            }
         });
 
+        const betAmount = Number(row.bet_amount ?? 0);
+        const winAmount = Number(row.win_amount ?? 0);
+
         return {
-            lobby_id: resp.match_id,
-            user_id: resp.user_id,
-            operator_id: resp.operator_id,
-            bet_time: resp.created_at,
-            bet_amount: Number(resp.bet_amount),
-            win_amount: Number(resp.win_amount),
-            mult: resp.win_amount / resp.bet_amount,
-            status: resp.status,
-            bet_position: resp.position,
+            lobby_id: row.match_id ?? null,
+            user_id: row.user_id ?? null,
+            operator_id: row.operator_id ?? null,
+            bet_time: row.created_at ?? null,
+            bet_amount: betAmount,
+            win_amount: winAmount,
+            mult: betAmount > 0 ? winAmount / betAmount : 0,
+            status: row.status ?? "unknown",
+            bet_position: row.position ?? null,
             winning_position: queenPosition
         };
     }
