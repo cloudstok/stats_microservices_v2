@@ -72,8 +72,7 @@ export class MiniRouletteMapper extends ARespMapper {
             color: this.red.includes(rowData.winning_number) ? "red" : "black",
             winning_number: rowData.winning_number,
             total_bet_amount: rowData.bet_amount,
-            total_win_amount: rowData.win_amount,
-            win_mult: rowData.max_mult,
+            win_amount: rowData.win_amount,
             created_at: rowData.created_at
         };
         const bets = rowData.bet_data;
