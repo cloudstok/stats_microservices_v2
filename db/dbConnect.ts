@@ -1,8 +1,8 @@
 import { sleep } from "bun";
 import { createPool, type Pool, type PoolConnection, type PoolOptions } from "mysql2/promise";
-import type { ILoadDBConfigData, TGameDbQueries } from "../interfaces/db";
+import type {  TGameDbQueries } from "../interfaces/db";
 import { QueryBuilder } from "../utilities/queryBuilder";
-import { configMaster, gameDbConfig, gameDbQueries, users } from "./tables";
+import { gameDbConfig, gameDbQueries, users } from "./tables";
 import { createLogger } from "../utilities/logger";
 import { decryption } from "../utilities/crypto";
 
@@ -90,11 +90,10 @@ export class DbConnect {
             const conn = await this.pool.getConnection();
             if (!this.pool || !conn) throw new Error("unable to connect");
             else {
-                // await conn.execute(configMaster);
                 await conn.execute(gameDbConfig);
                 await conn.execute(gameDbQueries);
                 await conn.execute(users);
-                // await this.loadConfig();
+            
                 await this.loadDbConfigs();
                 await this.loadDbQueries();
             }
@@ -113,27 +112,6 @@ export class DbConnect {
         }
     }
 
-    // async loadConfig() {
-    //     const [rows]: any = await this.pool.query(this.loadConfigQuery);
-    //     rows.forEach((e: ILoadDBConfigData) => {
-    //         if (e && e.is_active == 1) {
-    //             switch (e.data_key) {
-    //                 case "db_config":
-    //                     this.gamesDBConfig = e.value as Record<string, PoolOptions>;
-    //                     break;
-    //                 case "games_cat":
-    //                     GAMES_CATEGORIES = e.value as Record<string, string[]>;
-    //                     break;
-    //                 case "db_queries":
-    //                     globalQueryBuilder.setGamesQueries(e.value as TGameDbQueries);
-    //                     DB_GAMES_QUERIES = e.value as TGameDbQueries
-    //                     break;
-    //             }
-    //         }
-    //     });
-    //     this.loadGamesList();
-    //     return;
-    // }
 
     async loadDbConfigs() {
         let conn: PoolConnection | null = null;
@@ -198,7 +176,6 @@ export class DbConnect {
                 }
                 globalQueryBuilder.setGamesQueries(DB_GAMES_QUERIES);
             }
-
             return;
         } catch (error: any) {
             console.error("error occurred:", error.message);
@@ -209,15 +186,40 @@ export class DbConnect {
         }
     }
 
+    getPool() {
+        return this.pool ? this.pool : createPool(this.dbConfig);
+    }
+}
 
+    // await conn.execute(configMaster);
+    // await this.loadConfig();
+
+    // async loadConfig() {
+    //     const [rows]: any = await this.pool.query(this.loadConfigQuery);
+    //     rows.forEach((e: ILoadDBConfigData) => {
+    //         if (e && e.is_active == 1) {
+    //             switch (e.data_key) {
+    //                 case "db_config":
+    //                     this.gamesDBConfig = e.value as Record<string, PoolOptions>;
+    //                     break;
+    //                 case "games_cat":
+    //                     GAMES_CATEGORIES = e.value as Record<string, string[]>;
+    //                     break;
+    //                 case "db_queries":
+    //                     globalQueryBuilder.setGamesQueries(e.value as TGameDbQueries);
+    //                     DB_GAMES_QUERIES = e.value as TGameDbQueries
+    //                     break;
+    //             }
+    //         }
+    //     });
+    //     this.loadGamesList();
+    //     return;
+    // }
+
+    
     // loadGamesList() {
     //     Object.keys(DB_GAMES_QUERIES).forEach(cat => {
     //         DB_GAMES_LIST[cat] = Object.keys(DB_GAMES_QUERIES[cat]);
     //     });
     //     return;
     // }
-
-    getPool() {
-        return this.pool ? this.pool : createPool(this.dbConfig);
-    }
-}
