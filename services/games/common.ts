@@ -21,7 +21,7 @@ export class BaseCrashService extends ABaseService {
             const data = await this.fetchData(conn, query, { user_id, operator_id, lobby_id });
             return data;
         } catch (err: any) {
-            console.error("fetch error:", err.message);
+            console.error(`fetch error for game with category ${category}, ${app}, path: ${path}:`, err.message);
             throw err;
         } finally {
             if (conn) {
