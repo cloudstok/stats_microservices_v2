@@ -116,7 +116,7 @@ export class BaseRespMapper {
             quick_3d_lottery: new Quick3DLotteryMapper(),
             india_lottery: new IndiaLotteryMapper(),
             rapid_roulette: new RapidRouletteMapper(),
-            bacarrat_2_0: new BacarratMapper(),
+            baccarat_two: new BacarratMapper(),
             color_2: new Color2_0(),
             andar_bahar: new AndarBaharMapper(),
             mini_roulette: new MiniRouletteMapper(),
