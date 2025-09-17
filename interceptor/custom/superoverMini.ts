@@ -99,9 +99,9 @@ export class SuperOverMapper extends ARespMapper {
                 user_id: history.user_id,
                 operator_id: history.operator_id,
                 total_bet_amount: history.bet_amount,
-                winner: this.TEAMS[winResult.winner],
+                winner: winResult.winner == 1 ? winResult.teamA : winResult.winner == 2 ? winResult.teamB : "DRAW",
                 roundResult: {
-                    winner: winResult.winner,   // e.g. PLAYER_A / PLAYER_B
+                    winner: winResult.winner,
                     handA: winResult.cardsA,
                     handB: winResult.cardsB,
                 },

@@ -58,6 +58,7 @@ export class DoCardTeenPattiMapper extends ARespMapper {
         const bets = resp[0]; // Take first record only (bet detail = single round)
         const roundResult = JSON.parse(bets.result);
         const userBets = JSON.parse(bets.userBets);
+
         const rankMap: Record<string, string> = {
             A: 'Ace', K: 'King', Q: 'Queen', J: 'Jack',
             '10': '10', '9': '9', '8': '8', '7': '7', '6': '6',
@@ -68,7 +69,8 @@ export class DoCardTeenPattiMapper extends ARespMapper {
         };
 
         const winn = roundResult["winner"];
-        const cards: string[] = roundResult[winn];;
+        const cards: string[] = roundResult[winn];
+
         const readableCards = cards.map((card: string) => {
             const [rankCode = '', suitCode = ''] = card.split('-');
             return `${rankMap[rankCode] || rankCode} of ${suitMap[suitCode] || suitCode}`;
@@ -81,16 +83,18 @@ export class DoCardTeenPattiMapper extends ARespMapper {
             total_bet_amount: parseFloat(bets.bet_amount).toFixed(2),
             result_cards: readableCards,
             bet_time: bets.created_at,
+            handA: roundResult["1"] ? roundResult["1"].map((c: string) => c.replace("-", "")) : [],
+            handB: roundResult["2"] ? roundResult["2"].map((c: string) => c.replace("-", "")) : []
         };
 
-
+        // Map winner properly
         let winner = '';
         if (roundResult.winner === 1) winner = 'PlayerA';
         else if (roundResult.winner === 2) winner = 'PlayerB';
         else if (roundResult.winner === 3) winner = 'Tie';
         finalData['winner'] = winner;
 
-
+        // Add bets
         userBets.forEach((e: any, i: number) => {
             let mappedChip = '';
             if (e.chip == 1) mappedChip = 'PlayerA';
@@ -108,4 +112,5 @@ export class DoCardTeenPattiMapper extends ARespMapper {
 
         return finalData;
     }
+
 }
