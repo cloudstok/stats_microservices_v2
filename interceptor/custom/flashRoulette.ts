@@ -52,15 +52,15 @@ export class FlashRouletteMapper extends ARespMapper {
         if (!Array.isArray(resp) || !resp.length) return {}
 
         const record = resp[0];
-        console.log(resp);
+
         const betsArray = record.user_bets || [];
         const winPos = Number(record.win_pos ?? 0);
 
         const betsObject: Record<string, any> = {};
-
         betsArray.forEach((bet: any, index: number) => {
             const chip = bet.chip?.toString() ?? "";
-            const amount = bet.amount?.toString() ?? "0";
+            const amount = Number(bet.betAmount) || 0;
+            const winAmount = Number(bet.winAmount) || 0;
             const numbers = chip
                 .split("-")
                 .map((n: string) => parseInt(n))
@@ -69,11 +69,12 @@ export class FlashRouletteMapper extends ARespMapper {
             const type = this.determineType(chip);
             const color = this.determineColor(numbers);
 
-            const status = numbers.includes(winPos) ? "win" : "lose";
+            const status = bet.status;
 
             betsObject[`bet${index + 1}`] = {
                 chip,
                 amount,
+                winAmount,
                 type,
                 color,
                 status
@@ -84,7 +85,10 @@ export class FlashRouletteMapper extends ARespMapper {
             user_id: record.user_id,
             operator_id: record.operator_id,
             lobby_id: record.lobby_id,
-            win_pos: winPos,
+            total_bet_amount: record.bet_amount ?? 0,
+            win_amount: record.win_amount ?? 0,
+            status: Number(record.win_amount) > 0 ? "win" : "lose",
+            winning_number: winPos,
             time: record.created_at ?? "",
             ...betsObject
         }

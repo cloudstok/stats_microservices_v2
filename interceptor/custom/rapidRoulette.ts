@@ -111,19 +111,24 @@ export class RapidRouletteMapper extends ARespMapper {
 
     details = (resp: any[]) => {
         if (!resp || resp.length == 0) return {};
+
         const rowData = resp[0];
-        const finalData: any = {};
+        const finalData: any = {
+            user_id: rowData.user_id,
+            opertor_id: rowData.operator_id,
+            lobby_id: rowData.lobby_id,
+            total_bet_amount: rowData.bet_amount,
+            winning_number: parseInt(rowData.result),
+            win_amount: rowData.win_amount,
+            status: rowData.win_amount > 0 ? "win" : "lose",
+            time: rowData.created_at,
+        };
         const bets = JSON.parse(rowData.userBets);
         bets.map((bet: any, index: number) => {
             finalData[`bet_${index + 1}`] = {
-                user_id: rowData.user_id,
-                bet_amount: rowData.bet_amount,
-                result: parseInt(rowData.result),
-                win_amount: rowData.win_amount,
                 color: this.determineColor(parseInt(rowData.result)),
-                time: rowData.created_at,
                 ...bet,
-                chip: JSON.stringify(bet.chip),
+                chip: bet.chip,
                 type: this.chipType(bet.chip)
             }
         });
