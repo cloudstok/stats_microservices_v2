@@ -1,6 +1,6 @@
 import { ARespMapper } from "../abstractMapper";
 
-export class CoinFlip extends ARespMapper {
+export class LuckySpin extends ARespMapper {
     constructor() {
         super();
     }
@@ -12,6 +12,8 @@ export class CoinFlip extends ARespMapper {
             case "bet-history": formattedResp = this.history(resp);
                 break;
             case "bet-details": formattedResp = this.details(resp);
+                break;
+            case "top-win": formattedResp = this.topWin(resp);
                 break;
             default: formattedResp = resp;
                 break;
@@ -25,7 +27,6 @@ export class CoinFlip extends ARespMapper {
             user_id: e.user_id,
             operator_id: e.operator_id,
             bet_amount: e.bet_amount,
-            user_bets: e.user_bets,
             win_amount: e.win_amount,
             win_mult: e.win_mult,
             status: e.status,
@@ -34,18 +35,8 @@ export class CoinFlip extends ARespMapper {
     });
 
     details(resp: any[]) {
-        if (!resp || resp.length === 0) {
-            return null; // prevent crash if resp is empty
-        }
-
-        const e = resp[0];
-
-        const flipsObj = e.user_bets?.reduce((acc: any, bet: any, index: number) => {
-            acc[`flip_${index + 1}`] = bet;
-            return acc;
-        }, {}) || {};
-
-        const data: any = {
+        const e = resp[0]
+        return {
             bet_id: e.bet_id,
             user_id: e.user_id,
             operator_id: e.operator_id,
@@ -54,11 +45,19 @@ export class CoinFlip extends ARespMapper {
             win_mult: e.win_mult,
             status: e.status,
             created_at: e.created_at,
-            ...flipsObj // 👈 flatten flips into top-level
-        };
-
-        return data;
+        }
     }
 
-
+    topWin = (resp: any[]) => resp.map(e => {
+        return {
+            user_id: e.user_id,
+            win_amount: e.win_amount,
+        }
+    });
 }
+
+
+
+
+
+

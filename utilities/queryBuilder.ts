@@ -43,6 +43,11 @@ export class QueryBuilder {
         return `insert ignore into ${table} (${fields.join(", ")}) values (${fields.map(e => "?").join(", ")});`;
     }
 
+    getMultiInsertQuery(table: string, fields: string[], argsArr: string[][]) {
+        return `insert ignore into ${table} (${fields.join(", ")}) 
+        values ${argsArr.map((e: string[]) => `(${fields.map(e => "?").join(", ")})`).join(", ")}`;
+    }
+
     getUpdateQuery(table: string, updateArgs: string[], conditionArgs: string[]) {
         const setClause = updateArgs.map((k) => `${k} = ?`).join(", ");
         const whereClause = conditionArgs.map(k => `${k} = ?`).join(" and ");
@@ -81,6 +86,7 @@ export class QueryBuilder {
         switch (aap) {
             case "pilot":
             case "coin_pilot":
+            case "cup_pilot":
                 baseQuery = `SELECT 
                         st.name, st.lobby_id, st.avatar, st.bet_amount, st.win_amount,
                         st.max_mult as settled_max_mult, st.part_mult, st.is_part_co, st.created_at,
@@ -89,7 +95,9 @@ export class QueryBuilder {
                 break;
             case "footballx":
             case 'balloon':
-                return `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit.toUpperCase() as TimeUnit]} ORDER BY win_amount DESC LIMIT 10`
+                return `SELECT user_id, max_mult, bet_amount, win_amount, created_at FROM settlement WHERE ${mwDateConditions[unit.toUpperCase() as TimeUnit]} ORDER BY win_amount DESC LIMIT 10`;
+            case 'andar_bahar':
+                return `SELECT user_id, SUM(win_amount) AS total_winnings FROM settlement GROUP BY user_id ORDER BY total_winnings DESC LIMIT 30`;
             case "double_wheel": return `SELECT * FROM settlement ORDER BY win_amount DESC LIMIT ?`
             default:
                 baseQuery = `SELECT 

@@ -1,3 +1,4 @@
+import { startJobs } from "../jobs/cron";
 import { DbConnect } from "./dbConnect";
 
 export const dbInstance = new DbConnect({
@@ -7,4 +8,7 @@ export const dbInstance = new DbConnect({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
 }, 5);
-(async () => await dbInstance.initDbPoolConnection())();
+(async () => {
+    await dbInstance.initDbPoolConnection()
+    await startJobs();
+})();

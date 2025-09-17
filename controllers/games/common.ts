@@ -15,7 +15,7 @@ class CommonController extends BaseController {
     }
 
     async getBetHistory(req: Request, res: Response) {
-        const { category, app, path, user_id, operator_id, lobby_id, limit, freq, unit, id } = req.body;
+        let { category, app, path, user_id, operator_id, lobby_id, limit, freq, unit, id } = req.body;
 
         if ((path == "bet-details" && !lobby_id) ||
             (path == "bet-history" && !limit) ||
@@ -23,7 +23,7 @@ class CommonController extends BaseController {
         ) return this.sendError(res, "invalid param args", ERROR_STATUS_CODE.BadRequest);
 
         // payload validator
-
+        if (user_id) user_id = decodeURIComponent(user_id);
         let resp = await this.service.fetch({ category, app, path, user_id, operator_id, limit: Number(limit || "20"), lobby_id, freq, unit });
         const mapper: ARespMapper = this.mapper.getMapper(category, app)
         resp = mapper.formatter(path, resp, limit, id)

@@ -11,20 +11,41 @@ export class GamesDbConfigService {
         this.db = dbInstance;
     }
 
-    async executeQuery(method: TMethod, table: string, args: TMethodArgs, condArgs?: TMethodArgs) {
-        let pool = this.db.getPool();
+    async executeQuery(method: TMethod, table: string, args: TMethodArgs | TMethodArgs[], condArgs?: TMethodArgs) {
+        const pool = this.db.getPool();
         let conn: PoolConnection | null = null;
         try {
             conn = await pool.getConnection();
-            let query = this.getQueryAccToMethod(method, table, args ? Object.keys(args) : [], condArgs ? Object.keys(condArgs) : []);
-            let queryValues = Object.values(args);
-            if (condArgs) queryValues = queryValues.concat(Object.values(condArgs))
+            let query = "";
+            let queryValues: string[] = [];
+
+            if (Array.isArray(args) && method === "post_mult") {
+                if (args.length === 0) {
+                    console.warn("Attempted to multi-insert with empty args array.");
+                    return [];
+                }
+                const argsArr = args.map(e => Object.values(e));
+                const fields = Object.keys(args[0]);
+                queryValues = argsArr.flat();
+                query = this.queryBuilder.getMultiInsertQuery(table, fields, argsArr);
+            } else {
+                queryValues = Object.values(args);
+                query = this.getQueryAccToMethod(method, table, args ? Object.keys(args) : [], condArgs ? Object.keys(condArgs) : []);
+            }
+
+            if (condArgs) {
+                queryValues = queryValues.concat(Object.values(condArgs));
+            }
+
             const [data]: any = await conn.execute(query, queryValues);
             return data;
         } catch (error: any) {
-            console.error("error occured:", error.message);
+            console.error("error occurred:", error.message);
+            throw error; // Re-throw to allow the caller to handle the error
         } finally {
-            if (conn) conn.release()
+            if (conn) {
+                conn.release();
+            }
         }
     }
 
