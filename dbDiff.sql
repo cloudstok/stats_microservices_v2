@@ -122,7 +122,7 @@ CALL insert_game_db_query ("slot","lucky_spin","bet-details","SELECT bet_id , us
 CALL insert_game_db_query ("slot","lucky_spin","bet-history","SELECT bet_id , user_id, operator_id , bet_amount ,  win_amount,  status ,created_at FROM settlements WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","specific");
 CALL insert_game_db_query ("slot","ball_n_ball","bet-details","SELECT * FROM bet_results where player_id = ? and operator_id = ? and match_id = ?","specific");
 CALL insert_game_db_query ("slot","ball_n_ball","bet-history","SELECT * FROM bet_results where player_id = ? and operator_id = ? order by bet_result_id desc limit ?","specific");
-CALL insert_game_db_query ("slot","double_roll","bet-details","SELECT lobby_id, user_id, winning_number, win_amount, bet_amount, chip, created_at FROM settlement WHERE user_id = ? and operator_id = ? and lobby_id = ?","specific");
+CALL insert_game_db_query ("slot","double_roll","bet-details","SELECT * FROM settlement WHERE user_id = ? and operator_id = ? and lobby_id = ?","specific");
 CALL insert_game_db_query ("slot","double_roll","bet-history","SELECT lobby_id, user_id, operator_id, winning_number, win_amount, bet_amount, chip, created_at FROM settlement WHERE user_id = ? and operator_id = ? ORDER BY created_at DESC LIMIT ?","specific");
 CALL insert_game_db_query ("slot","fruit_burst","bet-details","SELECT * FROM bet_results where player_id = ? and operator_id = ? and match_id = ?","specific");
 CALL insert_game_db_query ("slot","fruit_burst","bet-history","SELECT * FROM bet_results WHERE player_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","specific");

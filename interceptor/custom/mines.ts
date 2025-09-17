@@ -47,6 +47,9 @@ export class MinesMapper extends ARespMapper {
         const row = resp[0];
         const maxCashoutAmount = 500000
 
+        const gameData = JSON.parse(JSON.parse(row.game_data));
+        const minesData = JSON.stringify(gameData.playerGrid);
+
         return {
             bet_id: row.bet_id,
             lobby_id: row.lobby_id,
@@ -54,6 +57,7 @@ export class MinesMapper extends ARespMapper {
             operator_id: row.operator_id,
             bet_amount: row.bet_amount,
             max_mult: row.max_mult,
+            minesData: minesData,
             win_amount: Math.min((row.bet_amount * row.max_mult), maxCashoutAmount).toFixed(2),
             created_at: row.created_at
         };
