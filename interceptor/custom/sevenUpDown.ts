@@ -65,7 +65,6 @@ export class SevenUpDownMapper extends ARespMapper {
 
     details(resp: any[]) {
         if (!Array.isArray(resp) || resp.length <= 0) return [];
-
         let globalFinalData = {};
         resp.forEach((userBet: any) => {
             const roundResult = JSON.parse(userBet.result || "{}");
@@ -84,6 +83,7 @@ export class SevenUpDownMapper extends ARespMapper {
                 total_bet_amount: parseFloat(userBet.bet_amount).toFixed(2),
                 winner: chipMap[roundResult.winner]?.chip_name || "Unknown",
                 bet_time: userBet.created_at,
+                win_card: roundResult.card.split("-").reverse().join(""),
             };
 
             userBets.forEach((e: any, i: number) => {

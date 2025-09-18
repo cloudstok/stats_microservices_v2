@@ -29,6 +29,7 @@ CALL insert_game_db_query("crash", "pilot", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "airjet", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "astronaut", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "footballx", "top-win", "x", "specific");
+CALL insert_game_db_query("crash", "balloon", "top-win", "x", "specific");
 
 CALL insert_game_db_query("crash", "rider", "bet-details", "SELECT bet_amount, match_max_mult, max_mult, created_at FROM settlement WHERE user_id = ? and operator_id = ? and lobby_id = ?", "specific");
 CALL insert_game_db_query("crash", "rider", "bet-history", "SELECT bet_amount, match_max_mult, max_mult, created_at FROM settlement WHERE user_id = ? and operator_id = ? ORDER BY created_at DESC LIMIT ?", "specific");
@@ -160,6 +161,8 @@ CALL insert_game_db_query ("cards","teen_patti_2_0","bet-history","SELECT lobby_
 CALL insert_game_db_query ("cards","teen_patti_2_0","single-bet-history","select lobby_id, user_id, result, userBets, created_at from settlement where user_id = ? AND operator_id = ? AND lobby_id = ?","specific");
 CALL insert_game_db_query ("cards","teen_patti_turbo","bet-details","SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND round_id = ?","specific");
 CALL insert_game_db_query ("cards","teen_patti_turbo","bet-history","SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","specific");
+CALL insert_game_db_query("card", "baccarat_two", "bet-history", "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?", "specific");
+CALL insert_game_db_query("card", "baccarat_two", "bet-details", "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND round_id = ?", "specific");
 CALL insert_game_db_query("lottery", "k3", "bet-details", "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?", "specific");
 CALL insert_game_db_query("lottery", "k3", "bet-history", "SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND room_id = ? ORDER BY created_at DESC LIMIT ?", "specific");
 CALL insert_game_db_query("lottery", "k3", "lobby-details", "SELECT lobby_id, result FROM lobbies WHERE room_id = ? ORDER BY created_at DESC LIMIT ?", "specific");

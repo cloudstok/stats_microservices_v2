@@ -136,7 +136,6 @@ export class DragonTigerLionMapper extends ARespMapper {
         } catch {
             roundResult = {};
         }
-
         const winner = roundResult?.winner || "UNKNOWN";
 
         const data: any = {
@@ -145,6 +144,9 @@ export class DragonTigerLionMapper extends ARespMapper {
             operator_id: entry.operator_id || "",
             total_bet_amount: Number(entry.bet_amt) || 0,
             winner,
+            LION_HAND: roundResult.LION.fId,
+            DRAGON_HAND: roundResult.DRAGON.fId,
+            TIGER_HAND: roundResult.TIGER.fId,
             DRAGON_SCORE: roundResult?.DRAGON?.runs || 0,
             TIGER_SCORE: roundResult?.TIGER?.runs || 0,
             LION_SCORE: roundResult?.LION?.runs || 0,
