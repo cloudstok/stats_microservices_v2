@@ -31,7 +31,7 @@ export class CrashMapper extends ARespMapper {
         return {
             lobby_id: e.lobby_id,
             bet_amount: e.bet_amount,
-            max_mult: e.max_mult || 0,
+            max_mult: e.max_mult || e.win_mult || 0,
             win_amount: e.win_amount || 0,
             [multKey]: e[multKey] ?? 0,
             avatar: e.avatar || null,
