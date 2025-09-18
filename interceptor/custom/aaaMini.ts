@@ -24,7 +24,6 @@ export class AAAMiniMapper extends ARespMapper {
             try {
                 const userBets = JSON.parse(row.userbets || "[]");;
                 const gameResult = JSON.parse(row.result || "{}");
-                const winner = gameResult.winner;
                 const winnerCard = gameResult.card || '';
 
                 for (const bet of userBets) {
@@ -57,45 +56,37 @@ export class AAAMiniMapper extends ARespMapper {
             const roundResult = JSON.parse(userBet.result);
             const userBets = JSON.parse(userBet.userBets);
 
-            const rankMap: Record<string, string> = {
-                A: 'Ace', K: 'King', Q: 'Queen', J: 'Jack',
-                '10': '10', '9': '9', '8': '8', '7': '7', '6': '6',
-                '5': '5', '4': '4', '3': '3', '2': '2'
+            // Rank to number map
+            const rankNumberMap: Record<string, number> = {
+                A: 1, J: 11, Q: 12, K: 13,
+                '10': 10, '9': 9, '8': 8, '7': 7, '6': 6,
+                '5': 5, '4': 4, '3': 3, '2': 2
             };
-            const suitMap: Record<string, string> = {
-                S: 'Spades ♠', H: 'Hearts ♥', D: 'Diamonds ♦', C: 'Clubs ♣'
-            };
+
             const [rankCode = '', suitCode = ''] = roundResult?.card?.split('-') || [];
-            const resultCardFullName = `${rankMap[rankCode] || rankCode} of ${suitMap[suitCode] || suitCode}`;
+            const resultCardShort = `${suitCode}${rankNumberMap[rankCode] || rankCode}`;
 
             const finalData: any = {
                 lobby_id: userBet.lobby_id,
                 user_id: userBet.user_id,
                 operator_id: userBet.operator_id,
                 total_bet_amount: parseFloat(userBet.bet_amount).toFixed(2),
-                result_card: resultCardFullName,
-                bet_time: userBet.created_at,
-
+                result_card: resultCardShort,
+                bet_time: userBet.created_at
             };
 
-            // Determine winner
             let winner = '';
-            if (roundResult.winner === 1) {
-                winner = 'Amar';
-            } else if (roundResult.winner === 2) {
-                winner = 'Akbar';
-            } else if (roundResult.winner === 3) {
-                winner = 'Anthony';
-            }
+            if (roundResult.winner === 1) winner = 'Amar';
+            else if (roundResult.winner === 2) winner = 'Akbar';
+            else if (roundResult.winner === 3) winner = 'Anthony';
+
             finalData['winner'] = winner;
 
-            // Bet mapping with chip conversion
             userBets.forEach((e: any, i: number) => {
                 let mappedChip = '';
                 if (e.chip == 1) mappedChip = 'Amar';
                 else if (e.chip == 2) mappedChip = 'Akbar';
                 else if (e.chip == 3) mappedChip = 'Anthony';
-
 
                 finalData[`Bet${i + 1}`] = {
                     chip: mappedChip,
