@@ -118,7 +118,7 @@ export class BaseRespMapper {
             rapid_roulette: new RapidRouletteMapper(),
             baccarat_two: new BacarratMapper(),
             color_2: new Color2_0(),
-            andar_bahar: new AndarBaharMapper(),
+            andar_bahar: new AndarBaharMapper(),    
             mini_roulette: new MiniRouletteMapper(),
             color_2d: new Color2DMapper()
         };
