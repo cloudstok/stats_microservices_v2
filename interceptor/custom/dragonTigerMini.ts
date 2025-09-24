@@ -64,6 +64,19 @@ export class DragonTigerMapper extends ARespMapper {
             const userBet = resp[0];
             const roundResult = JSON.parse(userBet.result || "{}");
             const userBets = JSON.parse(userBet.userBets || userBet.userbets || "[]");
+            // const roundResult = entry.round_result || {};
+            const winner = roundResult?.winner || "UNKNOWN";
+
+            if (!roundResult.handA) roundResult.handA = {};
+            if (!roundResult.handB) roundResult.handB = {};
+
+            roundResult.playerA?.forEach((card: any, idx: number) => {
+                roundResult.handA[`card_${idx + 1}`] = card.fId;
+            });
+
+            roundResult.playerB?.forEach((card: any, idx: number) => {
+                roundResult.handB[`card_${idx + 1}`] = card.fId;
+            });
 
             const chipMap: Record<number, { chip_name: string }> = {
                 1: { chip_name: "Dragon" },
@@ -79,6 +92,7 @@ export class DragonTigerMapper extends ARespMapper {
                 total_bet_amount: Number(userBet.bet_amount) || 0,
                 winner: chipMap[roundResult.winner]?.chip_name || "Unknown",
                 bet_time: userBet.created_at,
+                roundResult
             };
 
             userBets.forEach((bet: any, index: number) => {

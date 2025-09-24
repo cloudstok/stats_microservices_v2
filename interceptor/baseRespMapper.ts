@@ -56,6 +56,7 @@ import { Color2_0 } from "./custom/color2.0";
 import { AndarBaharMapper } from "./custom/andarBahar";
 import { MiniRouletteMapper } from "./custom/miniRoulette";
 import { Color2DMapper } from "./custom/color2D";
+import { TeenPatti2DMapper } from "./custom/teenPatti2d";
 
 export class BaseRespMapper {
     private mappers: Record<string, ARespMapper>;
@@ -89,6 +90,7 @@ export class BaseRespMapper {
             superover: new SuperOverMapper(),
             do_card_teen_patti: new DoCardTeenPattiMapper(),
             teen_patti_mini: new TeenPattiMapper(),
+            teen_patti_2d: new TeenPatti2DMapper(),
             dragon_tiger_lion: new DragonTigerLionMapper(),
             lucky_seven: new LuckySevenMapper(),
             mini: new MiniMapper(),
@@ -118,7 +120,7 @@ export class BaseRespMapper {
             rapid_roulette: new RapidRouletteMapper(),
             baccarat_two: new BacarratMapper(),
             color_2: new Color2_0(),
-            andar_bahar: new AndarBaharMapper(),
+            andar_bahar: new AndarBaharMapper(),    
             mini_roulette: new MiniRouletteMapper(),
             color_2d: new Color2DMapper()
         };
