@@ -198,6 +198,8 @@ CALL insert_game_db_query ("mini","football_studio","bet-details","SELECT * FROM
 CALL insert_game_db_query ("mini","football_studio","bet-history","SELECT settlement_id, lobby_id, userBets, result, created_at FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","common");
 CALL insert_game_db_query ("mini","teen_patti_mini","bet-details","SELECT * FROM settlements WHERE user_id = ? AND operator_id = ? AND round_id = ?","specific");
 CALL insert_game_db_query ("mini","teen_patti_mini","bet-history","SELECT * FROM settlements WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","specific");
+CALL insert_game_db_query ("mini","teen_patti_2d","bet-details","SELECT * FROM settlements WHERE user_id = ? AND operator_id = ? AND round_id = ?","specific");
+CALL insert_game_db_query ("mini","teen_patti_2d","bet-history","SELECT * FROM settlements WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","specific");
 CALL insert_game_db_query ("mini","andar_bahar_mini","bet-details","SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?","common");
 CALL insert_game_db_query ("mini","andar_bahar_mini","bet-history","SELECT settlement_id, lobby_id, userBets, result, created_at FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","common");
 CALL insert_game_db_query ("mini","bollywood_casino","bet-details","SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?","specific");
@@ -212,3 +214,5 @@ CALL insert_game_db_query ("mini","do_card_teen_patti","bet-details","SELECT * F
 CALL insert_game_db_query ("mini","do_card_teen_patti","bet-history","SELECT settlement_id, lobby_id, userBets, result, created_at FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","specific");
 CALL insert_game_db_query ("mini","three_card_judgement","bet-details","SELECT * FROM settlement WHERE user_id = ? AND operator_id = ? AND lobby_id = ?","common");
 CALL insert_game_db_query ("mini","three_card_judgement","bet-history","SELECT settlement_id, lobby_id, userBets, result, created_at FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","common")
+CALL insert_game_db_query("slot", "color_2", "bet-history", "select  *  from settlement where user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?", "specific");
+CALL insert_game_db_query("slot", "color_2", "bet-details", "select * from settlement where user_id = ? and operator_id = ? and lobby_id = ?", "specific");
