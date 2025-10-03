@@ -123,11 +123,11 @@ export class DbConnect {
 
             for (const row of rows) {
                 result[row.app] = {
-                    host: await decryption(row.host, this.secretKey),
+                    host: await decryption(row.app, row.host, this.secretKey),
                     port: row.port,
-                    user: await decryption(row.user, this.secretKey),
-                    database: await decryption(row.default_db, this.secretKey),
-                    password: await decryption(row.password, this.secretKey),
+                    user: await decryption(row.app, row.user, this.secretKey),
+                    database: await decryption(row.app, row.default_db, this.secretKey),
+                    password: await decryption(row.app, row.password, this.secretKey),
                 };
             }
             this.gamesDBConfig = result;
