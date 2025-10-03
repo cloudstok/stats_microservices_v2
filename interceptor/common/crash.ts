@@ -30,6 +30,7 @@ export class CrashMapper extends ARespMapper {
         const multKey = e.match_max_mult !== undefined ? "match_max_mult" : "round_max_mult";
         return {
             lobby_id: e.lobby_id,
+            user_id: e.user_id ? `${e.user_id[0]}***${e.user_id.slice(-1)}` : "",
             bet_amount: e.bet_amount,
             max_mult: e.max_mult || e.win_mult || 0,
             win_amount: e.win_amount || 0,

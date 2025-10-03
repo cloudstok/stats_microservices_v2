@@ -28,6 +28,7 @@ CALL insert_game_db_query("crash", "cup_pilot", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "pilot", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "airjet", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "astronaut", "top-win", "x", "common");
+CALL insert_game_db_query("crash", "aero", "top-win", "x", "common");
 CALL insert_game_db_query("crash", "footballx", "top-win", "x", "specific");
 CALL insert_game_db_query("crash", "balloon", "top-win", "x", "specific");
 
@@ -83,6 +84,8 @@ CALL insert_game_db_query("crash", "crash_royale", "bet-history", "SELECT st.lob
 CALL insert_game_db_query("crash", "crash_royale", "bet-details", "SELECT s.user_id as user_id, s.operator_id as operator_id, s.lobby_id as lobby_id, s.bet_amount as bet_amount, s.max_mult as max_mult, s.auto_cashout as auto_cashout, s.created_at as created_at, s.status as plane_status, s.win_amount as win_amount, r.max_mult as round_max_mult FROM settlement AS s left JOIN round_stats AS r ON s.lobby_id = r.lobby_id where  s.user_id = ? and s.operator_id = ? and s.lobby_id = ?", "common");
 CALL insert_game_db_query("crash", "crime_empire", "bet-history", "SELECT lobby_id, bet_amount, status, max_mult, win_amount, created_at, user_id, avatar  FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?", "common");
 CALL insert_game_db_query("crash", "crime_empire", "bet-details", "select s.*, rs.max_mult as round_max_mult from settlement s join round_stats rs on s.lobby_id = rs.lobby_id where s.user_id = ? and s.operator_id = ? and s.lobby_id = ?", "common");
+CALL insert_game_db_query("crash", "aero", "bet-history", "SELECT lobby_id, bet_amount, status, max_mult, win_amount, created_at, user_id, avatar FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY id DESC LIMIT ?", "common");
+CALL insert_game_db_query("crash", "aero", "bet-details", "SELECT s.user_id as user_id, s.operator_id as operator_id, s.lobby_id as lobby_id, s.bet_amount as bet_amount, s.max_mult as max_mult, s.auto_cashout as auto_cashout, s.created_at as created_at, s.status as plane_status, s.win_amount as win_amount, r.max_mult as round_max_mult FROM settlement AS s left JOIN round_stats AS r ON s.lobby_id = r.lobby_id where  s.user_id = ? and s.operator_id = ? and s.lobby_id = ?", "common");
 CALL insert_game_db_query("crash", "rocket_queen", "bet-history", "SELECT lobby_id, bet_amount, status, max_mult, win_amount, created_at, user_id, avatar FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY id DESC LIMIT ?", "common");
 CALL insert_game_db_query("crash", "rocket_queen", "bet-details", "SELECT s.user_id as user_id, s.operator_id as operator_id, s.lobby_id as lobby_id, s.bet_amount as bet_amount, s.max_mult as max_mult, s.auto_cashout as auto_cashout, s.created_at as created_at, s.status as plane_status, s.win_amount as win_amount, r.max_mult as round_max_mult FROM settlement AS s left JOIN round_stats AS r ON s.lobby_id = r.lobby_id where  s.user_id = ? and s.operator_id = ? and s.lobby_id = ?", "common");
 CALL insert_game_db_query("crash", "crashx_football", "bet-history", "SELECT st.lobby_id, st.bet_amount, st.max_mult, st.win_amount, st.created_at, st.status, rs.max_mult as round_max_mult FROM settlement as st INNER JOIN round_stats as rs ON rs.lobby_id = st.lobby_id WHERE st.user_id = ? AND st.operator_id = ? ORDER BY created_at DESC  LIMIT ?", "common");
@@ -216,3 +219,5 @@ CALL insert_game_db_query ("mini","three_card_judgement","bet-details","SELECT *
 CALL insert_game_db_query ("mini","three_card_judgement","bet-history","SELECT settlement_id, lobby_id, userBets, result, created_at FROM settlement WHERE user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?","common")
 CALL insert_game_db_query("slot", "color_2", "bet-history", "select  *  from settlement where user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?", "specific");
 CALL insert_game_db_query("slot", "color_2", "bet-details", "select * from settlement where user_id = ? and operator_id = ? and lobby_id = ?", "specific");
+CALL insert_game_db_query("slot", "stellar_rush", "bet-history", "select  *  from settlement where user_id = ? AND operator_id = ? ORDER BY created_at DESC LIMIT ?", "specific");
+CALL insert_game_db_query("slot", "stellar_rush", "bet-details", "select * from settlement where user_id = ? and operator_id = ? and match_id = ?", "specific");

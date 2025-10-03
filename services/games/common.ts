@@ -17,6 +17,7 @@ export class BaseCrashService extends ABaseService {
         const pool = await this.getGameDbPool(app);
         let conn: PoolConnection | null = null;
         try {
+            console.log(query);
             conn = await pool.getConnection();
             const data = await this.fetchData(conn, query, { user_id, operator_id, lobby_id });
             return data;

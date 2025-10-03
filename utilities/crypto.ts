@@ -19,7 +19,7 @@ export const encryption = async (plainText: string, secret: string) => {
 };
 
 
-export const decryption = async (strToDecrypt: string, secret: string) => {
+export const decryption = async (app: string, strToDecrypt: string, secret: string) => {
     try {
         let _key = CryptoJS.enc.Utf8.parse(secret);
         let _iv = CryptoJS.enc.Utf8.parse(secret);
@@ -34,14 +34,14 @@ export const decryption = async (strToDecrypt: string, secret: string) => {
         const decryptedString = decrypted.toString(CryptoJS.enc.Utf8);
         if (!decryptedString) {
             console.log(strToDecrypt);
-            console.error("Decryption failed: resulting string is empty or invalid.");
+            console.error("Decryption failed: resulting string is empty or invalid for", app);
             return null;
         }
 
         return JSON.parse(decryptedString);
 
     } catch (er: any) {
-        console.error("error occured:", er.message);
+        console.error("error occured for:", app, er.message);
         return null;
     }
 };

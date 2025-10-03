@@ -8,7 +8,7 @@ export class GamesDbConfig extends BaseController {
     service: GamesDbConfigService;
     secretKey: string;
     encrypt: (plainText: string, secret: string) => Promise<any>;
-    decrypt: (strToDecrypt: string, secret: string) => Promise<any>;
+    decrypt: (app: string, strToDecrypt: string, secret: string) => Promise<any>;
 
     constructor() {
         super();
